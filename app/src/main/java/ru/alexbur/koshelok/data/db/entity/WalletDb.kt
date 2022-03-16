@@ -13,7 +13,6 @@ data class WalletDb(
     val consumption: String,
     val limit: String?,
     val currency: String,
-    val personId: Long,
     val isExceededLimit: Boolean,
     val isHide: Boolean
 )

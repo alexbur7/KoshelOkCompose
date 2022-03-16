@@ -6,7 +6,6 @@ import javax.inject.Inject
 
 class WalletApiToWalletDbMapper @Inject constructor() : (WalletApi) -> WalletDb {
 
-
     override fun invoke(wallet: WalletApi): WalletDb {
         return WalletDb(
             id = wallet.id ?: 0,
@@ -16,7 +15,6 @@ class WalletApiToWalletDbMapper @Inject constructor() : (WalletApi) -> WalletDb 
             consumption = wallet.consumption,
             limit = wallet.limit,
             currency = wallet.currency,
-            personId = wallet.personId,
             isExceededLimit = wallet.isExceededLimit,
             isHide = wallet.isHide
         )

@@ -11,8 +11,8 @@ class LoadCategoriesRepositoryImpl @Inject constructor(
     private val categoryMapper: CategoryApiToCategoryMapper
 ) : LoadCategoriesRepository {
 
-    override suspend fun getCategories(personId: Long, type: Int): Result<List<CategoryEntity>> {
-        return appService.getCategories(personId, type)
+    override suspend fun getCategories(type: Int): Result<List<CategoryEntity>> {
+        return appService.getCategories(type)
             .map { categories ->
                 categories.map(categoryMapper)
             }

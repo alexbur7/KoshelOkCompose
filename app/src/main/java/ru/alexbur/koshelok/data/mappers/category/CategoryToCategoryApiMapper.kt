@@ -7,15 +7,14 @@ import javax.inject.Inject
 
 class CategoryToCategoryApiMapper @Inject constructor(
     private val iconConverter: IconConverter
-) : (Long, CategoryEntity) -> CategoryApi {
+) : (CategoryEntity) -> CategoryApi {
 
-    override operator fun invoke(personId: Long, category: CategoryEntity) =
+    override operator fun invoke(category: CategoryEntity) =
         CategoryApi(
             id = category.id,
             type = category.type.code,
             operation = category.operation,
             idIcon = iconConverter.convertDrawableIdToNumber(category.iconId),
-            color = category.color,
-            personId = personId
+            color = category.color
         )
 }

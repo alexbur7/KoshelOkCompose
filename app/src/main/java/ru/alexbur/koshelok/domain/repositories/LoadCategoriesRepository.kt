@@ -4,5 +4,5 @@ import ru.alexbur.koshelok.domain.entities.utils.CategoryEntity
 
 interface LoadCategoriesRepository {
 
-    suspend fun getCategories(personId: Long, type: Int): Result<List<CategoryEntity>>
+    suspend fun getCategories(type: Int): Result<List<CategoryEntity>>
 }

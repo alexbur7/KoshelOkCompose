@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Balance")
 data class BalanceDb(
     @PrimaryKey
-    val personId: Long = 0,
+    val email: String,
     @ColumnInfo(name = "amount_money")
     val amountMoney: String,
     val income: String,

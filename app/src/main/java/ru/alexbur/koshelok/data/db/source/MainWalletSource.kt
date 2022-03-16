@@ -10,10 +10,10 @@ import javax.inject.Inject
 
 interface MainWalletSource {
 
-    suspend fun getMainScreenData(personId: Long): Result<MainScreenDataApi>
+    suspend fun getMainScreenData(email: String): Result<MainScreenDataApi>
 
     suspend fun insertMainScreenData(
-        personId: Long,
+        email: String,
         mainScreenDataApi: MainScreenDataApi
     )
 }
@@ -26,9 +26,9 @@ class MainWalletSourceImpl @Inject constructor(
     private val mainScreenMapper: MainScreenDataDbToApiMapper
 ) : MainWalletSource {
 
-    override suspend fun getMainScreenData(personId: Long): Result<MainScreenDataApi> {
+    override suspend fun getMainScreenData(email: String): Result<MainScreenDataApi> {
         val mainScreen = database.getMainScreenDao()
-            .getMainScreenData(personId)
+            .getMainScreenData(email)
         val resultDb = if (mainScreen != null) {
             Result.success(mainScreen)
         } else {
@@ -39,17 +39,17 @@ class MainWalletSourceImpl @Inject constructor(
     }
 
     override suspend fun insertMainScreenData(
-        personId: Long,
+        email: String,
         mainScreenDataApi: MainScreenDataApi
     ) {
         database.getMainScreenDao().insertMainScreenData(
             balanceMapper(
-                personId,
+                email,
                 mainScreenDataApi.balance,
                 mainScreenDataApi.income,
                 mainScreenDataApi.consumption
             ),
-            exchangeRatesMapper(personId, mainScreenDataApi.exchangeRatesApi),
+            exchangeRatesMapper(mainScreenDataApi.exchangeRatesApi),
             mainScreenDataApi.wallets.map(walletDbMapper)
         )
     }

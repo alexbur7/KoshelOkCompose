@@ -4,15 +4,15 @@ import ru.alexbur.koshelok.data.db.entity.BalanceDb
 import javax.inject.Inject
 
 class StringsDataToBalanceDbMapper @Inject constructor() :
-        (Long, String, String, String) -> BalanceDb {
+        (String, String, String, String) -> BalanceDb {
     override fun invoke(
-        personId: Long,
+        email: String,
         amountMoney: String,
         incomeMoney: String,
         consumptionMoney: String
     ): BalanceDb {
         return BalanceDb(
-            personId = personId,
+            email = email,
             amountMoney = amountMoney,
             income = incomeMoney,
             consumption = consumptionMoney

@@ -9,16 +9,16 @@ interface AppService {
     suspend fun getWallet(@Path("walletId") walletId: Long): Result<DetailWalletApi>
 
     @POST("wallets")
-    suspend fun createWallet(@Body walletApi: WalletApi): Result<Long>
+    suspend fun createWallet(@Body walletApi: WalletApi): Result<WalletApi>
 
     @DELETE("wallets/{walletId}")
     suspend fun deleteWallet(@Path("walletId") walletId: Long): Result<Boolean>
 
-    @GET("wallets/person/{personId}/all")
-    suspend fun getDataForMainScreen(@Path("personId") personId: Long): Result<MainScreenDataApi>
+    @GET("wallets/person/all")
+    suspend fun getDataForMainScreen(): Result<MainScreenDataApi>
 
     @POST("transactions")
-    suspend fun createTransaction(@Body transactionApi: CreateTransactionApi): Result<Boolean>
+    suspend fun createTransaction(@Body transactionApi: CreateTransactionApi): Result<TransactionApi>
 
     @GET("transactions/withCategory/{walletId}")
     suspend fun getTransactions(@Path("walletId") walletId: Long): Result<List<TransactionApi>>
@@ -28,19 +28,18 @@ interface AppService {
         @Path("transactionId")
         id: Long,
         @Body transactionApi: CreateTransactionApi
-    ): Result<Boolean>
+    ): Result<TransactionApi>
 
     @DELETE("transactions/{transactionId}")
     suspend fun deleteTransaction(@Path("transactionId") id: Long): Result<Boolean>
 
-    @GET("categories/person/{personId}/{value}")
+    @GET("categories/person/{value}")
     suspend fun getCategories(
-        @Path("personId") personId: Long,
         @Path("value") type: Int
     ): Result<List<CategoryApi>>
 
     @POST("categories")
-    suspend fun createCategory(@Body categoryApi: CategoryApi): Result<Boolean>
+    suspend fun createCategory(@Body categoryApi: CategoryApi): Result<CategoryApi>
 
     @POST("person")
     suspend fun updateToken(@Body userApi: UserApi): Result<String>

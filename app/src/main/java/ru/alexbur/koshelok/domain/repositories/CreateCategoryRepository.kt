@@ -4,5 +4,5 @@ import ru.alexbur.koshelok.domain.entities.utils.CategoryEntity
 
 interface CreateCategoryRepository {
 
-    suspend fun createCategory(personId: Long, category: CategoryEntity): Result<Boolean>
+    suspend fun createCategory(category: CategoryEntity): Result<CategoryEntity>
 }

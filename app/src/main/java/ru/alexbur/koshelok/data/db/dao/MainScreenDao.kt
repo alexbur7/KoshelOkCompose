@@ -30,6 +30,6 @@ interface MainScreenDao {
     }
 
     @Transaction
-    @Query("SELECT * FROM Balance WHERE personId= :personId")
-    suspend fun getMainScreenData(personId: Long): MainScreenDataDb?
+    @Query("SELECT * FROM Balance WHERE email= :email")
+    suspend fun getMainScreenData(email: String): MainScreenDataDb?
 }

@@ -6,14 +6,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CategoryApi(
     @SerialName("categoryId")
-    val id: Long,
+    val id: Long?,
     @SerialName("value")
     val type: Int,
     @SerialName("name")
     val operation: String,
     @SerialName("icon")
     val idIcon: Int,
-    @SerialName("colour")
-    val color: Int,
-    val personId: Long?
+    @SerialName("color")
+    val color: Int
 )

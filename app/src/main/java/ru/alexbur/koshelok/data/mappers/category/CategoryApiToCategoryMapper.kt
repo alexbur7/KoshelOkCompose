@@ -12,7 +12,7 @@ class CategoryApiToCategoryMapper @Inject constructor(
 ) : (CategoryApi) -> CategoryEntity {
     override operator fun invoke(categoryApi: CategoryApi) =
         CategoryEntity(
-            id = categoryApi.id,
+            id = categoryApi.id ?: 0,
             type = intToTypeCategoryMapper(categoryApi.type),
             operation = categoryApi.operation,
             iconId = iconConverter.convertNumberToDrawableId(categoryApi.idIcon),
