@@ -1,4 +1,4 @@
-package com.example.koshelok.ui.listwallet
+package ru.alexbur.koshelok.ui.listwallet
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,7 +50,6 @@ class ListWalletViewModel @Inject constructor(
             is Event.DeleteWallet -> {
                 deleteWallet(event.walletId)
             }
-            else -> {}
         }
     }
 
