@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">KoshelOK</string>
+    <string name="app_name">SmartWallet</string>
+    <string name="google_cloud_server_client_id">935522130081-q5tvb817b5dkmsl940qq4bke7a81ocj7.apps.googleusercontent.com</string>
     <string name="wallet_text">Кошелек 1</string>
     <string name="zero_money">0 ₽</string>
     <string name="income_text">Доход</string>
@@ -11,7 +12,7 @@
     <string name="title_name">КошелОК</string>
     <string name="description_logo">Логотип приложения</string>
     <string name="description_welcome_icon">Изображение добро пожаловать</string>
-    <string name="title_welcome">Добро пожаловать в КошелОК</string>
+    <string name="title_welcome">Добро пожаловать в SmartWallet</string>
     <string name="text_welcome">Тут вы сможете контролировать свои доходы и расходы</string>
     <string name="text_button_google">Войти с помощью Google</string>
     <string name="enter_sum_title">Введите сумму</string>
@@ -97,4 +98,5 @@
     <string name="chf">Швейцарские франки</string>
     <string name="you_really_delete_wallet">Вы действительно хотите удалить кошелек?</string>
     <string name="by_team">By Android Team</string>
+    <string name="unknown">Неизвестный</string>
 </resources>
