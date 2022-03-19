@@ -16,15 +16,21 @@ data class MainScreenDataEntity(
                 consumptionMoney = ""
             ),
             exchangeRatesEntity = ExchangeRatesEntity(
-                firstCourse = "",
-                firstCurrency = Currency.EUR,
-                firstIsUp = true,
-                secondCourse = "",
-                secondCurrency = Currency.EUR,
-                secondIsUp = true,
-                thirdCourse = "",
-                thirdCurrency = Currency.EUR,
-                thirdIsUp = true,
+                firstCurrency = CurrencyEntity(
+                    Currency.RUB,
+                    "3",
+                    true
+                ),
+                secondCurrency = CurrencyEntity(
+                    Currency.EUR,
+                    "86",
+                    true
+                ),
+                thirdCurrency = CurrencyEntity(
+                    Currency.USD,
+                    "78",
+                    true
+                )
             ),
             wallets = mutableListOf<WalletEntity>().apply {
                 repeat(10) {

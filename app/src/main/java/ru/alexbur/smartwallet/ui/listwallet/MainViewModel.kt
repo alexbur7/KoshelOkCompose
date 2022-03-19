@@ -2,9 +2,8 @@ package ru.alexbur.smartwallet.ui.listwallet
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
@@ -20,10 +19,11 @@ class MainViewModel @Inject constructor(
     private val deleteWalletRepository: DeleteWalletRepository,
 ) : BaseViewModel<MainViewModel.Event>() {
 
-    val loadStateData: StateFlow<LoadingState>
-        get() = _loadStateData.asStateFlow()
+    val loadStateData: Flow<LoadingState>
+        get() = _loadStateData.asStateFlow().onEach { delay(100L) }
     val mainScreenData: StateFlow<MainScreenDataEntity>
         get() = _mainScreenData.asStateFlow()
+    val nameFlow = mainScreenRepository.nameFlow
 
     private val _mainScreenData = MutableStateFlow(MainScreenDataEntity.shimmerData)
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)

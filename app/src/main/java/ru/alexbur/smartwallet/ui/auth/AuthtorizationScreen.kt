@@ -7,15 +7,11 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,9 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -45,6 +44,8 @@ import ru.alexbur.smartwallet.ui.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.theme.PingDarkColor
 import ru.alexbur.smartwallet.ui.theme.PingLightColor
 import ru.alexbur.smartwallet.ui.theme.TextGrayColor
+import ru.alexbur.smartwallet.ui.utils.ButtonState
+import ru.alexbur.smartwallet.ui.utils.GradientButton
 import javax.inject.Inject
 
 @Composable
@@ -53,7 +54,6 @@ fun AuthorizationScreen(
     viewModel: AuthorizationViewModel = hiltViewModel()
 ) {
 
-    val signInRequestCode = 1
     val authResultLauncher =
         rememberLauncherForActivityResult(contract = AuthResultContract()) { task ->
             try {
@@ -79,18 +79,25 @@ fun AuthorizationScreen(
             }
         }
 
-    val state = viewModel.loadStateData.collectAsState()
+    val state = viewModel.loadStateData.collectAsState(LoadingState.LOAD_DEFAULT)
+    var buttonState by remember {
+        mutableStateOf(ButtonState.ENABLED)
+    }
 
     LaunchedEffect(key1 = state.value) {
         when (state.value) {
+            LoadingState.LOAD_SUCCEED -> {
+                buttonState = ButtonState.ENABLED
+                navController.navigate(MainScreenFactory.route)
+            }
             LoadingState.LOAD_IN_PROGRESS -> {
-                print("kvkg")
+                buttonState = ButtonState.LOADING
             }
             LoadingState.LOAD_FAILED -> {
-                print("kgmnekmg")
+                buttonState = ButtonState.ENABLED
             }
-            LoadingState.LOAD_SUCCEED -> {
-                navController.navigate(MainScreenFactory.route)
+            LoadingState.LOAD_DEFAULT -> {
+                buttonState = ButtonState.ENABLED
             }
         }
     }
@@ -101,63 +108,73 @@ fun AuthorizationScreen(
             .background(BackgroundColor)
             .padding(16.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                modifier = Modifier
-                    .padding(horizontal = 30.dp)
-                    .fillMaxWidth(),
+        WelcomePartScreen()
 
-                painter = painterResource(id = R.drawable.auth_main),
-                contentDescription = "Auth main image",
-                contentScale = ContentScale.FillWidth
-            )
-
-            Text(
-                text = stringResource(id = R.string.title_welcome),
-                modifier = Modifier.fillMaxWidth(),
-                color = Color.White,
-                style = MaterialTheme.typography.h4,
-                fontWeight = FontWeight(700),
-                textAlign = TextAlign.Center
-            )
-
-            Text(
-                text = stringResource(id = R.string.text_welcome),
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                color = TextGrayColor,
-                style = MaterialTheme.typography.subtitle1,
-                textAlign = TextAlign.Center
-            )
-        }
-
-        Text(
+        GradientButton(
+            buttonState = buttonState,
+            text = stringResource(id = R.string.text_button_google),
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(corner = CornerSize(24.dp)))
+                .wrapContentHeight()
+                .align(Alignment.BottomCenter)
+                .clip(RoundedCornerShape(24.dp))
                 .background(
-                    brush = Brush.verticalGradient(
+                    Brush.verticalGradient(
                         listOf(
                             PingLightColor,
                             PingDarkColor
                         )
-                    )
-                )
-                .clickable {
-                    authResultLauncher.launch(signInRequestCode)
-                }
-                .padding(14.dp)
-                .align(Alignment.BottomCenter),
-            text = stringResource(id = R.string.text_button_google),
-            textAlign = TextAlign.Center,
+                    ),
+                ),
+            textStyle = TextStyle(
+                color = Color.White,
+                fontWeight = FontWeight(700),
+                textAlign = TextAlign.Center,
+                fontSize = 16.sp
+            )
+        ) {
+            authResultLauncher.launch(1)
+        }
+    }
+}
+
+@Preview("WelcomePart")
+@Composable
+private fun WelcomePartScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            modifier = Modifier
+                .padding(horizontal = 30.dp)
+                .fillMaxWidth(),
+
+            painter = painterResource(id = R.drawable.auth_main),
+            contentDescription = "Auth main image",
+            contentScale = ContentScale.FillWidth
+        )
+
+        Text(
+            text = stringResource(id = R.string.title_welcome),
+            modifier = Modifier.fillMaxWidth(),
             color = Color.White,
+            style = MaterialTheme.typography.h4,
+            fontWeight = FontWeight(700),
+            textAlign = TextAlign.Center
+        )
+
+        Text(
+            text = stringResource(id = R.string.text_welcome),
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
+            color = TextGrayColor,
+            style = MaterialTheme.typography.subtitle1,
+            textAlign = TextAlign.Center
         )
     }
 }

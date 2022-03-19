@@ -99,4 +99,6 @@
     <string name="you_really_delete_wallet">Вы действительно хотите удалить кошелек?</string>
     <string name="by_team">By Android Team</string>
     <string name="unknown">Неизвестный</string>
+    <string name="hello">Привет, %1$s</string>
+    <string name="main_text_welcome">Добро пожаловать!</string>
 </resources>

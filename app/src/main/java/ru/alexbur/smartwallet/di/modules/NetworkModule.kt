@@ -1,6 +1,5 @@
 package ru.alexbur.smartwallet.di.modules
 
-import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -13,7 +12,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import ru.alexbur.smartwallet.data.service.AppService
 
 private const val BASE_URL = "http://34.88.54.200:9090/"

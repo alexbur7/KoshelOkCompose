@@ -2,9 +2,8 @@ package ru.alexbur.smartwallet.ui.auth
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.data.utils.AccountDataStore
 import ru.alexbur.smartwallet.domain.entities.onboarding.UserEntity
@@ -21,13 +20,13 @@ class AuthorizationViewModel @Inject constructor(
 ) : BaseViewModel<AuthorizationViewModel.Event>() {
 
 
-    val loadStateData: StateFlow<LoadingState>
-        get() = _loadStateData.asStateFlow()
+    val loadStateData: Flow<LoadingState>
+        get() = _loadStateData.asStateFlow().onEach { delay(300L) }
     val errorData: StateFlow<String>
         get() = _errorData.asStateFlow()
 
     private val _errorData = MutableStateFlow(String())
-    private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
+    private val _loadStateData = MutableStateFlow(LoadingState.LOAD_DEFAULT)
 
     override fun obtainEvent(event: Event) {
         when(event){

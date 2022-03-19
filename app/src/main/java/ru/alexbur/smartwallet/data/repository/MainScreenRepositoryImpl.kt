@@ -1,5 +1,6 @@
 package ru.alexbur.smartwallet.data.repository
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import ru.alexbur.smartwallet.data.db.source.MainWalletSource
 import ru.alexbur.smartwallet.data.extentions.resultRequest
@@ -16,6 +17,8 @@ class MainScreenRepositoryImpl @Inject constructor(
     private val mainWalletSource: MainWalletSource,
     private val accountDataStore: AccountDataStore
 ) : MainScreenRepository {
+    override val nameFlow: Flow<String?>
+        get() = accountDataStore.name
 
     override suspend fun getServerMainScreenData(): Result<MainScreenDataEntity> {
         return resultRequest { appService.getDataForMainScreen() }

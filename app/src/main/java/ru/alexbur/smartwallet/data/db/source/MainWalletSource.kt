@@ -45,9 +45,7 @@ class MainWalletSourceImpl @Inject constructor(
         database.getMainScreenDao().insertMainScreenData(
             balanceMapper(
                 email,
-                mainScreenDataApi.balance,
-                mainScreenDataApi.income,
-                mainScreenDataApi.consumption
+                mainScreenDataApi.balance
             ),
             exchangeRatesMapper(mainScreenDataApi.exchangeRatesApi),
             mainScreenDataApi.wallets.map(walletDbMapper)
