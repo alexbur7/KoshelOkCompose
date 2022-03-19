@@ -1,15 +1,16 @@
 package ru.alexbur.smartwallet.data.mappers.balance
 
+import ru.alexbur.smartwallet.data.service.api.BalanceApi
 import ru.alexbur.smartwallet.domain.entities.listwallet.BalanceEntity
 import javax.inject.Inject
 
 class BalanceApiToBalanceEntityMapper @Inject constructor() :
-        (String, String, String) -> BalanceEntity {
+        (BalanceApi) -> BalanceEntity {
 
-    override operator fun invoke(balance: String, income: String, consumption: String) =
+    override fun invoke(balance: BalanceApi): BalanceEntity =
         BalanceEntity(
-            amountMoney = balance,
-            incomeMoney = income,
-            consumptionMoney = consumption
+            amountMoney = balance.amountMoney,
+            incomeMoney = balance.incomeMoney,
+            consumptionMoney = balance.consumptionMoney
         )
 }
