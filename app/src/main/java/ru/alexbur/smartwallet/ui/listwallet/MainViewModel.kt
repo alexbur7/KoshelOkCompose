@@ -1,6 +1,7 @@
 package ru.alexbur.smartwallet.ui.listwallet
 
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,10 +14,11 @@ import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
 import javax.inject.Inject
 
-class ListWalletViewModel @Inject constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val mainScreenRepository: MainScreenRepository,
     private val deleteWalletRepository: DeleteWalletRepository,
-) : BaseViewModel<ListWalletViewModel.Event>() {
+) : BaseViewModel<MainViewModel.Event>() {
 
     val loadStateData: StateFlow<LoadingState>
         get() = _loadStateData.asStateFlow()

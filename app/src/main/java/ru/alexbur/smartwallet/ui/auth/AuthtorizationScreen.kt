@@ -14,6 +14,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,7 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
@@ -38,6 +39,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
+import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.ui.listwallet.MainScreenFactory
 import ru.alexbur.smartwallet.ui.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.theme.PingDarkColor
 import ru.alexbur.smartwallet.ui.theme.PingLightColor
@@ -46,7 +49,7 @@ import javax.inject.Inject
 
 @Composable
 fun AuthorizationScreen(
-    navController: NavHostController?,
+    navController: NavHostController,
     viewModel: AuthorizationViewModel = hiltViewModel()
 ) {
 
@@ -75,6 +78,22 @@ fun AuthorizationScreen(
                 viewModel.obtainEvent(AuthorizationViewModel.Event.RegistrationFailed(e.localizedMessage))
             }
         }
+
+    val state = viewModel.loadStateData.collectAsState()
+
+    LaunchedEffect(key1 = state.value) {
+        when (state.value) {
+            LoadingState.LOAD_IN_PROGRESS -> {
+                print("kvkg")
+            }
+            LoadingState.LOAD_FAILED -> {
+                print("kgmnekmg")
+            }
+            LoadingState.LOAD_SUCCEED -> {
+                navController.navigate(MainScreenFactory.route)
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -143,21 +162,6 @@ fun AuthorizationScreen(
     }
 }
 
-@Preview
-@Composable
-fun PreviewAuthScreen() {
-    AuthorizationScreen(navController = null)
-}
-
-fun getGoogleSignInClient(context: Context): GoogleSignInClient {
-    val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestProfile()
-        .requestEmail()
-        .build()
-
-    return GoogleSignIn.getClient(context, signInOptions)
-}
-
 class AuthResultContract : ActivityResultContract<Int, Task<GoogleSignInAccount>?>() {
     override fun createIntent(context: Context, input: Int): Intent =
         getGoogleSignInClient(context).signInIntent.putExtra("input", input)
@@ -167,6 +171,15 @@ class AuthResultContract : ActivityResultContract<Int, Task<GoogleSignInAccount>
             Activity.RESULT_OK -> GoogleSignIn.getSignedInAccountFromIntent(intent)
             else -> null
         }
+    }
+
+    private fun getGoogleSignInClient(context: Context): GoogleSignInClient {
+        val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestProfile()
+            .requestEmail()
+            .build()
+
+        return GoogleSignIn.getClient(context, signInOptions)
     }
 }
 

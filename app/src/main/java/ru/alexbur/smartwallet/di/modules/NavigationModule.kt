@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
+import ru.alexbur.smartwallet.ui.auth.AuthorizationScreenFactory
+import ru.alexbur.smartwallet.ui.listwallet.MainScreenFactory
 import javax.inject.Singleton
 
 @Module
@@ -15,5 +17,10 @@ interface NavigationModule {
     @IntoSet
     @Binds
     @Singleton
-    fun navigationAuthorizationFactory(authNavigationScreenFactory: NavigationScreenFactory): NavigationScreenFactory
+    fun bindAuthorizationFactory(authNavigationScreenFactory: AuthorizationScreenFactory): NavigationScreenFactory
+
+    @IntoSet
+    @Binds
+    @Singleton
+    fun bindMainScreenFactory(mainScreenFactory: MainScreenFactory): NavigationScreenFactory
 }

@@ -4,4 +4,11 @@
     <style name="Theme.SmartWallet" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/background_color</item>
     </style>
+
+    <style name="Theme.Splash" parent="Theme.SmartWallet">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <!-- Status bar color. -->
+        <item name="android:windowLightStatusBar" >true</item>
+        <item name="android:navigationBarColor" >@color/background_color</item>
+    </style>
 </resources>

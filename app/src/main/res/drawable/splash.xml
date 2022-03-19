@@ -2,10 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="transparent">
 
-    <item android:drawable="@android:color/white" />
+    <item android:drawable="@color/background_color" />
     <item>
         <bitmap
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:src="@drawable/logo" />
     </item>
 
