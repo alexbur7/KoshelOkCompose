@@ -25,11 +25,14 @@ class AuthorizationViewModel @Inject constructor(
     val errorData: StateFlow<String>
         get() = _errorData.asStateFlow()
 
-    private val _errorData = MutableStateFlow(String())
+    private val _errorData = MutableStateFlow("")
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_DEFAULT)
 
     override fun obtainEvent(event: Event) {
-        when(event){
+        when (event) {
+            is Event.ChooseGoogleAccount -> {
+                chooseGoogleAccount()
+            }
             is Event.RegistrationStarted -> {
                 registrationUser(event.email, event.displayName)
             }
@@ -42,19 +45,23 @@ class AuthorizationViewModel @Inject constructor(
         }
     }
 
-    private fun registrationUser(email: String, displayName: String?) = viewModelScope.launch {
+    private fun chooseGoogleAccount() = viewModelScope.launch {
         _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+    }
+
+    private fun registrationUser(email: String, displayName: String?) = viewModelScope.launch {
         registrationRepository.registrationUser(user = UserEntity(email))
             .onSuccess { token ->
                 accountDataStore.updateEmail(email)
                 accountDataStore.updateName(displayName)
                 obtainEvent(Event.RegistrationSucceed(token = token))
             }.onFailure {
-                obtainEvent(Event.RegistrationFailed(it.localizedMessage))
+                obtainEvent(Event.RegistrationFailed(it.localizedMessage ?: "Network"))
             }
     }
 
-    private fun registrationFailed(error: String?) = viewModelScope.launch {
+    private fun registrationFailed(error: String) = viewModelScope.launch {
+        _errorData.emit(error)
         _loadStateData.emit(LoadingState.LOAD_FAILED)
     }
 
@@ -63,9 +70,10 @@ class AuthorizationViewModel @Inject constructor(
         _loadStateData.emit(LoadingState.LOAD_SUCCEED)
     }
 
-    sealed class Event: BaseEvent(){
+    sealed class Event : BaseEvent() {
+        object ChooseGoogleAccount : Event()
         class RegistrationStarted(val email: String, val displayName: String?) : Event()
-        class RegistrationFailed(val error: String?) : Event()
+        class RegistrationFailed(val error: String) : Event()
         class RegistrationSucceed(val token: String) : Event()
     }
 }

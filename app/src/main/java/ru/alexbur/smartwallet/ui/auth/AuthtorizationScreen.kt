@@ -9,8 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,16 +74,22 @@ fun AuthorizationScreen(
                     viewModel.obtainEvent(AuthorizationViewModel.Event.RegistrationFailed("Account is null"))
                 }
             } catch (e: ApiException) {
-                viewModel.obtainEvent(AuthorizationViewModel.Event.RegistrationFailed(e.localizedMessage))
+                viewModel.obtainEvent(
+                    AuthorizationViewModel.Event.RegistrationFailed(
+                        e.localizedMessage ?: ""
+                    )
+                )
             }
         }
 
     val state = viewModel.loadStateData.collectAsState(LoadingState.LOAD_DEFAULT)
+    val errorState = viewModel.errorData.collectAsState()
     var buttonState by remember {
         mutableStateOf(ButtonState.ENABLED)
     }
+    val snackBarHostState = SnackbarHostState()
 
-    LaunchedEffect(key1 = state.value) {
+    LaunchedEffect(key1 = state.value, key2 = buttonState) {
         when (state.value) {
             LoadingState.LOAD_SUCCEED -> {
                 buttonState = ButtonState.ENABLED
@@ -93,12 +98,16 @@ fun AuthorizationScreen(
             LoadingState.LOAD_IN_PROGRESS -> {
                 buttonState = ButtonState.LOADING
             }
-            LoadingState.LOAD_FAILED -> {
+            else -> {
                 buttonState = ButtonState.ENABLED
             }
-            LoadingState.LOAD_DEFAULT -> {
-                buttonState = ButtonState.ENABLED
-            }
+        }
+
+        if (buttonState == ButtonState.ENABLED && state.value == LoadingState.LOAD_FAILED) {
+            snackBarHostState.showSnackbar(
+                errorState.value,
+                duration = SnackbarDuration.Short
+            )
         }
     }
 
@@ -134,8 +143,11 @@ fun AuthorizationScreen(
                 fontSize = 16.sp
             )
         ) {
+            viewModel.obtainEvent(AuthorizationViewModel.Event.ChooseGoogleAccount)
             authResultLauncher.launch(1)
         }
+
+        SnackbarHost(hostState = snackBarHostState)
     }
 }
 
