@@ -32,8 +32,6 @@ fun CurrencyItem(
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        val checkedState = remember { mutableStateOf(isCurrent) }
-
         Text(
             text = stringResource(id = currency.nameListId), modifier = Modifier
                 .wrapContentHeight()
@@ -43,10 +41,11 @@ fun CurrencyItem(
         )
 
         Switch(
-            checked = checkedState.value,
+            checked = isCurrent,
             onCheckedChange = {
-                checkedState.value = it
-                onCheckedChange(currency)
+                if (it) {
+                    onCheckedChange(currency)
+                }
             }, colors = SwitchDefaults.colors(
                 checkedThumbColor = CheckedThumbColor,
                 uncheckedThumbColor = UnCheckedTrackColor,

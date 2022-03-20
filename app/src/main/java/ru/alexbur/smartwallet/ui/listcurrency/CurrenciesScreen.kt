@@ -25,11 +25,11 @@ fun CurrenciesScreen(
     navController: NavController,
     viewModel: CurrenciesViewModel = hiltViewModel()
 ) {
-    val currency = viewModel.currentCurrency.collectAsState()
+
     val currencies = viewModel.currencies.collectAsState()
 
     var currentCurrency by rememberSaveable {
-        mutableStateOf(currency.value)
+        mutableStateOf(viewModel.currentCurrency.value)
     }
 
     Box(
@@ -70,9 +70,10 @@ fun CurrenciesScreen(
                 items(
                     currencies.value.size
                 ) { position ->
+                    val isCurrent = position == currentIndex
                     CurrencyItem(
                         currency = currencies.value[position],
-                        isCurrent = position == currentIndex,
+                        isCurrent = isCurrent,
                         onCheckedChange = { currency ->
                             currentCurrency = currency
                         }
