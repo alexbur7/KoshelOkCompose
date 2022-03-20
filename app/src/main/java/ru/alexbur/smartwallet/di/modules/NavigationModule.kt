@@ -8,6 +8,7 @@ import dagger.multibindings.IntoSet
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.auth.AuthorizationScreenFactory
 import ru.alexbur.smartwallet.ui.createwallet.CreateWalletScreenFactory
+import ru.alexbur.smartwallet.ui.listcurrency.CurrenciesScreenNavigation
 import ru.alexbur.smartwallet.ui.listwallet.MainScreenFactory
 import javax.inject.Singleton
 
@@ -29,4 +30,9 @@ interface NavigationModule {
     @Binds
     @Singleton
     fun bindCreateWalletScreenFactory(createWalletScreenFactory: CreateWalletScreenFactory): NavigationScreenFactory
+
+    @IntoSet
+    @Binds
+    @Singleton
+    fun bindCurrenciesScreenFactory(currenciesScreenNavigation: CurrenciesScreenNavigation): NavigationScreenFactory
 }

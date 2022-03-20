@@ -24,7 +24,7 @@ fun OutlinedEditText(
     textLabel: String,
     initialField: String = "",
     onValueChanged: (String) -> Unit = { },
-    isEnabled: Boolean = true,
+    readOnly: Boolean = false,
     maxLength: Int = Int.MAX_VALUE,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     trailingIcon: (@Composable () -> Unit)? = null
@@ -42,7 +42,7 @@ fun OutlinedEditText(
                 onValueChanged(it)
             }
         },
-        enabled = isEnabled,
+        readOnly = readOnly,
         label = {
             Text(text = textLabel, style = TextStyle(color = Color.White, fontSize = 12.sp))
         },

@@ -80,7 +80,7 @@
     <string name="icon">Иконка</string>
     <string name="ask_color">Задать цвет</string>
     <string name="limit_not_install">Лимит не установлен</string>
-    <string name="RUB">Руссийский рубль (RUB)</string>
+    <string name="rub_list">Руссийский рубль (RUB)</string>
     <string name="choose_color">Выберите цвет</string>
     <string name="title_category">Название категории</string>
     <string name="category1">Категория1</string>
@@ -101,4 +101,7 @@
     <string name="hello">Привет, %1$s</string>
     <string name="main_text_welcome">Добро пожаловать!</string>
     <string name="limit_wallet">Лимит</string>
+    <string name="eur_list">Евро (EUR)</string>
+    <string name="usd_list">" Доллар США (USD)"</string>
+    <string name="chf_list">Швейцарсие франки (CHF)</string>
 </resources>

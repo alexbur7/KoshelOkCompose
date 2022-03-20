@@ -25,8 +25,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
-import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.createwallet.edittext.OutlinedEditText
+import ru.alexbur.smartwallet.ui.listcurrency.CurrenciesScreenNavigation
 import ru.alexbur.smartwallet.ui.theme.BackgroundColor
 import javax.inject.Inject
 
@@ -39,9 +39,7 @@ fun CreateWalletScreen(
         mutableStateOf("")
     }
 
-    var currencyWallet by remember {
-        mutableStateOf("")
-    }
+    val currencyWallet = viewModel.currentCurrency.collectAsState()
 
     var limitWallet by remember {
         mutableStateOf("")
@@ -78,12 +76,10 @@ fun CreateWalletScreen(
                     .padding(top = 16.dp)
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .clickable {
-                        navigation.navigate(CreateWalletScreenFactory.route)
-                    }
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.title_wallet),
-                onValueChanged = { nameWallet = it }
+                onValueChanged = { nameWallet = it },
+                initialField = stringResource(id = R.string.wallet_text)
             )
 
             OutlinedEditText(
@@ -93,10 +89,13 @@ fun CreateWalletScreen(
                     .wrapContentHeight()
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.currency),
-                isEnabled = false,
-                initialField = stringResource(id = Currency.RUB.nameId)
+                readOnly = true,
+                initialField = stringResource(id = currencyWallet.value.nameId)
             ) {
                 Image(
+                    modifier = Modifier.clickable {
+                        navigation.navigate(CurrenciesScreenNavigation.route)
+                    },
                     painter = painterResource(id = R.drawable.arrow_right),
                     contentDescription = "Arrow right"
                 )

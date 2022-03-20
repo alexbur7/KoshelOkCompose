@@ -2,6 +2,7 @@ package ru.alexbur.smartwallet.ui.listcurrency
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -18,6 +19,9 @@ class CurrenciesViewModel @Inject constructor(
 
     val currentCurrency: StateFlow<Currency>
         get() = currencyRepository._currentCurrency.asStateFlow()
+
+    val currencies: StateFlow<List<Currency>> =
+        MutableStateFlow(Currency.values().toList()).asStateFlow()
 
     override fun obtainEvent(event: Event) {
         when (event) {
