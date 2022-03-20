@@ -14,9 +14,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.placeholder
+import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.listwallet.BalanceEntity
 import ru.alexbur.smartwallet.ui.theme.BackgroundMainCardColor
+import ru.alexbur.smartwallet.ui.theme.ShimmerPlaceHolderColor
 
 @Composable
 fun CardWithBalance(
@@ -28,6 +32,13 @@ fun CardWithBalance(
         modifier = modifier
             .clip(RoundedCornerShape(24.dp))
             .background(color = BackgroundMainCardColor)
+            .placeholder(
+                visible = isShimmer,
+                color = BackgroundMainCardColor,
+                highlight = PlaceholderHighlight.shimmer(
+                    highlightColor = ShimmerPlaceHolderColor
+                )
+            )
             .padding(24.dp)
     ) {
         Text(
@@ -41,7 +52,7 @@ fun CardWithBalance(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(top = 6.dp),
-            text = balance.amountMoney,
+            text = stringResource(id = R.string.count_money,balance.amountMoney),
             style = TextStyle(color = Color.White, fontSize = 32.sp, fontWeight = FontWeight(500))
         )
         Row(
@@ -75,7 +86,9 @@ fun CardWithBalance(
 @Composable
 fun CardWithBalancePreview() {
     CardWithBalance(
-        modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
         balance = BalanceEntity("10000000000000000000", "10253950385298532985913593523", "913523355313"),
         isShimmer = false
     )

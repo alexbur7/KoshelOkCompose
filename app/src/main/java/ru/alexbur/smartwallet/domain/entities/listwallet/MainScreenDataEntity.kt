@@ -46,5 +46,31 @@ data class MainScreenDataEntity(
                 }
             }.toList()
         )
+
+        val emptyData = MainScreenDataEntity(
+            balanceEntity = BalanceEntity(
+                amountMoney = "0",
+                incomeMoney = "0",
+                consumptionMoney = "0"
+            ),
+            exchangeRatesEntity = ExchangeRatesEntity(
+                firstCurrency = CurrencyEntity(
+                    Currency.CHF,
+                    "",
+                    true
+                ),
+                secondCurrency = CurrencyEntity(
+                    Currency.EUR,
+                    "",
+                    true
+                ),
+                thirdCurrency = CurrencyEntity(
+                    Currency.USD,
+                    "",
+                    true
+                )
+            ),
+            wallets = emptyList()
+        )
     }
 }

@@ -81,6 +81,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun failLoading(error: String?) = viewModelScope.launch {
+        _mainScreenData.emit(MainScreenDataEntity.emptyData)
         _loadStateData.emit(LoadingState.LOAD_FAILED)
     }
 

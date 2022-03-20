@@ -15,11 +15,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.placeholder
+import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.listwallet.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.listwallet.ExchangeRatesEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.theme.BackgroundCourseColor
+import ru.alexbur.smartwallet.ui.theme.BackgroundMainCardColor
+import ru.alexbur.smartwallet.ui.theme.ShimmerPlaceHolderColor
 
 @Composable
 fun CurrenciesCard(
@@ -31,13 +36,19 @@ fun CurrenciesCard(
         modifier = modifier
             .clip(RoundedCornerShape(24.dp))
             .background(BackgroundCourseColor)
+            .placeholder(
+                visible = isShimmer,
+                color = BackgroundMainCardColor,
+                highlight = PlaceholderHighlight.shimmer(
+                    highlightColor = ShimmerPlaceHolderColor
+                )
+            )
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         CurrencyCard(
             modifier = Modifier
                 .wrapContentHeight()
                 .weight(1f),
-            isShimmer = isShimmer,
             currencyEntity = exchangeRatesEntity.firstCurrency
         )
 
@@ -45,7 +56,6 @@ fun CurrenciesCard(
             modifier = Modifier
                 .wrapContentHeight()
                 .weight(1f),
-            isShimmer = isShimmer,
             currencyEntity = exchangeRatesEntity.secondCurrency
         )
 
@@ -53,7 +63,6 @@ fun CurrenciesCard(
             modifier = Modifier
                 .wrapContentHeight()
                 .weight(1f),
-            isShimmer = isShimmer,
             currencyEntity = exchangeRatesEntity.thirdCurrency
         )
     }
@@ -62,7 +71,6 @@ fun CurrenciesCard(
 @Composable
 fun CurrencyCard(
     modifier: Modifier,
-    isShimmer: Boolean,
     currencyEntity: CurrencyEntity
 ) {
     Column(modifier = modifier) {
