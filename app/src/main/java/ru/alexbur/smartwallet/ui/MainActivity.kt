@@ -3,12 +3,15 @@ package ru.alexbur.smartwallet.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import dagger.hilt.android.AndroidEntryPoint
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.auth.AuthorizationScreenFactory
+import ru.alexbur.smartwallet.ui.listwallet.MainScreenFactory
 import ru.alexbur.smartwallet.ui.theme.SmartWalletTheme
 import javax.inject.Inject
 
@@ -20,15 +23,20 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val account = GoogleSignIn.getLastSignedInAccount(this)
         setTheme(R.style.Theme_SmartWallet)
         setContent {
             SmartWalletTheme {
                 val navController = rememberNavController()
-                NavHost(
-                    navController = navController,
-                    startDestination = AuthorizationScreenFactory.route
-                ) {
-                    factorySet.forEach { it.create(this, navController) }
+                Surface {
+                    NavHost(
+                        navController = navController,
+                        startDestination = if (account == null) AuthorizationScreenFactory.route else MainScreenFactory.route
+                    ) {
+                        factorySet.forEach {
+                            it.create(this, navController)
+                        }
+                    }
                 }
             }
         }

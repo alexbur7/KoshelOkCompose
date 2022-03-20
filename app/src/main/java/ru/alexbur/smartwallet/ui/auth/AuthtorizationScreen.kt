@@ -108,6 +108,7 @@ fun AuthorizationScreen(
                 errorState.value,
                 duration = SnackbarDuration.Short
             )
+            navController.navigate(MainScreenFactory.route)
         }
     }
 
@@ -151,7 +152,6 @@ fun AuthorizationScreen(
     }
 }
 
-@Preview("WelcomePart")
 @Composable
 private fun WelcomePartScreen() {
     Column(

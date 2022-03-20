@@ -2,9 +2,9 @@ package ru.alexbur.smartwallet.data.db.source
 
 import ru.alexbur.smartwallet.data.db.SmartWalletDatabase
 import ru.alexbur.smartwallet.data.mappers.MainScreenDataDbToApiMapper
-import ru.alexbur.smartwallet.data.mappers.balance.StringsDataToBalanceDbMapper
+import ru.alexbur.smartwallet.data.mappers.balance.BalanceApiToDbMapper
 import ru.alexbur.smartwallet.data.mappers.exchangerates.ExchangeRatesApiToDbMapper
-import ru.alexbur.smartwallet.data.mappers.wallets.WalletApiToWalletDbMapper
+import ru.alexbur.smartwallet.data.mappers.wallets.WalletApiToDbMapper
 import ru.alexbur.smartwallet.data.service.api.MainScreenDataApi
 import javax.inject.Inject
 
@@ -20,9 +20,9 @@ interface MainWalletSource {
 
 class MainWalletSourceImpl @Inject constructor(
     private val database: SmartWalletDatabase,
-    private val balanceMapper: StringsDataToBalanceDbMapper,
+    private val balanceMapper: BalanceApiToDbMapper,
     private val exchangeRatesMapper: ExchangeRatesApiToDbMapper,
-    private val walletDbMapper: WalletApiToWalletDbMapper,
+    private val walletDbMapper: WalletApiToDbMapper,
     private val mainScreenMapper: MainScreenDataDbToApiMapper
 ) : MainWalletSource {
 
@@ -47,8 +47,8 @@ class MainWalletSourceImpl @Inject constructor(
                 email,
                 mainScreenDataApi.balance
             ),
-            exchangeRatesMapper(mainScreenDataApi.exchangeRatesApi),
-            mainScreenDataApi.wallets.map(walletDbMapper)
+            exchangeRatesMapper(email = email,mainScreenDataApi.exchangeRatesApi),
+            mainScreenDataApi.wallets.map { walletDbMapper(email,it) }
         )
     }
 }

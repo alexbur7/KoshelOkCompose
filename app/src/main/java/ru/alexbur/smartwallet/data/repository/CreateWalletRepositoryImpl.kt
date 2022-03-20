@@ -2,7 +2,7 @@ package ru.alexbur.smartwallet.data.repository
 
 import ru.alexbur.smartwallet.data.db.source.WalletSource
 import ru.alexbur.smartwallet.data.extentions.resultRequest
-import ru.alexbur.smartwallet.data.mappers.category.CreateWalletEntityToWalletApiMapper
+import ru.alexbur.smartwallet.data.mappers.category.CreateWalletEntityToApiMapper
 import ru.alexbur.smartwallet.data.mappers.wallets.WalletApiToWalletEntityMapper
 import ru.alexbur.smartwallet.data.service.AppService
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class CreateWalletRepositoryImpl @Inject constructor(
     private val appService: AppService,
-    private val mapperWallet: CreateWalletEntityToWalletApiMapper,
+    private val mapperWallet: CreateWalletEntityToApiMapper,
     private val walletEntityMapper: WalletApiToWalletEntityMapper,
     private val walletSource: WalletSource
 ) : CreateWalletRepository {

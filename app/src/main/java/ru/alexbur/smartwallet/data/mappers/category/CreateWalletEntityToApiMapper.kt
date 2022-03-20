@@ -4,7 +4,7 @@ import ru.alexbur.smartwallet.data.service.api.WalletApi
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import javax.inject.Inject
 
-class CreateWalletEntityToWalletApiMapper @Inject constructor() :
+class CreateWalletEntityToApiMapper @Inject constructor() :
         (CreateWalletEntity) -> WalletApi {
 
     override operator fun invoke(

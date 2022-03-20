@@ -4,9 +4,9 @@ import ru.alexbur.smartwallet.data.db.entity.WalletDb
 import ru.alexbur.smartwallet.data.service.api.WalletApi
 import javax.inject.Inject
 
-class WalletApiToWalletDbMapper @Inject constructor() : (WalletApi) -> WalletDb {
+class WalletApiToDbMapper @Inject constructor() : (String, WalletApi) -> WalletDb {
 
-    override fun invoke(wallet: WalletApi): WalletDb {
+    override fun invoke(email: String,wallet: WalletApi): WalletDb {
         return WalletDb(
             id = wallet.id ?: 0,
             name = wallet.name,
@@ -16,7 +16,8 @@ class WalletApiToWalletDbMapper @Inject constructor() : (WalletApi) -> WalletDb 
             limit = wallet.limit,
             currency = wallet.currency,
             isExceededLimit = wallet.isExceededLimit,
-            isHide = wallet.isHide
+            isHide = wallet.isHide,
+            email = email
         )
     }
 }

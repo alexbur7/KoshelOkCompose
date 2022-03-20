@@ -13,7 +13,10 @@ import kotlinx.coroutines.flow.map
 import ru.alexbur.smartwallet.R
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 
+private const val AUTHORIZED_DATA_STORE_NAME = "authorized_data_store_name"
+private val Context.dataStore by preferencesDataStore(AUTHORIZED_DATA_STORE_NAME)
 
 class AccountDataStore @Inject constructor(
     @ApplicationContext
@@ -34,8 +37,6 @@ class AccountDataStore @Inject constructor(
         get() = preferences.map {
             it[USER_TOKEN_KEY]
         }
-
-    private val Context.dataStore by preferencesDataStore(AUTHORIZED_DATA_STORE_NAME)
 
     private val preferences: Flow<Preferences> =
         context.dataStore.data.catch {
@@ -66,7 +67,6 @@ class AccountDataStore @Inject constructor(
     }
 
     private companion object {
-        const val AUTHORIZED_DATA_STORE_NAME = "authorized_data_store_name"
         val EMAIL_KEY = stringPreferencesKey("email_key")
         val NAME_KEY = stringPreferencesKey("name_key")
         val USER_TOKEN_KEY = stringPreferencesKey("user_token_key")

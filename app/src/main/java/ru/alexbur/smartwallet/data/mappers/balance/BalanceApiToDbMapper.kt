@@ -4,7 +4,7 @@ import ru.alexbur.smartwallet.data.db.entity.BalanceDb
 import ru.alexbur.smartwallet.data.service.api.BalanceApi
 import javax.inject.Inject
 
-class StringsDataToBalanceDbMapper @Inject constructor() :
+class BalanceApiToDbMapper @Inject constructor() :
         (String, BalanceApi) -> BalanceDb {
     override fun invoke(
         email: String,

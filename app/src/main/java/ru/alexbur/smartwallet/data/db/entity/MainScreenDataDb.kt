@@ -7,13 +7,13 @@ data class MainScreenDataDb(
     @Embedded
     val balanceDb: BalanceDb,
     @Relation(
-        parentColumn = "personId",
-        entityColumn = "personId"
+        parentColumn = "email",
+        entityColumn = "email"
     )
     val exchangeRatesDb: ExchangeRatesDb,
     @Relation(
-        parentColumn = "personId",
-        entityColumn = "personId"
+        parentColumn = "email",
+        entityColumn = "email"
     )
     val wallets: List<WalletDb>
 )

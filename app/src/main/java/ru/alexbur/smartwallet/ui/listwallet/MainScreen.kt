@@ -1,17 +1,16 @@
 package ru.alexbur.smartwallet.ui.listwallet
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -20,66 +19,58 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
-import ru.alexbur.smartwallet.domain.entities.listwallet.BalanceEntity
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
+import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
+import ru.alexbur.smartwallet.ui.listwallet.toolbar.MainCollapsingToolbar
 import ru.alexbur.smartwallet.ui.theme.BackgroundColor
 import javax.inject.Inject
 
 @Composable
 fun MainScreen(
-    navController: NavController? = null,
+    navController: NavController,
     mainViewModel: MainViewModel = hiltViewModel()
 ) {
-    val name = mainViewModel.nameFlow.collectAsState(initial = stringResource(id = R.string.unknown))
+    val name =
+        mainViewModel.nameFlow.collectAsState(initial = stringResource(id = R.string.unknown))
     val mainData = mainViewModel.mainScreenData.collectAsState()
+    val state = rememberLazyListState()
+    val isShimmer = mainData.value == MainScreenDataEntity.shimmerData
 
-    Box(
-        modifier = Modifier
+    Column(
+        Modifier
             .fillMaxSize()
             .background(BackgroundColor)
             .padding(24.dp)
     ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
+
+        MainCollapsingToolbar(
+            isShimmer = isShimmer,
+            name = name.value,
+            mainData = mainData.value
+        )
+
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth(),
+            state = state
         ) {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.hello, name),
-                color = Color.White,
-                fontWeight = FontWeight(700),
-                style = MaterialTheme.typography.subtitle1
-            )
-
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp),
-                text = stringResource(id = R.string.main_text_welcome, name),
-                color = Color.White,
-                style = MaterialTheme.typography.subtitle2
-            )
-
-            if (mainData.value == MainScreenDataEntity.shimmerData){
-                //
-            }else{
-
+            items(
+                mainData.value.wallets.size
+            ) { index ->
+                WalletItem(
+                    mainData.value.wallets[index],
+                    isShimmer = isShimmer
+                )
             }
         }
     }
 }
 
 @Composable
-@Preview
-fun PreviewMainScreen(){
-    MainScreen()
-}
-
-@Composable
-fun MainCard(
-    balance: BalanceEntity
-){
+fun WalletItem(
+    walletEntity: WalletEntity,
+    isShimmer: Boolean
+) {
 
 }
 

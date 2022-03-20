@@ -14,5 +14,6 @@ data class WalletDb(
     val limit: String?,
     val currency: String,
     val isExceededLimit: Boolean,
-    val isHide: Boolean
+    val isHide: Boolean,
+    val email: String
 )
