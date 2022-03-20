@@ -1,15 +1,15 @@
 package ru.alexbur.smartwallet.ui.listwallet
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,31 +36,40 @@ fun MainScreen(
     val state = rememberLazyListState()
     val isShimmer = mainData.value == MainScreenDataEntity.shimmerData
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(BackgroundColor)
-            .padding(24.dp)
-    ) {
-
-        MainCollapsingToolbar(
-            isShimmer = isShimmer,
-            name = name.value,
-            mainData = mainData.value
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(BackgroundColor)) {
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(id = R.drawable.main_background_image),
+            contentDescription = "Main background image",
+            contentScale = ContentScale.FillWidth
         )
-
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth(),
-            state = state
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(24.dp)
         ) {
-            items(
-                mainData.value.wallets.size
-            ) { index ->
-                WalletItem(
-                    mainData.value.wallets[index],
-                    isShimmer = isShimmer
-                )
+
+            MainCollapsingToolbar(
+                isShimmer = isShimmer,
+                name = name.value,
+                mainData = mainData.value
+            )
+
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                state = state
+            ) {
+                items(
+                    mainData.value.wallets.size
+                ) { index ->
+                    WalletItem(
+                        mainData.value.wallets[index],
+                        isShimmer = isShimmer
+                    )
+                }
             }
         }
     }

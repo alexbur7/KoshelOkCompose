@@ -19,7 +19,7 @@ fun MainCollapsingToolbar(
     isShimmer: Boolean,
     name: String?,
     mainData: MainScreenDataEntity
-){
+) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = stringResource(
@@ -49,5 +49,11 @@ fun MainCollapsingToolbar(
         isShimmer = isShimmer
     )
 
-    CurrenciesCard(isShimmer = isShimmer)
+    CurrenciesCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp),
+        isShimmer = isShimmer,
+        exchangeRatesEntity = mainData.exchangeRatesEntity
+    )
 }
