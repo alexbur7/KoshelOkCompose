@@ -23,7 +23,7 @@ import ru.alexbur.smartwallet.domain.entities.listwallet.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.listwallet.ExchangeRatesEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.theme.BackgroundCourseColor
-import ru.alexbur.smartwallet.ui.theme.BackgroundMainCardColor
+import ru.alexbur.smartwallet.ui.theme.BackgroundMainCardFirstColor
 import ru.alexbur.smartwallet.ui.theme.ShimmerPlaceHolderColor
 
 @Composable
@@ -38,7 +38,7 @@ fun CurrenciesCard(
             .background(BackgroundCourseColor)
             .placeholder(
                 visible = isShimmer,
-                color = BackgroundMainCardColor,
+                color = BackgroundMainCardFirstColor,
                 highlight = PlaceholderHighlight.shimmer(
                     highlightColor = ShimmerPlaceHolderColor
                 )

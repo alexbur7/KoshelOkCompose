@@ -1,12 +1,14 @@
 package ru.alexbur.smartwallet.ui.listwallet.toolbar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -19,8 +21,7 @@ import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.listwallet.BalanceEntity
-import ru.alexbur.smartwallet.ui.theme.BackgroundMainCardColor
-import ru.alexbur.smartwallet.ui.theme.ShimmerPlaceHolderColor
+import ru.alexbur.smartwallet.ui.theme.*
 
 @Composable
 fun CardWithBalance(
@@ -31,10 +32,26 @@ fun CardWithBalance(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(24.dp))
-            .background(color = BackgroundMainCardColor)
+            .border(
+                width = 1.dp, brush = Brush.linearGradient(
+                    listOf(
+                        CardFirstBorderColor,
+                        TransparentColor,
+                        TransparentColor
+                    )
+                ), shape = RoundedCornerShape(24.dp)
+            )
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        BackgroundMainCardFirstColor,
+                        BackgroundMainCardSecondColor
+                    )
+                )
+            )
             .placeholder(
                 visible = isShimmer,
-                color = BackgroundMainCardColor,
+                color = BackgroundMainCardFirstColor,
                 highlight = PlaceholderHighlight.shimmer(
                     highlightColor = ShimmerPlaceHolderColor
                 )
@@ -52,7 +69,7 @@ fun CardWithBalance(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(top = 6.dp),
-            text = stringResource(id = R.string.count_money,balance.amountMoney),
+            text = stringResource(id = R.string.count_money, balance.amountMoney),
             style = TextStyle(color = Color.White, fontSize = 32.sp, fontWeight = FontWeight(500))
         )
         Row(
@@ -89,7 +106,11 @@ fun CardWithBalancePreview() {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        balance = BalanceEntity("10000000000000000000", "10253950385298532985913593523", "913523355313"),
+        balance = BalanceEntity(
+            "10000000000000000000",
+            "10253950385298532985913593523",
+            "913523355313"
+        ),
         isShimmer = false
     )
 }
