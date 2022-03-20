@@ -5,19 +5,18 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,15 +34,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import ru.alexbur.smartwallet.R
+import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.enums.LoadingState
-import ru.alexbur.smartwallet.ui.listwallet.MainScreenFactory
-import ru.alexbur.smartwallet.ui.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.theme.PingDarkColor
-import ru.alexbur.smartwallet.ui.theme.PingLightColor
-import ru.alexbur.smartwallet.ui.theme.TextGrayColor
+import ru.alexbur.smartwallet.ui.listwallet.ListWalletScreenFactory
 import ru.alexbur.smartwallet.ui.utils.ButtonState
 import ru.alexbur.smartwallet.ui.utils.GradientButton
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
+import ru.alexbur.smartwallet.ui.utils.theme.PingDarkColor
+import ru.alexbur.smartwallet.ui.utils.theme.PingLightColor
 import javax.inject.Inject
 
 @Composable
@@ -92,7 +91,7 @@ fun AuthorizationScreen(
         when (state.value) {
             LoadingState.LOAD_SUCCEED -> {
                 buttonState = ButtonState.ENABLED
-                navController.navigate(MainScreenFactory.route)
+                navController.navigate(ListWalletScreenFactory.route)
             }
             LoadingState.LOAD_IN_PROGRESS -> {
                 buttonState = ButtonState.LOADING
@@ -107,7 +106,6 @@ fun AuthorizationScreen(
                 errorState.value,
                 duration = SnackbarDuration.Short
             )
-            navController.navigate(MainScreenFactory.route)
         }
     }
 
@@ -138,7 +136,7 @@ fun AuthorizationScreen(
                 ),
             textStyle = TextStyle(
                 color = Color.White,
-                fontWeight = FontWeight(700),
+                fontWeight = FontWeight(500),
                 textAlign = TextAlign.Center,
                 fontSize = 16.sp
             )
@@ -148,45 +146,6 @@ fun AuthorizationScreen(
         }
 
         SnackbarHost(hostState = snackBarHostState)
-    }
-}
-
-@Composable
-private fun WelcomePartScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            modifier = Modifier
-                .padding(horizontal = 30.dp)
-                .fillMaxWidth(),
-
-            painter = painterResource(id = R.drawable.auth_main),
-            contentDescription = "Auth main image",
-            contentScale = ContentScale.FillWidth
-        )
-
-        Text(
-            text = stringResource(id = R.string.title_welcome),
-            modifier = Modifier.fillMaxWidth(),
-            color = Color.White,
-            style = MaterialTheme.typography.h4,
-            fontWeight = FontWeight(700),
-            textAlign = TextAlign.Center
-        )
-
-        Text(
-            text = stringResource(id = R.string.text_welcome),
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth(),
-            color = TextGrayColor,
-            style = MaterialTheme.typography.subtitle1,
-            textAlign = TextAlign.Center
-        )
     }
 }
 
@@ -213,7 +172,10 @@ class AuthResultContract : ActivityResultContract<Int, Task<GoogleSignInAccount>
 
 class AuthorizationScreenFactory @Inject constructor() : NavigationScreenFactory {
 
-    companion object Companion : NavigationScreenFactory.NavigationFactoryCompanion
+    companion object Companion : NavigationFactory.NavigationFactoryCompanion
+
+    override val factoryType: List<NavigationFactory.NavigationFactoryType>
+        get() = listOf(NavigationFactory.NavigationFactoryType.Main)
 
     override fun create(builder: NavGraphBuilder, navGraph: NavHostController) {
         builder.composable(

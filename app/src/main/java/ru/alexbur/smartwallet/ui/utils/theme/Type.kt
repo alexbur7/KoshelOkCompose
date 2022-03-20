@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.theme
+package ru.alexbur.smartwallet.ui.utils.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

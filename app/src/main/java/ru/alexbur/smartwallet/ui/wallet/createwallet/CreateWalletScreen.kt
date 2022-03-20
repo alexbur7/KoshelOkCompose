@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.createwallet
+package ru.alexbur.smartwallet.ui.wallet.createwallet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,10 +24,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import ru.alexbur.smartwallet.R
+import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
-import ru.alexbur.smartwallet.ui.createwallet.edittext.OutlinedEditText
-import ru.alexbur.smartwallet.ui.listcurrency.CurrenciesScreenNavigation
-import ru.alexbur.smartwallet.ui.theme.BackgroundColor
+import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
+import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenNavigation
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import javax.inject.Inject
 
 @Composable
@@ -119,7 +120,10 @@ fun CreateWalletScreen(
 
 class CreateWalletScreenFactory @Inject constructor() : NavigationScreenFactory {
 
-    companion object Companion : NavigationScreenFactory.NavigationFactoryCompanion
+    companion object Companion : NavigationFactory.NavigationFactoryCompanion
+
+    override val factoryType: List<NavigationFactory.NavigationFactoryType>
+        get() = listOf(NavigationFactory.NavigationFactoryType.Nested)
 
     override fun create(builder: NavGraphBuilder, navGraph: NavHostController) {
         builder.composable(

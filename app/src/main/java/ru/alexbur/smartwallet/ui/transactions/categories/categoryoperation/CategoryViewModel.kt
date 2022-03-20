@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.categories.categoryoperation
+package ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

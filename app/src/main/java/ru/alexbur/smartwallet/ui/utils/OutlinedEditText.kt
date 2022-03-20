@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.createwallet.edittext
+package ru.alexbur.smartwallet.ui.utils
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,8 +15,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.alexbur.smartwallet.ui.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.theme.TextFieldBorderColor
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
+import ru.alexbur.smartwallet.ui.utils.theme.TextFieldBorderColor
 
 @Composable
 fun OutlinedEditText(

@@ -21,7 +21,7 @@ import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.listwallet.BalanceEntity
-import ru.alexbur.smartwallet.ui.theme.*
+import ru.alexbur.smartwallet.ui.utils.theme.*
 
 @Composable
 fun CardWithBalance(

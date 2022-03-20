@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.categories.createcategory
+package ru.alexbur.smartwallet.ui.transactions.categories.createcategory
 
 import android.graphics.Color
 import androidx.lifecycle.viewModelScope

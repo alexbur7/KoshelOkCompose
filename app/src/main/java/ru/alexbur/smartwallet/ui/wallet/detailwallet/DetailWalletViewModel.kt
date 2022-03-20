@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet
+package ru.alexbur.smartwallet.ui.wallet.detailwallet
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -18,12 +18,12 @@ import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
 
-class WalletViewModel @AssistedInject constructor(
+class DetailWalletViewModel @AssistedInject constructor(
     @Assisted
     private val walletId: Long,
     private val detailWalletRepository: DetailWalletRepository,
     private val deleteTransactionRepository: DeleteTransactionRepository
-) : BaseViewModel<WalletViewModel.Event>() {
+) : BaseViewModel<DetailWalletViewModel.Event>() {
 
     val detailWalletData: StateFlow<List<DetailWalletItem>>
         get() = _detailWalletData.asStateFlow()
@@ -120,7 +120,7 @@ class WalletViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(walletId: Long): WalletViewModel
+        fun create(walletId: Long): DetailWalletViewModel
     }
 
     @Suppress("UNCHECKED_CAST")

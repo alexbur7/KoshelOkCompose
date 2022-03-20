@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.createwallet
+package ru.alexbur.smartwallet.ui.wallet.createwallet
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel

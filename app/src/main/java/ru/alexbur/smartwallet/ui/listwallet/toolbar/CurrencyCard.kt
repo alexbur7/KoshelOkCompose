@@ -22,9 +22,9 @@ import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.listwallet.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.listwallet.ExchangeRatesEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
-import ru.alexbur.smartwallet.ui.theme.BackgroundCourseColor
-import ru.alexbur.smartwallet.ui.theme.BackgroundMainCardFirstColor
-import ru.alexbur.smartwallet.ui.theme.ShimmerPlaceHolderColor
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundCourseColor
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardFirstColor
+import ru.alexbur.smartwallet.ui.utils.theme.ShimmerPlaceHolderColor
 
 @Composable
 fun CurrenciesCard(

@@ -14,10 +14,10 @@ import ru.alexbur.smartwallet.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class ListWalletViewModel @Inject constructor(
     private val mainScreenRepository: MainScreenRepository,
     private val deleteWalletRepository: DeleteWalletRepository,
-) : BaseViewModel<MainViewModel.Event>() {
+) : BaseViewModel<ListWalletViewModel.Event>() {
 
     val loadStateData: Flow<LoadingState>
         get() = _loadStateData.asStateFlow().onEach { delay(100L) }

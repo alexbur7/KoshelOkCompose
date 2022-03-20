@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.listcurrency
+package ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
