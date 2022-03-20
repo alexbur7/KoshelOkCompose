@@ -81,7 +81,6 @@
     <string name="ask_color">Задать цвет</string>
     <string name="limit_not_install">Лимит не установлен</string>
     <string name="RUB">Руссийский рубль (RUB)</string>
-    <string name="russian_rub">Российский рубль</string>
     <string name="choose_color">Выберите цвет</string>
     <string name="title_category">Название категории</string>
     <string name="category1">Категория1</string>
@@ -101,4 +100,5 @@
     <string name="unknown">Неизвестный</string>
     <string name="hello">Привет, %1$s</string>
     <string name="main_text_welcome">Добро пожаловать!</string>
+    <string name="limit_wallet">Лимит</string>
 </resources>

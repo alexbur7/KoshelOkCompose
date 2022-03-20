@@ -46,4 +46,7 @@ interface BindsRepositoryModule {
     @Binds
     fun bindDeleteWalletRepository(deleteWalletRepositoryImpl: DeleteWalletRepositoryImpl)
             : DeleteWalletRepository
+
+    @Binds
+    fun bindCurrencyRepository(currencyRepositoryImpl: CurrencyRepositoryImpl): CurrencyRepository
 }

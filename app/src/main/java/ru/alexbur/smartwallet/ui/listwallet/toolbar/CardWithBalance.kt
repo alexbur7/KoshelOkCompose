@@ -36,8 +36,8 @@ fun CardWithBalance(
                 width = 1.dp, brush = Brush.linearGradient(
                     listOf(
                         CardFirstBorderColor,
-                        TransparentColor,
-                        TransparentColor
+                        Color.Transparent,
+                        Color.Transparent
                     )
                 ), shape = RoundedCornerShape(24.dp)
             )

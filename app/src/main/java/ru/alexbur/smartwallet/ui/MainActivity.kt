@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.auth.AuthorizationScreenFactory
+import ru.alexbur.smartwallet.ui.createwallet.CreateWalletScreenFactory
 import ru.alexbur.smartwallet.ui.listwallet.MainScreenFactory
 import ru.alexbur.smartwallet.ui.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.theme.SmartWalletTheme
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
                 Surface() {
                     NavHost(
                         navController = navController,
-                        startDestination = if (account == null) AuthorizationScreenFactory.route else MainScreenFactory.route
+                        startDestination = if (account == null) AuthorizationScreenFactory.route else CreateWalletScreenFactory.route
                     ) {
                         factorySet.forEach {
                             it.create(this, navController)
