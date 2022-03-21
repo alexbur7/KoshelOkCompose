@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                 Surface {
                     NavHost(
                         navController = navController,
-                        startDestination = if (account == null) NavItem.Authorization.route else NavItem.MainScreen.route
+                        startDestination = NavItem.MainScreen.route//®if (account == null) NavItem.Authorization.route else NavItem.MainScreen.route
                     ) {
                         mutableSetOf<NavigationFactory>().apply {
                             addAll(

@@ -18,7 +18,7 @@ sealed class NavItem(val route: String) {
         @DrawableRes
         val icon: Int,
         @DrawableRes
-        val chooseIcon: Int,
+        val selectedIcon: Int,
         val route: String
     ) {
         Profile(
