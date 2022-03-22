@@ -26,6 +26,8 @@ class NavBarViewModel @Inject constructor(
         get() = _loadStateData.asStateFlow().onEach { delay(300) }
     val errorState: StateFlow<String>
         get() = _errorData.asStateFlow()
+    val walletIdData: Flow<Long>
+        get() = savingDataManager.walletFlow.map { it?.id ?: -1L }
 
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
     private val _errorData = MutableStateFlow("")

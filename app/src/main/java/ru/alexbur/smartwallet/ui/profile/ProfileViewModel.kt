@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.listwallet
+package ru.alexbur.smartwallet.ui.profile
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,10 +14,10 @@ import ru.alexbur.smartwallet.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ListWalletViewModel @Inject constructor(
+class ProfileViewModel @Inject constructor(
     private val mainScreenRepository: MainScreenRepository,
     private val deleteWalletRepository: DeleteWalletRepository,
-) : BaseViewModel<ListWalletViewModel.Event>() {
+) : BaseViewModel<ProfileViewModel.Event>() {
 
     val loadStateData: Flow<LoadingState>
         get() = _loadStateData.asStateFlow().onEach { delay(100L) }

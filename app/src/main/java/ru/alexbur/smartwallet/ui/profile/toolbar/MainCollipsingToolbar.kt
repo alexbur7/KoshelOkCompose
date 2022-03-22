@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.listwallet.toolbar
+package ru.alexbur.smartwallet.ui.profile.toolbar
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

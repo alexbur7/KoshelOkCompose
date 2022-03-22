@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
+import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
 
 @Composable
 fun BottomNavBar(
@@ -38,6 +39,8 @@ fun BottomNavBar(
 
     val loadState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
     val errorState = viewModel.errorState.collectAsState("")
+    val walletIdState = viewModel.walletIdData.collectAsState(initial = -1L)
+
     val snackBarHostState = SnackbarHostState()
 
     LaunchedEffect(key1 = loadState.value) {
@@ -56,6 +59,7 @@ fun BottomNavBar(
                         inclusive = true
                     }
                 }
+                navController.navigate("${DetailWalletScreenFactory.route}/${walletIdState.value}")
             }
             LoadingState.LOAD_DEFAULT -> {}
         }

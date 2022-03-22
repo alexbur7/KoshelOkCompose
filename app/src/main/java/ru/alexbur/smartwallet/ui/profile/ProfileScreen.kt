@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.listwallet
+package ru.alexbur.smartwallet.ui.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,14 +22,14 @@ import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
-import ru.alexbur.smartwallet.ui.listwallet.toolbar.MainCollapsingToolbar
+import ru.alexbur.smartwallet.ui.profile.toolbar.MainCollapsingToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import javax.inject.Inject
 
 @Composable
 fun MainScreen(
     navController: NavController,
-    mainViewModel: ListWalletViewModel = hiltViewModel()
+    mainViewModel: ProfileViewModel = hiltViewModel()
 ) {
     val name =
         mainViewModel.nameFlow.collectAsState(initial = stringResource(id = R.string.unknown))

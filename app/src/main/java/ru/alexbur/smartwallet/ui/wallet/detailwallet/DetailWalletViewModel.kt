@@ -120,7 +120,9 @@ class DetailWalletViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(walletId: Long): DetailWalletViewModel
+        fun create(
+            walletId: Long
+        ): DetailWalletViewModel
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -130,7 +132,9 @@ class DetailWalletViewModel @AssistedInject constructor(
             walletId: Long
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(walletId) as T
+                return assistedFactory.create(
+                    walletId
+                ) as T
             }
         }
     }

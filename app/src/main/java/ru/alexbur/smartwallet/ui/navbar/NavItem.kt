@@ -3,7 +3,7 @@ package ru.alexbur.smartwallet.ui.navbar
 import androidx.annotation.DrawableRes
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.ui.auth.AuthorizationScreenFactory
-import ru.alexbur.smartwallet.ui.listwallet.ListWalletScreenFactory
+import ru.alexbur.smartwallet.ui.profile.ListWalletScreenFactory
 import ru.alexbur.smartwallet.ui.main.MainNavHostScreenFactory
 import ru.alexbur.smartwallet.ui.search.SearchWalletScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory

@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -13,12 +14,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import ru.alexbur.smartwallet.data.service.AppService
+import javax.inject.Singleton
 
 private const val BASE_URL = "http://34.88.54.200:9090/"
 
 @Module
 @OptIn(ExperimentalSerializationApi::class)
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 class NetworkModule {
 
     private val contentType = "application/json".toMediaType()
@@ -59,6 +61,7 @@ class NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun providesApi(retrofit: Retrofit): AppService {
         return retrofit.create(AppService::class.java)
     }

@@ -6,22 +6,17 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import ru.alexbur.smartwallet.data.repository.*
 import ru.alexbur.smartwallet.domain.repositories.*
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
 interface BindsRepositoryModule {
 
-    @Binds
-    fun bindDetailWalletRepository(detailWalletRepositoryImpl: DetailWalletRepositoryImpl)
-            : DetailWalletRepository
+
 
     @Binds
     fun bindListWalletRepository(listWalletRepositoryImpl: MainScreenRepositoryImpl)
             : MainScreenRepository
-
-    @Binds
-    fun bindOptionTransactionRepository(optionsTransactionRepositoryImpl: DeleteTransactionRepositoryImpl)
-            : DeleteTransactionRepository
 
     @Binds
     fun bindActionTransactionRepository(actionTransactionRepositoryImpl: CreateTransactionRepositoryImpl)
@@ -46,4 +41,12 @@ interface BindsRepositoryModule {
     @Binds
     fun bindDeleteWalletRepository(deleteWalletRepositoryImpl: DeleteWalletRepositoryImpl)
             : DeleteWalletRepository
+
+    @Binds
+    fun bindDetailWalletRepository(detailWalletRepositoryImpl: DetailWalletRepositoryImpl)
+            : DetailWalletRepository
+
+    @Binds
+    fun bindOptionTransactionRepository(optionsTransactionRepositoryImpl: DeleteTransactionRepositoryImpl)
+            : DeleteTransactionRepository
 }
