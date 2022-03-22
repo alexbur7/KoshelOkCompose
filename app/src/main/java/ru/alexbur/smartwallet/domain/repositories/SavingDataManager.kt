@@ -9,7 +9,7 @@ import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
 
 interface SavingDataManager {
-    val createWalletFlow: MutableStateFlow<CreateWalletEntity>
+    val createWalletFlow: MutableStateFlow<CreateWalletEntity?>
 
     val createTransactionFlow: MutableStateFlow<TransactionEntity?>
 

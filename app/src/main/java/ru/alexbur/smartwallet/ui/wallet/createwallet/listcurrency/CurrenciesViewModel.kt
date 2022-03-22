@@ -18,7 +18,7 @@ class CurrenciesViewModel @Inject constructor(
     private val savingDataManager: SavingDataManager
 ) : BaseViewModel<CurrenciesViewModel.Event>() {
 
-    val createWalletFlow: StateFlow<CreateWalletEntity>
+    val createWalletFlow: StateFlow<CreateWalletEntity?>
         get() = savingDataManager.createWalletFlow.asStateFlow()
 
     val currencies: StateFlow<List<Currency>> =
@@ -34,7 +34,7 @@ class CurrenciesViewModel @Inject constructor(
 
     private fun chooseCurrency(currency: Currency) = viewModelScope.launch {
         savingDataManager.createWalletFlow.emit(
-            savingDataManager.createWalletFlow.value.copy(
+            savingDataManager.createWalletFlow.value?.copy(
                 currency = currency
             )
         )

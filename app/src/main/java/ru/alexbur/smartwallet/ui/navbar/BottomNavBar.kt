@@ -9,7 +9,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -19,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
 
 @Composable
@@ -29,6 +35,31 @@ fun BottomNavBar(
 ) {
     val navControllerBackStackEntry = navController.currentBackStackEntryAsState()
     val route = navControllerBackStackEntry.value?.destination?.route
+
+    val loadState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
+    val errorState = viewModel.errorState.collectAsState("")
+    val snackBarHostState = SnackbarHostState()
+
+    LaunchedEffect(key1 = loadState.value) {
+        when (loadState.value) {
+            LoadingState.LOAD_FAILED -> {
+                snackBarHostState.showSnackbar(
+                    errorState.value,
+                    duration = SnackbarDuration.Short
+                )
+            }
+            LoadingState.LOAD_IN_PROGRESS -> {
+            }
+            LoadingState.LOAD_SUCCEED -> {
+                navController.navigate(NavItem.NavBarItems.Profile.route) {
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
+            }
+            LoadingState.LOAD_DEFAULT -> {}
+        }
+    }
 
     Row(
         Modifier
@@ -62,13 +93,8 @@ fun BottomNavBar(
                                 restoreState = true
                             }
                         }
-                    } else if (tab.route == route && tab == NavItem.NavBarItems.NewWallet) {
-                        navController.navigate(NavItem.NavBarItems.Profile.route) {
-                            popUpTo(navController.graph.startDestinationId) {
-                                inclusive = true
-                            }
-                        }
-                        //TODO здесь надо сохранить данные, возмонжо стоит сделать в dispose эффекте на экрнае(проверить)
+                    } else if (tab.route == route && tab == NavItem.NavBarItems.NewItem) {
+                        viewModel.obtainEvent(NavBarViewModel.Event.CreateWalletStarted)
                     }
                 },
                 icon = {
@@ -81,39 +107,5 @@ fun BottomNavBar(
         }
     }
 
-
-    /*BottomNavigation(
-        modifier =
-        Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .clip(RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp)),
-    ) {
-        items.forEach { tab ->
-            val isSelected = tab.route == route
-            BottomNavigationItem(
-                modifier = Modifier,
-                selected = isSelected,
-                onClick = {
-                    if (tab.route != route) {
-                        with(navController) {
-                            navigate(tab.route) {
-                                launchSingleTop = true
-                                popUpTo(graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                restoreState = true
-                            }
-                        }
-                    }
-                },
-                icon = {
-                    Image(
-                        painter = painterResource(id = if (isSelected) tab.selectedIcon else tab.icon),
-                        contentDescription = "Image in bottom navigation image"
-                    )
-                }
-            )
-        }
-    }*/
+    SnackbarHost(hostState = snackBarHostState)
 }

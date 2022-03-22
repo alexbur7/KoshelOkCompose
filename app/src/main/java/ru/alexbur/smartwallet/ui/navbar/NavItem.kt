@@ -27,7 +27,7 @@ sealed class NavItem(val route: String) {
             ListWalletScreenFactory.route
         ),
 
-        NewWallet(
+        NewItem(
             R.drawable.new_wallet_icon,
             R.drawable.new_wallet_confirm_icon,
             CreateWalletScreenFactory.route

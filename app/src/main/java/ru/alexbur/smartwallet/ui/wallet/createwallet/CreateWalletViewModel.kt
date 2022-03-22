@@ -16,29 +16,37 @@ class CreateWalletViewModel @Inject constructor(
     private val savingDataManager: SavingDataManager
 ) : BaseViewModel<CreateWalletViewModel.Event>() {
 
-    val createWalletFlow: StateFlow<CreateWalletEntity>
+    val createWalletFlow: StateFlow<CreateWalletEntity?>
         get() = savingDataManager.createWalletFlow.asStateFlow()
 
     override fun obtainEvent(event: Event) {
         when (event) {
+            is Event.InitCreateWallet -> {
+                initCreateWallet(createWalletEntity = event.createWalletEntity)
+            }
             is Event.UpdateNameWallet -> {
-                updateNameWallet(event.name)
+                updateNameWallet(name = event.name)
             }
             is Event.UpdateLimitWallet -> {
-                updateLimitWallet(event.limit)
+                updateLimitWallet(limit = event.limit)
             }
         }
     }
 
+    private fun initCreateWallet(createWalletEntity: CreateWalletEntity) = viewModelScope.launch {
+        savingDataManager.createWalletFlow.emit(createWalletEntity)
+    }
+
     private fun updateNameWallet(name: String) = viewModelScope.launch {
-        savingDataManager.createWalletFlow.emit(savingDataManager.createWalletFlow.value.copy(name = name))
+        savingDataManager.createWalletFlow.emit(savingDataManager.createWalletFlow.value?.copy(name = name))
     }
 
     private fun updateLimitWallet(limit: String?) = viewModelScope.launch {
-        savingDataManager.createWalletFlow.emit(savingDataManager.createWalletFlow.value.copy(limit = limit))
+        savingDataManager.createWalletFlow.emit(savingDataManager.createWalletFlow.value?.copy(limit = limit))
     }
 
     sealed class Event : BaseEvent() {
+        class InitCreateWallet(val createWalletEntity: CreateWalletEntity) : Event()
         class UpdateNameWallet(val name: String) : Event()
         class UpdateLimitWallet(val limit: String?) : Event()
     }

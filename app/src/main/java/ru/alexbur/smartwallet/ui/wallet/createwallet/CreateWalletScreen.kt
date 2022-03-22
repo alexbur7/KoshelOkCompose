@@ -27,6 +27,8 @@ import androidx.navigation.compose.composable
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
+import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
+import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenNavigation
@@ -39,6 +41,14 @@ fun CreateWalletScreen(
 ) {
 
     val createWalletData = viewModel.createWalletFlow.collectAsState()
+    val initialCreateWallet = CreateWalletEntity(
+        limit = "100000",
+        name = stringResource(id = R.string.wallet_text),
+        currency = Currency.RUB
+    )
+    if (createWalletData.value == null) {
+        viewModel.obtainEvent(CreateWalletViewModel.Event.InitCreateWallet(initialCreateWallet))
+    }
 
     Box(
         modifier = Modifier
@@ -76,7 +86,7 @@ fun CreateWalletScreen(
                 onValueChanged = {
                     viewModel.obtainEvent(CreateWalletViewModel.Event.UpdateNameWallet(it))
                 },
-                initialField = stringResource(id = R.string.wallet_text)
+                initialField = createWalletData.value?.name ?: initialCreateWallet.name
             )
 
             OutlinedEditText(
@@ -87,7 +97,10 @@ fun CreateWalletScreen(
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.currency),
                 readOnly = true,
-                initialField = stringResource(id = createWalletData.value.currency.nameId)
+                initialField = stringResource(
+                    id = createWalletData.value?.currency?.nameId
+                        ?: initialCreateWallet.currency.nameId
+                )
             ) {
                 Image(
                     modifier = Modifier.clickable {
@@ -108,7 +121,7 @@ fun CreateWalletScreen(
                 onValueChanged = {
                     viewModel.obtainEvent(CreateWalletViewModel.Event.UpdateLimitWallet(it))
                 },
-                initialField = "100000",
+                initialField = createWalletData.value?.limit ?: initialCreateWallet.limit,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 maxLength = 10
             )

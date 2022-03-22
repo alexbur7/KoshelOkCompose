@@ -2,13 +2,10 @@ package ru.alexbur.smartwallet.ui.navbar
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
-import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.repositories.CreateTransactionRepository
@@ -25,19 +22,21 @@ class NavBarViewModel @Inject constructor(
     private val savingDataManager: SavingDataManager
 ) : BaseViewModel<NavBarViewModel.Event>() {
 
-    val loadingState: StateFlow<LoadingState>
-        get() = _loadStateData.asStateFlow()
-    val createWalletState: StateFlow<CreateWalletEntity>
-        get() = savingDataManager.createWalletFlow.asStateFlow()
+    val loadingState: Flow<LoadingState>
+        get() = _loadStateData.asStateFlow().onEach { delay(300) }
+    val errorState: StateFlow<String>
+        get() = _errorData.asStateFlow()
+
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
+    private val _errorData = MutableStateFlow("")
 
     override fun obtainEvent(event: Event) {
         when (event) {
             is Event.CreateWalletStarted -> {
-                createWallet(createWallet = event.createWallet)
+                createWallet()
             }
             is Event.CreateTransactionStarted -> {
-                createTransaction(event.transaction)
+                createTransaction()
             }
             is Event.CreateDataFailed -> {
                 failedCreateItem(error = event.error)
@@ -51,40 +50,50 @@ class NavBarViewModel @Inject constructor(
         }
     }
 
-    private fun createWallet(createWallet: CreateWalletEntity) = viewModelScope.launch {
+    private fun createWallet() = viewModelScope.launch {
+        val createWallet = savingDataManager.createWalletFlow.value ?: return@launch
+        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
         createWalletRepository.createWallet(createWallet)
             .onSuccess {
                 obtainEvent(Event.CreateWalletSucceed(it))
             }.onFailure {
-                obtainEvent(Event.CreateDataFailed(it.localizedMessage))
+                obtainEvent(Event.CreateDataFailed(it.localizedMessage ?: ""))
             }
     }
 
-    private fun createTransaction(transaction: TransactionEntity) = viewModelScope.launch {
-        createTransactionRepository.createTransaction(transaction)
+    private fun createTransaction() = viewModelScope.launch {
+        val transaction = savingDataManager.createTransactionFlow.value ?: return@launch
+        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+        createTransactionRepository.createTransaction(transactionEntity = transaction)
             .onSuccess {
                 obtainEvent(Event.CreateTransactionSucceed(it))
             }.onFailure {
-                obtainEvent(Event.CreateDataFailed(it.localizedMessage))
+                obtainEvent(Event.CreateDataFailed(it.localizedMessage ?: ""))
             }
     }
 
-    private fun failedCreateItem(error: String?) = viewModelScope.launch {
+    private fun failedCreateItem(error: String) = viewModelScope.launch {
+        _errorData.emit(error)
         _loadStateData.emit(LoadingState.LOAD_FAILED)
     }
 
     private fun succeedCreateWallet(wallet: WalletEntity) = viewModelScope.launch {
+        savingDataManager.walletFlow.emit(wallet)
+        savingDataManager.createWalletFlow.emit(null)
         _loadStateData.emit(LoadingState.LOAD_SUCCEED)
     }
 
-    private fun succeedCreteTransaction(transaction: DetailWalletItem.Transaction) = viewModelScope.launch {
-        _loadStateData.emit(LoadingState.LOAD_SUCCEED)
-    }
+    private fun succeedCreteTransaction(transaction: DetailWalletItem.Transaction) =
+        viewModelScope.launch {
+            savingDataManager.transactionFlow.emit(transaction)
+            savingDataManager.createTransactionFlow.emit(null)
+            _loadStateData.emit(LoadingState.LOAD_SUCCEED)
+        }
 
     sealed class Event : BaseEvent() {
-        class CreateWalletStarted(val createWallet: CreateWalletEntity) : Event()
-        class CreateTransactionStarted(val transaction: TransactionEntity) : Event()
-        class CreateDataFailed(val error: String?) : Event()
+        object CreateWalletStarted : Event()
+        object CreateTransactionStarted : Event()
+        class CreateDataFailed(val error: String) : Event()
         class CreateWalletSucceed(val wallet: WalletEntity) : Event()
         class CreateTransactionSucceed(val transaction: DetailWalletItem.Transaction) : Event()
     }

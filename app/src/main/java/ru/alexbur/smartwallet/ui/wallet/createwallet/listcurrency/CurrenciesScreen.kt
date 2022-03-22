@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
+import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import javax.inject.Inject
 
@@ -30,7 +31,7 @@ fun CurrenciesScreen(
     val currencies = viewModel.currencies.collectAsState()
 
     var currentCurrency by rememberSaveable {
-        mutableStateOf(viewModel.createWalletFlow.value.currency)
+        mutableStateOf(viewModel.createWalletFlow.value?.currency ?: Currency.RUB)
     }
 
     Box(

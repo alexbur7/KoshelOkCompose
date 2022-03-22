@@ -22,7 +22,7 @@ import ru.alexbur.smartwallet.ui.utils.theme.TextFieldBorderColor
 fun OutlinedEditText(
     modifier: Modifier,
     textLabel: String,
-    initialField: String = "",
+    initialField: String? = null,
     onValueChanged: (String) -> Unit = { },
     readOnly: Boolean = false,
     maxLength: Int = Int.MAX_VALUE,
@@ -35,7 +35,7 @@ fun OutlinedEditText(
 
     OutlinedTextField(
         modifier = modifier,
-        value = text,
+        value = text ?: "",
         onValueChange = {
             if ((it.isNumber() || keyboardOptions == KeyboardOptions.Default) && it.length < maxLength) {
                 text = it
