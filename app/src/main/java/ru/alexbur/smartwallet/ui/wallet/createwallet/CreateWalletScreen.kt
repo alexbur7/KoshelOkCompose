@@ -6,7 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -27,8 +28,8 @@ import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
-import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenNavigation
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
+import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenNavigation
 import javax.inject.Inject
 
 @Composable
@@ -36,15 +37,8 @@ fun CreateWalletScreen(
     navigation: NavController,
     viewModel: CreateWalletViewModel = hiltViewModel()
 ) {
-    var nameWallet by remember {
-        mutableStateOf("")
-    }
 
-    val currencyWallet = viewModel.currentCurrency.collectAsState()
-
-    var limitWallet by remember {
-        mutableStateOf("")
-    }
+    val createWalletData = viewModel.createWalletFlow.collectAsState()
 
     Box(
         modifier = Modifier
@@ -79,7 +73,9 @@ fun CreateWalletScreen(
                     .wrapContentHeight()
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.title_wallet),
-                onValueChanged = { nameWallet = it },
+                onValueChanged = {
+                    viewModel.obtainEvent(CreateWalletViewModel.Event.UpdateNameWallet(it))
+                },
                 initialField = stringResource(id = R.string.wallet_text)
             )
 
@@ -91,7 +87,7 @@ fun CreateWalletScreen(
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.currency),
                 readOnly = true,
-                initialField = stringResource(id = currencyWallet.value.nameId)
+                initialField = stringResource(id = createWalletData.value.currency.nameId)
             ) {
                 Image(
                     modifier = Modifier.clickable {
@@ -109,7 +105,9 @@ fun CreateWalletScreen(
                     .wrapContentHeight()
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.limit_wallet),
-                onValueChanged = { limitWallet = it },
+                onValueChanged = {
+                    viewModel.obtainEvent(CreateWalletViewModel.Event.UpdateLimitWallet(it))
+                },
                 initialField = "100000",
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 maxLength = 10

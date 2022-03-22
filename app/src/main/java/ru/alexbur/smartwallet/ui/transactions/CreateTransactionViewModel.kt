@@ -8,13 +8,13 @@ import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
-import ru.alexbur.smartwallet.domain.repositories.ActionTransactionRepository
+import ru.alexbur.smartwallet.domain.repositories.CreateTransactionRepository
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
 import javax.inject.Inject
 
 class CreateTransactionViewModel @Inject constructor(
-    private val transactionRepository: ActionTransactionRepository,
+    private val transactionRepository: CreateTransactionRepository,
 ) : BaseViewModel<CreateTransactionViewModel.Event>() {
 
     val transactionEntity: StateFlow<DetailWalletItem.Transaction?>

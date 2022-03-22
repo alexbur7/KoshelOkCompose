@@ -3,7 +3,7 @@ package ru.alexbur.smartwallet.domain.repositories
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 
-interface ActionTransactionRepository {
+interface CreateTransactionRepository {
 
     suspend fun editTransaction(transactionEntity: TransactionEntity): Result<DetailWalletItem.Transaction>
 

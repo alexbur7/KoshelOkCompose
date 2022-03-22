@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -14,13 +15,14 @@ import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationHostFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.navbar.BottomNavBar
+import ru.alexbur.smartwallet.ui.navbar.NavBarViewModel
 import ru.alexbur.smartwallet.ui.navbar.NavItem
 import javax.inject.Inject
 
 @Composable
 fun MainNavHostScreen(
     modifier: Modifier,
-    navigationFactoryList: List<NavigationFactory>
+    navigationFactoryList: List<NavigationFactory>,
 ) {
     val controller = rememberNavController()
 

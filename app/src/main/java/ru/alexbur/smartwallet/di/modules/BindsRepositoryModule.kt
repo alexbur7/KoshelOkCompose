@@ -24,8 +24,8 @@ interface BindsRepositoryModule {
             : DeleteTransactionRepository
 
     @Binds
-    fun bindActionTransactionRepository(actionTransactionRepositoryImpl: ActionTransactionRepositoryImpl)
-            : ActionTransactionRepository
+    fun bindActionTransactionRepository(actionTransactionRepositoryImpl: CreateTransactionRepositoryImpl)
+            : CreateTransactionRepository
 
     @Binds
     fun bindCreateWalletRepository(createWalletRepositoryImpl: CreateWalletRepositoryImpl)

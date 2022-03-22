@@ -6,19 +6,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
-import ru.alexbur.smartwallet.domain.repositories.CurrencyRepository
+import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CurrenciesViewModel @Inject constructor(
-    private val currencyRepository: CurrencyRepository
+    private val savingDataManager: SavingDataManager
 ) : BaseViewModel<CurrenciesViewModel.Event>() {
 
-    val currentCurrency: StateFlow<Currency>
-        get() = currencyRepository._currentCurrency.asStateFlow()
+    val createWalletFlow: StateFlow<CreateWalletEntity>
+        get() = savingDataManager.createWalletFlow.asStateFlow()
 
     val currencies: StateFlow<List<Currency>> =
         MutableStateFlow(Currency.values().toList()).asStateFlow()
@@ -32,7 +33,11 @@ class CurrenciesViewModel @Inject constructor(
     }
 
     private fun chooseCurrency(currency: Currency) = viewModelScope.launch {
-        currencyRepository._currentCurrency.emit(currency)
+        savingDataManager.createWalletFlow.emit(
+            savingDataManager.createWalletFlow.value.copy(
+                currency = currency
+            )
+        )
     }
 
     sealed class Event : BaseEvent() {

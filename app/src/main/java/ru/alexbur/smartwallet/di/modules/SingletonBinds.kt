@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.alexbur.smartwallet.data.repository.CurrencyRepositoryImpl
-import ru.alexbur.smartwallet.domain.repositories.CurrencyRepository
+import ru.alexbur.smartwallet.data.repository.SavingDataManagerImpl
+import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import javax.inject.Singleton
 
 @Module
@@ -14,5 +14,5 @@ interface SingletonBinds {
 
     @Binds
     @Singleton
-    fun bindCurrencyRepository(currencyRepositoryImpl: CurrencyRepositoryImpl): CurrencyRepository
+    fun bindCurrencyRepository(savingDataManagerImpl: SavingDataManagerImpl): SavingDataManager
 }

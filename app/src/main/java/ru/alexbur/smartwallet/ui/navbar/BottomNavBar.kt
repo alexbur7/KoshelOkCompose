@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
@@ -23,7 +24,8 @@ import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
 @Composable
 fun BottomNavBar(
     items: Array<NavItem.NavBarItems>,
-    navController: NavController
+    navController: NavController,
+    viewModel: NavBarViewModel = hiltViewModel()
 ) {
     val navControllerBackStackEntry = navController.currentBackStackEntryAsState()
     val route = navControllerBackStackEntry.value?.destination?.route

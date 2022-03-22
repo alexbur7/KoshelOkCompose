@@ -6,14 +6,14 @@ import ru.alexbur.smartwallet.data.mappers.transactions.TransactionToTransaction
 import ru.alexbur.smartwallet.data.service.AppService
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
-import ru.alexbur.smartwallet.domain.repositories.ActionTransactionRepository
+import ru.alexbur.smartwallet.domain.repositories.CreateTransactionRepository
 import javax.inject.Inject
 
-class ActionTransactionRepositoryImpl @Inject constructor(
+class CreateTransactionRepositoryImpl @Inject constructor(
     private val mapper: TransactionToTransactionApiMapper,
     private val mapperTransaction: TransactionApiToDetailWalletTransactionMapper,
     private val appService: AppService
-) : ActionTransactionRepository {
+) : CreateTransactionRepository {
 
     override suspend fun editTransaction(transactionEntity: TransactionEntity): Result<DetailWalletItem.Transaction> {
         return resultRequest {

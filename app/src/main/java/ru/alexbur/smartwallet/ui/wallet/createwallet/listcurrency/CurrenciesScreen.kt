@@ -30,7 +30,7 @@ fun CurrenciesScreen(
     val currencies = viewModel.currencies.collectAsState()
 
     var currentCurrency by rememberSaveable {
-        mutableStateOf(viewModel.currentCurrency.value)
+        mutableStateOf(viewModel.createWalletFlow.value.currency)
     }
 
     Box(
@@ -56,7 +56,8 @@ fun CurrenciesScreen(
                     .wrapContentHeight(),
                 close = {
                     navController.popBackStack()
-                }, {
+                },
+                done = {
                     viewModel.obtainEvent(CurrenciesViewModel.Event.ChooseCurrency(currentCurrency))
                 }
             )
