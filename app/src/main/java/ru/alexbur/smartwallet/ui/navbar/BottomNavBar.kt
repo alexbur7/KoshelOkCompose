@@ -2,16 +2,10 @@ package ru.alexbur.smartwallet.ui.navbar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -69,7 +63,7 @@ fun BottomNavBar(
     Row(
         Modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(BottomNavigationHeight)
             .clip(RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp))
             .background(
                 brush = Brush.verticalGradient(
@@ -114,3 +108,5 @@ fun BottomNavBar(
 
     SnackbarHost(hostState = snackBarHostState)
 }
+
+val BottomNavigationHeight = 56.dp

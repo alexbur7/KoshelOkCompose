@@ -21,7 +21,10 @@ import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.listwallet.BalanceEntity
-import ru.alexbur.smartwallet.ui.utils.theme.*
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardFirstColor
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardSecondColor
+import ru.alexbur.smartwallet.ui.utils.theme.CardFirstBorderColor
+import ru.alexbur.smartwallet.ui.utils.theme.ShimmerPlaceHolderColor
 
 @Composable
 fun CardWithBalance(
@@ -29,9 +32,17 @@ fun CardWithBalance(
     balance: BalanceEntity,
     isShimmer: Boolean
 ) {
+
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(24.dp))
+            .placeholder(
+                visible = isShimmer,
+                color = BackgroundMainCardFirstColor,
+                highlight = PlaceholderHighlight.shimmer(
+                    highlightColor = ShimmerPlaceHolderColor
+                )
+            )
             .border(
                 width = 1.dp, brush = Brush.linearGradient(
                     listOf(
@@ -47,13 +58,6 @@ fun CardWithBalance(
                         BackgroundMainCardFirstColor,
                         BackgroundMainCardSecondColor
                     )
-                )
-            )
-            .placeholder(
-                visible = isShimmer,
-                color = BackgroundMainCardFirstColor,
-                highlight = PlaceholderHighlight.shimmer(
-                    highlightColor = ShimmerPlaceHolderColor
                 )
             )
             .padding(24.dp)

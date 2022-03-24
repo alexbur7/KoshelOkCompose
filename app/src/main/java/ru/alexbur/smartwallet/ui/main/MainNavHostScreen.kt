@@ -58,8 +58,7 @@ class MainNavHostScreenFactory @Inject constructor(
     override fun create(builder: NavGraphBuilder, navGraph: NavHostController) {
         builder.composable(route = route) {
             MainNavHostScreen(
-                modifier = Modifier
-                    .navigationBarsPadding(),
+                modifier = Modifier,
                 navigationFactoryList = navigationFactorySet
                     .filter(NavigationFactory.NavigationFactoryType.Nested)
             )

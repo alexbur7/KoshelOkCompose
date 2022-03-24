@@ -21,15 +21,11 @@ class MainScreenRepositoryImpl @Inject constructor(
         get() = accountDataStore.name
 
     override suspend fun getServerMainScreenData(): Result<MainScreenDataEntity> {
-        return resultRequest { appService.getDataForMainScreen() }
-            .onSuccess { mainData ->
-                accountDataStore.email.collect {
-                    if (it != null) {
-                        mainWalletSource.insertMainScreenData(it, mainData)
-                    }
-                }
+        return resultRequest { appService.getDataForMainScreen() }.onSuccess { data ->
+            accountDataStore.email.firstOrNull()?.let {
+                mainWalletSource.insertMainScreenData(it, data)
             }
-            .map(mapper)
+        }.map(mapper)
     }
 
     override suspend fun getDbMainScreenData(): Result<MainScreenDataEntity> {

@@ -67,8 +67,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun startNetworkLoading() = viewModelScope.launch {
-        mainScreenRepository.getServerMainScreenData()
-            .onSuccess {
+        mainScreenRepository.getServerMainScreenData().onSuccess {
                 obtainEvent(Event.OnLoadingNetworkSucceed(it))
             }.onFailure {
                 obtainEvent(Event.OnLoadingFailed(it.localizedMessage))

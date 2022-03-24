@@ -3,7 +3,7 @@ package ru.alexbur.smartwallet.ui.profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,13 +21,13 @@ import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
-import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
+import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.profile.toolbar.MainCollapsingToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import javax.inject.Inject
 
 @Composable
-fun MainScreen(
+fun ProfileScreen(
     navController: NavController,
     mainViewModel: ProfileViewModel = hiltViewModel()
 ) {
@@ -35,11 +35,12 @@ fun MainScreen(
         mainViewModel.nameFlow.collectAsState(initial = stringResource(id = R.string.unknown))
     val mainData = mainViewModel.mainScreenData.collectAsState()
     val state = rememberLazyListState()
-    val isShimmer = mainData.value == MainScreenDataEntity.shimmerData
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(BackgroundColor)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = BottomNavigationHeight)
+            .background(BackgroundColor)
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
@@ -50,16 +51,16 @@ fun MainScreen(
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(24.dp)
+                .padding(top = 24.dp, start = 24.dp, end = 24.dp)
         ) {
 
             MainCollapsingToolbar(
-                isShimmer = isShimmer,
+                isShimmer = mainData.value == MainScreenDataEntity.shimmerData,
                 name = name.value,
                 mainData = mainData.value
             )
 
-            LazyRow(
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth(),
                 state = state
@@ -69,7 +70,8 @@ fun MainScreen(
                 ) { index ->
                     WalletItem(
                         mainData.value.wallets[index],
-                        isShimmer = isShimmer
+                        isShimmer = mainData.value == MainScreenDataEntity.shimmerData,
+                        isLast = mainData.value.wallets.lastIndex == index
                     )
                 }
             }
@@ -86,7 +88,7 @@ class ListWalletScreenFactory @Inject constructor() : NavigationScreenFactory {
 
     override fun create(builder: NavGraphBuilder, navGraph: NavHostController) {
         builder.composable(route = route) {
-            MainScreen(navGraph)
+            ProfileScreen(navGraph)
         }
     }
 }
