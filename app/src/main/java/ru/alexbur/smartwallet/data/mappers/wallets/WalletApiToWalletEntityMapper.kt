@@ -13,6 +13,23 @@ class WalletApiToWalletEntityMapper @Inject constructor() : (WalletApi) -> Walle
             name = walletApi.name,
             amountMoney = walletApi.amountMoney,
             currency = Currency.valueOf(walletApi.currency),
-            isHide = walletApi.isHide
+            isHide = walletApi.isHide,
+            limit = walletApi.limit,
+            partSpending = calculatePartSpending(
+                limit = walletApi.limit,
+                consumption = walletApi.consumption
+            )
         )
+
+    private fun calculatePartSpending(limit: String?, consumption: String): Float? {
+        return if (limit != null && limit.toFloat() > 0) {
+            if (consumption.toFloat() > limit.toFloat()) {
+                1f
+            } else {
+                consumption.toFloat() / limit.toFloat()
+            }
+        } else {
+            null
+        }
+    }
 }

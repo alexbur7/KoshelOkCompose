@@ -7,7 +7,13 @@ import androidx.compose.material.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.data.extentions.filter
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
@@ -15,6 +21,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationHostFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.navbar.NavItem
 import ru.alexbur.smartwallet.ui.utils.theme.SmartWalletTheme
+import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,7 +43,7 @@ class MainActivity : ComponentActivity() {
                 Surface {
                     NavHost(
                         navController = navController,
-                        startDestination = NavItem.MainScreen.route//®if (account == null) NavItem.Authorization.route else NavItem.MainScreen.route
+                        startDestination = NavItem.MainScreen.route//if (account == null) NavItem.Authorization.route else NavItem.MainScreen.route
                     ) {
                         mutableSetOf<NavigationFactory>().apply {
                             addAll(
@@ -54,5 +61,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    @EntryPoint
+    @InstallIn(ViewModelComponent::class)
+    interface ViewModelFactoryProvider {
+        fun noteDetailViewModelFactory(): DetailWalletViewModel.Factory
     }
 }

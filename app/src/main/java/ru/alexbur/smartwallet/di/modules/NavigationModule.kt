@@ -3,7 +3,6 @@ package ru.alexbur.smartwallet.di.modules
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
@@ -19,41 +18,41 @@ import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(SingletonComponent::class)
 interface NavigationModule {
 
     @IntoSet
     @Binds
-    @ActivityRetainedScoped
+    @Singleton
     fun bindAuthorizationFactory(authNavigationScreenFactory: AuthorizationScreenFactory): NavigationScreenFactory
 
     @IntoSet
     @Binds
-    @ActivityRetainedScoped
+    @Singleton
     fun bindListWalletFactory(listWalletScreenFactory: ListWalletScreenFactory): NavigationScreenFactory
 
     @IntoSet
     @Binds
-    @ActivityRetainedScoped
+    @Singleton
     fun bindCreateWalletScreenFactory(createWalletScreenFactory: CreateWalletScreenFactory): NavigationScreenFactory
 
     @IntoSet
     @Binds
-    @ActivityRetainedScoped
+    @Singleton
     fun bindCurrenciesScreenFactory(currenciesScreenNavigation: CurrenciesScreenNavigation): NavigationScreenFactory
 
     @IntoSet
     @Binds
-    @ActivityRetainedScoped
+    @Singleton
     fun bindSearchWalletScreenFactory(searchWalletScreen: SearchWalletScreenFactory): NavigationScreenFactory
 
     @IntoSet
     @Binds
-    @ActivityRetainedScoped
+    @Singleton
     fun bindMainNavHostScreenFactory(mainNavHostScreenFactory: MainNavHostScreenFactory): NavigationHostFactory
 
     @IntoSet
     @Binds
-    @ActivityRetainedScoped
+    @Singleton
     fun bindDetailWalletScreenFactory(detailWalletScreenFactory: DetailWalletScreenFactory): NavigationScreenFactory
 }

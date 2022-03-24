@@ -77,14 +77,6 @@ fun MainScreen(
     }
 }
 
-@Composable
-fun WalletItem(
-    walletEntity: WalletEntity,
-    isShimmer: Boolean
-) {
-
-}
-
 class ListWalletScreenFactory @Inject constructor() : NavigationScreenFactory {
 
     companion object Companion : NavigationFactory.NavigationFactoryCompanion

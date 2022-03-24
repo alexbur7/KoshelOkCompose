@@ -15,6 +15,7 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -34,8 +35,8 @@ fun BottomNavBar(
     navController: NavController,
     viewModel: NavBarViewModel = hiltViewModel()
 ) {
-    val navControllerBackStackEntry = navController.currentBackStackEntryAsState()
-    val route = navControllerBackStackEntry.value?.destination?.route
+    val navControllerBackStackEntry by navController.currentBackStackEntryAsState()
+    val route = navControllerBackStackEntry?.destination?.route
 
     val loadState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
     val errorState = viewModel.errorState.collectAsState("")

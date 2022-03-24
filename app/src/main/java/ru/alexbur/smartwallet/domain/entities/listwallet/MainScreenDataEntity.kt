@@ -40,7 +40,9 @@ data class MainScreenDataEntity(
                             name = "",
                             amountMoney = "",
                             currency = Currency.RUB,
-                            isHide = false
+                            isHide = false,
+                            limit = null,
+                            partSpending = null
                         )
                     )
                 }
