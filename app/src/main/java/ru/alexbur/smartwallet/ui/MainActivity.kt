@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @EntryPoint
-    @InstallIn(ViewModelComponent::class)
+    @InstallIn(ActivityComponent::class)
     interface ViewModelFactoryProvider {
         fun noteDetailViewModelFactory(): DetailWalletViewModel.Factory
     }

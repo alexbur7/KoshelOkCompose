@@ -8,43 +8,52 @@ import ru.alexbur.smartwallet.data.extentions.checkDate
 import ru.alexbur.smartwallet.data.extentions.getFormattedDate
 import ru.alexbur.smartwallet.data.extentions.resultRequest
 import ru.alexbur.smartwallet.data.mappers.transactions.TransactionApiToDetailWalletTransactionMapper
-import ru.alexbur.smartwallet.data.mappers.wallets.WalletApiToHeaderWalletMapper
+import ru.alexbur.smartwallet.data.mappers.wallets.WalletApiToWalletEntityMapper
 import ru.alexbur.smartwallet.data.service.AppService
-import ru.alexbur.smartwallet.data.service.api.DetailWalletApi
+import ru.alexbur.smartwallet.data.service.api.TransactionApi
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
+import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
 import javax.inject.Inject
 
 class DetailWalletRepositoryImpl @Inject constructor(
     private val appService: AppService,
     private val mapperTransaction: TransactionApiToDetailWalletTransactionMapper,
-    private val mapWallet: WalletApiToHeaderWalletMapper,
+    private val mapWallet: WalletApiToWalletEntityMapper,
     @ApplicationContext
     private val context: Context,
     private val walletSource: WalletSource,
     private val walletDbSource: DetailWalletSource,
 ) : DetailWalletRepository {
 
-    override suspend fun getServerDetailWalletData(walletId: Long): Result<List<DetailWalletItem>> {
-        return resultRequest { appService.getWallet(walletId) }.onSuccess {
-            walletSource.insertWallet(wallet = it.walletApi)
-            walletDbSource.insertAllTransactions(it.transactions, walletId)
-        }.map { detailWalletApi ->
-            mapDetailWallet(detailWalletApi = detailWalletApi)
+    override suspend fun getServerWalletsData(): Result<List<WalletEntity>> {
+        return resultRequest { appService.getWallets() }.onSuccess {
+            walletSource.insertWallets(wallets = it)
+        }.map { wallets ->
+            wallets.map(mapWallet)
         }
     }
 
-    override suspend fun getDbDetailWalletData(walletId: Long): Result<List<DetailWalletItem>> {
-        return walletDbSource.getDetailWallet(walletId).map { detailWalletApi ->
-            mapDetailWallet(detailWalletApi = detailWalletApi)
+    override suspend fun getServerTransactionsData(walletId: Long): Result<List<DetailWalletItem>> {
+        return resultRequest { appService.getTransaction(walletId = walletId) }.map {
+            mapDetailWallet(it)
         }
     }
 
-    private fun mapDetailWallet(detailWalletApi: DetailWalletApi): List<DetailWalletItem> {
-        val groupMap = detailWalletApi.transactions.sortedByDescending { api -> api.time }
+    override suspend fun getDbWalletData(): Result<List<WalletEntity>> {
+        return walletSource.getWallets()
+    }
+
+    override suspend fun getDbTransactionsData(walletId: Long): Result<List<DetailWalletItem>> {
+        return walletDbSource.getAllTransaction(walletId).map {
+            mapDetailWallet(it)
+        }
+    }
+
+    private fun mapDetailWallet(transactions: List<TransactionApi>): List<DetailWalletItem> {
+        val groupMap = transactions.sortedByDescending { api -> api.time }
             .groupBy { transactionApi -> transactionApi.time.getFormattedDate() }
         return mutableListOf<DetailWalletItem>().apply {
-            add(mapWallet(detailWalletApi.walletApi))
             groupMap.forEach { (key, transactions) ->
                 this.add(
                     DetailWalletItem.Day(

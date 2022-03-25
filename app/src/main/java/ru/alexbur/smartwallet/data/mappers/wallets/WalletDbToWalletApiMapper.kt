@@ -15,7 +15,6 @@ class WalletDbToWalletApiMapper @Inject constructor() :
             consumption = walletDb.consumption,
             limit = walletDb.limit,
             currency = walletDb.currency,
-            isExceededLimit = walletDb.isExceededLimit,
             isHide = walletDb.isHide
         )
     }

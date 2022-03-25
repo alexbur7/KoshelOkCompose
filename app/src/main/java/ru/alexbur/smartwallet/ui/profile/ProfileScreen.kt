@@ -24,6 +24,7 @@ import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.profile.toolbar.MainCollapsingToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
+import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
 import javax.inject.Inject
 
 @Composable
@@ -72,7 +73,9 @@ fun ProfileScreen(
                         mainData.value.wallets[index],
                         isShimmer = mainData.value == MainScreenDataEntity.shimmerData,
                         isLast = mainData.value.wallets.lastIndex == index
-                    )
+                    ) {
+                        navController.navigate(DetailWalletScreenFactory.route + "/$it")
+                    }
                 }
             }
         }

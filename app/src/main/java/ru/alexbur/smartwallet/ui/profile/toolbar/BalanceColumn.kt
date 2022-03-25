@@ -40,7 +40,7 @@ fun BalanceColumn(
 
         Text(
             modifier = Modifier.padding(top = 8.dp),
-            text = stringResource(id = R.string.count_money, money),
+            text = money,
             style = TextStyle(color = Color.White, fontSize = 16.sp, fontWeight = FontWeight(500))
         )
     }

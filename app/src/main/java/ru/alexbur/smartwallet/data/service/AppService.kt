@@ -5,8 +5,11 @@ import ru.alexbur.smartwallet.data.service.api.*
 
 interface AppService {
 
-    @GET("wallets/{walletId}")
-    suspend fun getWallet(@Path("walletId") walletId: Long): DetailWalletApi
+    @GET("wallets")
+    suspend fun getWallets(): List<WalletApi>
+
+    @GET("transactions/{walletId}")
+    suspend fun getTransaction(@Path("walletId") walletId: Long): List<TransactionApi>
 
     @POST("wallets")
     suspend fun createWallet(@Body walletApi: WalletApi): WalletApi

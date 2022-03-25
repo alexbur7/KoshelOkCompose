@@ -1,7 +1,7 @@
 package ru.alexbur.smartwallet.ui.wallet.detailwallet
 
-import android.app.Activity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
@@ -9,9 +9,8 @@ import androidx.navigation.compose.composable
 import dagger.hilt.android.EntryPointAccessors
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
-import ru.alexbur.smartwallet.domain.repositories.DeleteTransactionRepository
-import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
 import ru.alexbur.smartwallet.ui.MainActivity
+import ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard.FullCardWalletInDetail
 import javax.inject.Inject
 
 private const val WALLET_ID_KEY = "walletId"
@@ -21,6 +20,8 @@ fun DetailWalletScreen(
     navController: NavController,
     viewModel: DetailWalletViewModel
 ) {
+    val walletsState = viewModel.walletsData.collectAsState()
+    FullCardWalletInDetail(0,wallets = walletsState.value, isShimmer = false)
 }
 
 @Composable
@@ -28,7 +29,7 @@ fun detailWalletViewModel(
     walletId: Long
 ): DetailWalletViewModel {
     val factory = EntryPointAccessors.fromActivity(
-        LocalContext.current as Activity,
+        LocalContext.current as MainActivity,
         MainActivity.ViewModelFactoryProvider::class.java
     ).noteDetailViewModelFactory()
 

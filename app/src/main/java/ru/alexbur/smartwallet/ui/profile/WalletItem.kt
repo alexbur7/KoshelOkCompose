@@ -1,16 +1,14 @@
 package ru.alexbur.smartwallet.ui.profile
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -24,13 +22,15 @@ import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.ui.utils.ProgressIndicator
 import ru.alexbur.smartwallet.ui.utils.theme.*
 
 @Composable
 fun WalletItem(
     walletEntity: WalletEntity,
     isShimmer: Boolean,
-    isLast: Boolean
+    isLast: Boolean,
+    onClick: (Long) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -66,25 +66,20 @@ fun WalletItem(
                 )
             )
             .padding(horizontal = 21.dp)
+            .clickable {
+                onClick(walletEntity.id)
+            }
     ) {
 
         NameAndAmountText(walletEntity = walletEntity)
 
         if (walletEntity.partSpending != null) {
-            Canvas(modifier = Modifier
-                .padding(bottom = 8.dp)
-                .fillMaxWidth()
-                .height(6.dp), onDraw = {
-                drawRoundRect(
-                    color = Color.White.copy(alpha = 0.7f),
-                    cornerRadius = CornerRadius(8.dp.value)
-                )
-                drawRoundRect(
-                    color = ProgressBarColor,
-                    cornerRadius = CornerRadius(8.dp.value),
-                    size = Size(this.size.width * walletEntity.partSpending, this.size.height)
-                )
-            })
+            ProgressIndicator(
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .fillMaxWidth()
+                    .height(6.dp), partSpending = walletEntity.partSpending
+            )
         }
     }
 }
@@ -131,17 +126,27 @@ fun WalletItemWithLimitPreview() {
             1,
             "кошелек2333551355135531535",
             "1243132353532532553515",
+            incomeMoney = "214125",
+            consumptionMoney = "21551",
             Currency.RUB,
             false,
             "100000",
             0.7f
         ), false,
-        true
+        true,
+        {}
     )
 }
 
 @Preview
 @Composable
 fun WalletItemWithoutLimitPreview() {
-    WalletItem(WalletEntity(1, "кошелек 22", "12431", Currency.RUB, false, null, null), true,true)
+    WalletItem(
+        WalletEntity(
+            1, "кошелек 22", "12431", incomeMoney = "214125",
+            consumptionMoney = "21551", Currency.RUB, false, null, null
+        ),
+        isShimmer = true,
+        isLast = true,
+        onClick = {})
 }

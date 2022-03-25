@@ -5,22 +5,56 @@ import kotlinx.coroutines.delay
 import ru.alexbur.smartwallet.data.service.api.*
 
 class MockAppService : AppService {
+    
+    override suspend fun getWallets(): List<WalletApi> {
+        return getDataForMainScreen().wallets
+    }
 
-    override suspend fun getWallet(walletId: Long): DetailWalletApi {
-        delay(3000L)
-        return DetailWalletApi(
-            WalletApi(
+    override suspend fun getTransaction(walletId: Long): List<TransactionApi> {
+        return listOf(
+            TransactionApi(
                 id = 1,
-                name = "Кошелек 1",
-                amountMoney = "10000",
-                income = "18000",
-                consumption = "8000",
-                limit = "12000",
-                currency = "RUB",
-                isExceededLimit = false,
-                isHide = true
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                color = 21,
+                currency = "USD",
+                time = 2125156662
             ),
-            transactions = listOf()
+            TransactionApi(
+                id = 2,
+                money = "251215",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                color = 21,
+                currency = "USD",
+                time = 2125156662
+            ),
+            TransactionApi(
+                id = 3,
+                money = "2512",
+                idCategory = 12,
+                type = 0,
+                operation = "35315",
+                idIcon = 24,
+                color = 21,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 4,
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                color = 21,
+                currency = "RUB",
+                time = 2125156662
+            )
         )
     }
 
@@ -34,7 +68,6 @@ class MockAppService : AppService {
             consumption = "18000",
             limit = "15000",
             currency = "RUB",
-            isExceededLimit = false,
             isHide = false
         )
     }
@@ -77,7 +110,6 @@ class MockAppService : AppService {
                     consumption = "18000",
                     limit = "15000",
                     currency = "RUB",
-                    isExceededLimit = false,
                     isHide = false
                 ), WalletApi(
                     id = 10,
@@ -87,7 +119,6 @@ class MockAppService : AppService {
                     consumption = "18000",
                     limit = "15000",
                     currency = "RUB",
-                    isExceededLimit = false,
                     isHide = false
                 ), WalletApi(
                     id = 11,
@@ -97,7 +128,6 @@ class MockAppService : AppService {
                     consumption = "18000",
                     limit = "15000",
                     currency = "USD",
-                    isExceededLimit = false,
                     isHide = false
                 ), WalletApi(
                     id = 14,
@@ -107,7 +137,6 @@ class MockAppService : AppService {
                     consumption = "18000",
                     limit = null,
                     currency = "RUB",
-                    isExceededLimit = false,
                     isHide = false
                 ), WalletApi(
                     id = 20,
@@ -117,7 +146,6 @@ class MockAppService : AppService {
                     consumption = "158000",
                     limit = "125000",
                     currency = "EUR",
-                    isExceededLimit = false,
                     isHide = false
                 )
             )

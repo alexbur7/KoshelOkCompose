@@ -88,7 +88,7 @@ fun CardWithBalance(
                     .weight(1f),
                 colorIndicator = Color.Green,
                 text = stringResource(id = R.string.general_income),
-                money = balance.incomeMoney
+                money = stringResource(id = R.string.count_money, balance.incomeMoney)
             )
 
             BalanceColumn(
@@ -97,7 +97,7 @@ fun CardWithBalance(
                     .weight(1f),
                 colorIndicator = Color.Red,
                 text = stringResource(id = R.string.general_consumption),
-                money = balance.consumptionMoney
+                money = stringResource(id = R.string.count_money, balance.consumptionMoney)
             )
         }
     }

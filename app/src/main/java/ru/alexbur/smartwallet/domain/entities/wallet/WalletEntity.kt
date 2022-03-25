@@ -7,6 +7,8 @@ data class WalletEntity(
     val id: Long,
     val name: String,
     val amountMoney: String,
+    val incomeMoney: String,
+    val consumptionMoney: String,
     val currency: Currency,
     val isHide: Boolean,
     val limit: String?,

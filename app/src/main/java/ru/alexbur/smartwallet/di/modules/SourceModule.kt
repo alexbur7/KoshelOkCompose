@@ -14,11 +14,5 @@ import javax.inject.Singleton
 interface SourceModule {
 
     @Binds
-    fun bindsDetailWalletSource(detailWalletSourceImpl: DetailWalletSourceImpl): DetailWalletSource
-
-    @Binds
     fun bindsMainWalletSource(mainWalletSourceImpl: MainWalletSourceImpl): MainWalletSource
-
-    @Binds
-    fun bindsWalletSource(walletSourceImpl: WalletSourceImpl): WalletSource
 }

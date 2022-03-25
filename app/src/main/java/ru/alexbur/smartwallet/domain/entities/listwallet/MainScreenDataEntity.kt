@@ -33,12 +33,14 @@ data class MainScreenDataEntity(
                 )
             ),
             wallets = mutableListOf<WalletEntity>().apply {
-                repeat(10) {
+                repeat(3) {
                     add(
                         WalletEntity(
                             id = it.toLong(),
                             name = "",
                             amountMoney = "",
+                            incomeMoney = "",
+                            consumptionMoney = "",
                             currency = Currency.RUB,
                             isHide = false,
                             limit = null,

@@ -12,6 +12,8 @@ class WalletApiToWalletEntityMapper @Inject constructor() : (WalletApi) -> Walle
             id = walletApi.id ?: 0,
             name = walletApi.name,
             amountMoney = walletApi.amountMoney,
+            incomeMoney = walletApi.income,
+            consumptionMoney = walletApi.consumption,
             currency = Currency.valueOf(walletApi.currency),
             isHide = walletApi.isHide,
             limit = walletApi.limit,

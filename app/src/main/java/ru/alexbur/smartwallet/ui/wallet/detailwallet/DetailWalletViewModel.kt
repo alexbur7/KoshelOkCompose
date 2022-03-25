@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
+import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.repositories.DeleteTransactionRepository
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
@@ -25,12 +26,15 @@ class DetailWalletViewModel @AssistedInject constructor(
     private val deleteTransactionRepository: DeleteTransactionRepository
 ) : BaseViewModel<DetailWalletViewModel.Event>() {
 
-    val detailWalletData: StateFlow<List<DetailWalletItem>>
+    val walletsData: StateFlow<List<WalletEntity>>
         get() = _detailWalletData.asStateFlow()
+    val transitionsData: StateFlow<List<DetailWalletItem>>
+        get() = _transitionsData.asStateFlow()
     val loadStateData: SharedFlow<LoadingState>
         get() = _loadStateData.asStateFlow()
 
-    private val _detailWalletData = MutableStateFlow<List<DetailWalletItem>>(emptyList())
+    private val _detailWalletData = MutableStateFlow<List<WalletEntity>>(emptyList())
+    private val _transitionsData = MutableStateFlow<List<DetailWalletItem>>(emptyList())
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
 
     init {
@@ -65,17 +69,17 @@ class DetailWalletViewModel @AssistedInject constructor(
     private fun startLoading(walletId: Long) = viewModelScope.launch {
         _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
 
-        val data = detailWalletRepository.getDbDetailWalletData(walletId).getOrNull()
-        obtainEvent(Event.OnLoadingDBSucceed(data ?: emptyList()))
+        val data = detailWalletRepository.getDbWalletData().getOrNull()
+        //obtainEvent(Event.OnLoadingDBSucceed(data ?: emptyList()))
     }
 
     private fun succeedDbLoading(list: List<DetailWalletItem>) = viewModelScope.launch {
-        _detailWalletData.emit(list)
+        //_detailWalletData.emit(list)
         obtainEvent(Event.OnLoadingNetworkStarted(walletId = walletId))
     }
 
     private fun startNetworkLoading(walletId: Long) = viewModelScope.launch {
-        detailWalletRepository.getServerDetailWalletData(walletId = walletId)
+        detailWalletRepository.getServerWalletsData()
             .onSuccess {
                 obtainEvent(Event.OnLoadingNetworkSucceed(it))
             }.onFailure {
@@ -83,7 +87,7 @@ class DetailWalletViewModel @AssistedInject constructor(
             }
     }
 
-    private fun succeedNetworkLoading(list: List<DetailWalletItem>) = viewModelScope.launch {
+    private fun succeedNetworkLoading(list: List<WalletEntity>) = viewModelScope.launch {
         _detailWalletData.emit(list)
         _loadStateData.emit(LoadingState.LOAD_SUCCEED)
     }
@@ -97,11 +101,12 @@ class DetailWalletViewModel @AssistedInject constructor(
             _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
             deleteTransactionRepository.deleteTransaction(deleteTransaction.id).onSuccess {
                 _detailWalletData.emit(_detailWalletData.value.filter { detailWalletItem ->
-                    if (detailWalletItem is DetailWalletItem.Transaction && it) {
+                    /*if (detailWalletItem is DetailWalletItem.Transaction && it) {
                         detailWalletItem != deleteTransaction
                     } else {
                         true
-                    }
+                    }*/
+                    true
                 })
                 _loadStateData.emit(LoadingState.LOAD_SUCCEED)
             }.onFailure {
@@ -114,7 +119,7 @@ class DetailWalletViewModel @AssistedInject constructor(
         class OnLoadingNetworkStarted(val walletId: Long) : Event()
         class OnLoadingFailed(val error: String?) : Event()
         class OnLoadingDBSucceed(val data: List<DetailWalletItem>) : Event()
-        class OnLoadingNetworkSucceed(val data: List<DetailWalletItem>) : Event()
+        class OnLoadingNetworkSucceed(val data: List<WalletEntity>) : Event()
         class DeleteTransaction(val transaction: DetailWalletItem.Transaction) : Event()
     }
 

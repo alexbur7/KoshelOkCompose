@@ -13,7 +13,5 @@ data class WalletApi(
     val consumption: String,
     val limit: String?,
     val currency: String,
-    @SerialName("isExceeded")
-    val isExceededLimit: Boolean,
     val isHide: Boolean
 )
