@@ -27,6 +27,7 @@ import ru.alexbur.smartwallet.ui.profile.toolbar.BalanceColumn
 import ru.alexbur.smartwallet.ui.utils.ProgressIndicator
 import ru.alexbur.smartwallet.ui.utils.theme.*
 
+
 @Composable
 fun CardWalletInDetail(
     modifier: Modifier,

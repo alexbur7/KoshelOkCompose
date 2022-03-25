@@ -1,19 +1,19 @@
 package ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
@@ -22,6 +22,7 @@ import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardFirstColor
 import ru.alexbur.smartwallet.ui.utils.theme.ShimmerPlaceHolderColor
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -39,6 +40,7 @@ fun FullCardWalletInDetail(initialPage: Int, wallets: List<WalletEntity>, isShim
         Text(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(start = 50.dp, end = 24.dp)
                 .placeholder(
                     visible = isShimmer,
                     color = BackgroundMainCardFirstColor,
@@ -54,17 +56,33 @@ fun FullCardWalletInDetail(initialPage: Int, wallets: List<WalletEntity>, isShim
             modifier = Modifier.fillMaxWidth(),
             count = wallets.size,
             state = pagerState,
-            itemSpacing = 32.dp
-        ) {
+            itemSpacing = 16.dp,
+            contentPadding = PaddingValues(horizontal = 50.dp)
+        ) { page ->
             CardWalletInDetail(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(top = 18.dp),
-                wallet = if (isEmptyData)wallets[pagerState.currentPage] else null, isShimmer = isShimmer
+                    .graphicsLayer {
+                        val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+
+                        // We animate the scaleX + scaleY, between 85% and 100%
+                        lerp(
+                            start = 0.85f,
+                            stop = 1f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                        ).also { scale ->
+                            scaleX = scale
+                            scaleY = scale
+                        }
+                    }
+                    .fillMaxWidth().padding(top = 18.dp),
+                wallet = if (isEmptyData)wallets[page] else null, isShimmer = isShimmer
             )
         }
     }
+}
+
+private fun lerp(start: Float, stop: Float, fraction: Float): Float {
+    return (1 - fraction) * start + fraction * stop
 }
 
 @Preview
