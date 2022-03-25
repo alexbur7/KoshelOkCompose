@@ -21,7 +21,11 @@ fun DetailWalletScreen(
     viewModel: DetailWalletViewModel
 ) {
     val walletsState = viewModel.walletsData.collectAsState()
-    FullCardWalletInDetail(0,wallets = walletsState.value, isShimmer = false)
+    FullCardWalletInDetail(
+        viewModel.positionWallet,
+        wallets = walletsState.value,
+        isShimmer = false
+    )
 }
 
 @Composable

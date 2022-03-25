@@ -15,14 +15,20 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.placeholder
+import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardFirstColor
+import ru.alexbur.smartwallet.ui.utils.theme.ShimmerPlaceHolderColor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun FullCardWalletInDetail(initialPage: Int, wallets: List<WalletEntity>, isShimmer: Boolean) {
 
-    val pagerState = rememberPagerState(initialPage = initialPage)
+    val pagerState = rememberPagerState(initialPage = if (initialPage >= 0 )initialPage else 0)
+    val isEmptyData = initialPage >= 0 && initialPage < wallets.size
 
     Column(
         modifier = Modifier
@@ -31,8 +37,16 @@ fun FullCardWalletInDetail(initialPage: Int, wallets: List<WalletEntity>, isShim
     ) {
 
         Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = wallets[pagerState.currentPage].name,
+            modifier = Modifier
+                .fillMaxWidth()
+                .placeholder(
+                    visible = isShimmer,
+                    color = BackgroundMainCardFirstColor,
+                    highlight = PlaceholderHighlight.shimmer(
+                        highlightColor = ShimmerPlaceHolderColor
+                    )
+                ),
+            text = if (isEmptyData) wallets[pagerState.currentPage].name else "",
             style = TextStyle(color = Color.White, fontSize = 18.sp)
         )
 
@@ -47,7 +61,7 @@ fun FullCardWalletInDetail(initialPage: Int, wallets: List<WalletEntity>, isShim
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(top = 18.dp),
-                wallet = wallets[pagerState.currentPage], isShimmer = isShimmer
+                wallet = if (isEmptyData)wallets[pagerState.currentPage] else null, isShimmer = isShimmer
             )
         }
     }

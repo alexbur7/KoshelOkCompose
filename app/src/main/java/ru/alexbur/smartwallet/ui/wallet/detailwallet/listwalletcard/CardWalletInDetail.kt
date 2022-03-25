@@ -30,7 +30,7 @@ import ru.alexbur.smartwallet.ui.utils.theme.*
 @Composable
 fun CardWalletInDetail(
     modifier: Modifier,
-    wallet: WalletEntity,
+    wallet: WalletEntity?,
     isShimmer: Boolean
 ) {
     Column(
@@ -63,6 +63,8 @@ fun CardWalletInDetail(
             )
             .padding(24.dp)
     ) {
+
+        if (wallet == null) return
 
         Text(
             modifier = Modifier

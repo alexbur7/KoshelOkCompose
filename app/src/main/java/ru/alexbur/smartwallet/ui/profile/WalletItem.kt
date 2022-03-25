@@ -38,6 +38,9 @@ fun WalletItem(
             .wrapContentHeight()
             .padding(top = 12.dp, bottom = if (isLast) 12.dp else 0.dp)
             .clip(RoundedCornerShape(12.dp))
+            .clickable {
+                onClick(walletEntity.id)
+            }
             .placeholder(
                 visible = isShimmer,
                 color = ThirdCardWalletColor,
@@ -66,9 +69,6 @@ fun WalletItem(
                 )
             )
             .padding(horizontal = 21.dp)
-            .clickable {
-                onClick(walletEntity.id)
-            }
     ) {
 
         NameAndAmountText(walletEntity = walletEntity)
@@ -133,8 +133,8 @@ fun WalletItemWithLimitPreview() {
             "100000",
             0.7f
         ), false,
-        true,
-        {}
+        isLast = true,
+        onClick = {}
     )
 }
 
