@@ -39,7 +39,9 @@ fun WalletItem(
             .padding(top = 12.dp, bottom = if (isLast) 12.dp else 0.dp)
             .clip(RoundedCornerShape(12.dp))
             .clickable {
-                onClick(walletEntity.id)
+                if (!isShimmer) {
+                    onClick(walletEntity.id)
+                }
             }
             .placeholder(
                 visible = isShimmer,

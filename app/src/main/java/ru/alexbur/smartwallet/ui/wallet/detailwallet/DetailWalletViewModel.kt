@@ -36,7 +36,7 @@ class DetailWalletViewModel @AssistedInject constructor(
     val positionWallet: Int
         get() = walletsData.value.indexOfFirst { it.id == walletId }
 
-    private val _detailWalletData = MutableStateFlow<List<WalletEntity>>(emptyList())
+    private val _detailWalletData = MutableStateFlow(WalletEntity.shimmerData)
     private val _transitionsData = MutableStateFlow<List<DetailWalletItem>>(emptyList())
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
 
@@ -74,7 +74,7 @@ class DetailWalletViewModel @AssistedInject constructor(
 
         val data = detailWalletRepository.getDbWalletData().getOrNull()
         val transactionData = detailWalletRepository.getDbTransactionsData(walletId).getOrNull()
-        obtainEvent(Event.OnLoadingDBSucceed(data ?: emptyList(), transactionData ?: emptyList()))
+        obtainEvent(Event.OnLoadingDBSucceed(if (!data.isNullOrEmpty())data else WalletEntity.shimmerData, transactionData ?: emptyList()))
     }
 
     private fun succeedDbLoading(list: List<WalletEntity>, transactions: List<DetailWalletItem>) =

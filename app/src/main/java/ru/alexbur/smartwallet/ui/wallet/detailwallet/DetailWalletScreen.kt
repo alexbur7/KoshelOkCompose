@@ -6,25 +6,32 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
 import androidx.navigation.compose.composable
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import dagger.hilt.android.EntryPointAccessors
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
+import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.ui.MainActivity
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard.FullCardWalletInDetail
 import javax.inject.Inject
 
 private const val WALLET_ID_KEY = "walletId"
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun DetailWalletScreen(
     navController: NavController,
     viewModel: DetailWalletViewModel
 ) {
     val walletsState = viewModel.walletsData.collectAsState()
+    val pagerState =
+        rememberPagerState(initialPage = if (viewModel.positionWallet >= 0) viewModel.positionWallet else 0)
+
     FullCardWalletInDetail(
-        viewModel.positionWallet,
+        pagerState = pagerState,
         wallets = walletsState.value,
-        isShimmer = false
+        isShimmer = walletsState.value == WalletEntity.shimmerData
     )
 }
 
