@@ -14,7 +14,6 @@ class CategoryToCategoryApiMapper @Inject constructor(
             id = category.id,
             type = category.type.code,
             operation = category.operation,
-            idIcon = iconConverter.convertDrawableIdToNumber(category.iconId),
-            color = category.color
+            idIcon = iconConverter.convertDrawableIdToNumber(category.iconId)
         )
 }

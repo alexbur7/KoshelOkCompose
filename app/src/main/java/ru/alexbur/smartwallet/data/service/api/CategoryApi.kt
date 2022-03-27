@@ -12,7 +12,5 @@ data class CategoryApi(
     @SerialName("name")
     val operation: String,
     @SerialName("icon")
-    val idIcon: Int,
-    @SerialName("color")
-    val color: Int
+    val idIcon: Int
 )

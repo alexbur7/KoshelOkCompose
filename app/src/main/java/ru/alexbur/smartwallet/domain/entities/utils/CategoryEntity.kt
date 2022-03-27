@@ -1,13 +1,11 @@
 package ru.alexbur.smartwallet.domain.entities.utils
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
 data class CategoryEntity(
     val id: Long,
-    var type: TypeOperation,
-    var operation: String,
-    var iconId: Int,
-    var color: Int
-): Parcelable
+    val type: TypeOperation,
+    val operation: String,
+    val iconId: Int,
+) {
+    val isIncome: Boolean
+        get() = type == TypeOperation.SELECT_INCOME
+}

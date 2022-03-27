@@ -22,8 +22,7 @@ class TransactionApiToDetailWalletTransactionMapper @Inject constructor(
                 id = transaction.idCategory,
                 type = intToTypeCategoryMapper(transaction.type),
                 operation = transaction.operation,
-                iconId = iconConverter.convertNumberToDrawableId(transaction.idIcon),
-                color = transaction.color
+                iconId = iconConverter.convertNumberToDrawableId(transaction.idIcon)
             ),
             money = transaction.money,
             time = transaction.time.getTime(),

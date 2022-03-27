@@ -5,7 +5,7 @@ import kotlinx.coroutines.delay
 import ru.alexbur.smartwallet.data.service.api.*
 
 class MockAppService : AppService {
-    
+
     override suspend fun getWallets(): List<WalletApi> {
         return getDataForMainScreen().wallets
     }
@@ -197,7 +197,7 @@ class MockAppService : AppService {
 
     override suspend fun createCategory(categoryApi: CategoryApi): CategoryApi {
         delay(3000L)
-        return CategoryApi(12, 0, "GJbajng", 2, 3)
+        return CategoryApi(12, 0, "GJbajng", 2)
     }
 
     override suspend fun updateToken(userApi: UserApi): String {

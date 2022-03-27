@@ -19,7 +19,6 @@
     <string name="sum_operation">Сумма операции</string>
     <string name="ready_button">ГОТОВО</string>
     <string name="choose_type_operation">Выберите тип операции</string>
-    <string name="text_income">Доход</string>
     <string name="text_expense">Расход</string>
     <string name="choose_category">Выберите категорию</string>
     <string name="icon_category_description">Иконка категории</string>
