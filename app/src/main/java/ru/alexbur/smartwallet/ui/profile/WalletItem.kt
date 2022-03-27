@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
+import ru.alexbur.smartwallet.data.extentions.formattedMoney
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.utils.ProgressIndicator
@@ -108,7 +109,7 @@ private fun NameAndAmountText(
         )
 
         Text(
-            text = walletEntity.amountMoney + " " + walletEntity.currency.icon,
+            text = walletEntity.amountMoney.formattedMoney(walletEntity.currency.icon),
             modifier = Modifier
                 .weight(1f)
                 .wrapContentHeight(),

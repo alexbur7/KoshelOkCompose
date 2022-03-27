@@ -1,14 +1,17 @@
 package ru.alexbur.smartwallet.ui.wallet.detailwallet
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
@@ -16,12 +19,14 @@ import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import dagger.hilt.android.EntryPointAccessors
+import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.ui.MainActivity
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsList
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard.FullCardWalletInDetail
 import javax.inject.Inject
@@ -39,26 +44,52 @@ fun DetailWalletScreen(
     val pagerState =
         rememberPagerState(initialPage = if (viewModel.positionWallet >= 0) viewModel.positionWallet else 0)
     val state = rememberLazyListState()
+    var isFirstLaunch by remember {
+        mutableStateOf(true)
+    }
 
-    Column(
+    LaunchedEffect(key1 = pagerState.currentPage) {
+        if (!isFirstLaunch) {
+            viewModel.obtainEvent(
+                DetailWalletViewModel.Event.OnLoadingTransactionStarted(
+                    walletsState[pagerState.currentPage].id
+                )
+            )
+        }
+        isFirstLaunch = false
+    }
+
+    Box(
         modifier = Modifier
-            .padding(bottom = BottomNavigationHeight)
             .fillMaxSize()
+            .padding(bottom = BottomNavigationHeight)
+            .background(BackgroundColor)
     ) {
-        FullCardWalletInDetail(
-            pagerState = pagerState,
-            wallets = walletsState,
-            isShimmer = walletsState == WalletEntity.shimmerData
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(id = R.drawable.main_background_image),
+            contentDescription = "Background image",
+            contentScale = ContentScale.FillWidth
         )
-
-        TransactionsList(
+        Column(
             modifier = Modifier
-                .padding(top = 50.dp)
-                .fillMaxSize(),
-            state = state,
-            transactions = transactionState.value,
-            isShimmer = transactionState.value == DetailWalletItem.shimmerData
-        )
+                .fillMaxSize()
+        ) {
+            FullCardWalletInDetail(
+                pagerState = pagerState,
+                wallets = walletsState,
+                isShimmer = walletsState == WalletEntity.shimmerData
+            )
+
+            TransactionsList(
+                modifier = Modifier
+                    .padding(top = 50.dp)
+                    .fillMaxSize(),
+                state = state,
+                transactions = transactionState.value,
+                isShimmer = transactionState.value == DetailWalletItem.shimmerData
+            )
+        }
     }
 }
 

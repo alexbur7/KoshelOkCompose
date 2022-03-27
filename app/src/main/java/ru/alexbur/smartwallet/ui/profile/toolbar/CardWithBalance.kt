@@ -20,7 +20,9 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
+import ru.alexbur.smartwallet.data.extentions.formattedMoney
 import ru.alexbur.smartwallet.domain.entities.listwallet.BalanceEntity
+import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardFirstColor
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardSecondColor
 import ru.alexbur.smartwallet.ui.utils.theme.CardFirstBorderColor
@@ -73,7 +75,7 @@ fun CardWithBalance(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(top = 6.dp),
-            text = stringResource(id = R.string.count_money, balance.amountMoney),
+            text = balance.amountMoney.formattedMoney(Currency.RUB.icon),
             style = TextStyle(color = Color.White, fontSize = 32.sp, fontWeight = FontWeight(500))
         )
         Row(
@@ -88,7 +90,7 @@ fun CardWithBalance(
                     .weight(1f),
                 colorIndicator = Color.Green,
                 text = stringResource(id = R.string.general_income),
-                money = stringResource(id = R.string.count_money, balance.incomeMoney)
+                money = balance.incomeMoney.formattedMoney(Currency.RUB.icon)
             )
 
             BalanceColumn(
@@ -97,7 +99,7 @@ fun CardWithBalance(
                     .weight(1f),
                 colorIndicator = Color.Red,
                 text = stringResource(id = R.string.general_consumption),
-                money = stringResource(id = R.string.count_money, balance.consumptionMoney)
+                money = balance.consumptionMoney.formattedMoney(Currency.RUB.icon)
             )
         }
     }

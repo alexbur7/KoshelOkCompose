@@ -7,9 +7,9 @@ import ru.alexbur.smartwallet.domain.enums.Currency
 data class TransactionEntity(
     val id: Long? = null,
     val idWallet: Long,
-    var sum: String?,
-    var type: TypeOperation?,
-    var categoryEntity: CategoryEntity?,
-    var date: Long?,
-    var currency: Currency = Currency.RUB
+    val sum: String,
+    val type: TypeOperation,
+    val categoryEntity: CategoryEntity,
+    val date: Long,
+    val currency: Currency = Currency.RUB
 )

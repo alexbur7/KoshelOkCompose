@@ -7,10 +7,12 @@ import ru.alexbur.smartwallet.data.service.api.*
 class MockAppService : AppService {
 
     override suspend fun getWallets(): List<WalletApi> {
+        delay(3000L)
         return getDataForMainScreen().wallets
     }
 
     override suspend fun getTransaction(walletId: Long): List<TransactionApi> {
+        delay(3000L)
         return listOf(
             TransactionApi(
                 id = 1,
@@ -73,6 +75,7 @@ class MockAppService : AppService {
     }
 
     override suspend fun deleteWallet(walletId: Long): Boolean {
+        delay(3000L)
         return true
     }
 

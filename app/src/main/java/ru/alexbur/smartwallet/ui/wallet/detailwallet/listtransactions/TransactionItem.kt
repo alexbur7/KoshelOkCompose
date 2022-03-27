@@ -20,10 +20,9 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
+import ru.alexbur.smartwallet.data.extentions.formattedMoney
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
-import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardFirstColor
-import ru.alexbur.smartwallet.ui.utils.theme.ShimmerPlaceHolderColor
+import ru.alexbur.smartwallet.ui.utils.theme.*
 
 @Composable
 fun TransactionItem(
@@ -50,7 +49,9 @@ fun TransactionItem(
             contentDescription = "Transaction category icon"
         )
 
-        Column(modifier = Modifier.fillMaxWidth().padding(start = 12.dp)) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 12.dp)) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     modifier = Modifier
@@ -66,9 +67,12 @@ fun TransactionItem(
                     modifier = Modifier
                         .wrapContentHeight()
                         .weight(1f),
-                    text = transaction.money + " " + transaction.currency.icon,
+                    text = transaction.money.formattedMoney(
+                        transaction.currency.icon,
+                        if (transaction.category.isIncome) "+" else "-"
+                    ),
                     style = TextStyle(
-                        color = if (transaction.category.isIncome) Color.Green else Color.Red,
+                        color = if (transaction.category.isIncome) IncomeColor else OutcomeColor,
                         fontSize = 16.sp
                     ),
                     maxLines = 2,
