@@ -90,7 +90,7 @@ class DetailWalletViewModel @AssistedInject constructor(
         obtainEvent(
             Event.OnLoadingDBSucceed(
                 if (!data.isNullOrEmpty()) data else WalletEntity.shimmerData,
-                transactionData ?: emptyList()
+                transactionData ?: DetailWalletItem.shimmerData
             )
         )
     }

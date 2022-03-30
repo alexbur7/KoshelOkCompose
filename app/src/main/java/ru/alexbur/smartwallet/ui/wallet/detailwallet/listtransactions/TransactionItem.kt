@@ -91,7 +91,7 @@ fun TransactionItem(
                         .wrapContentHeight()
                         .weight(1f),
                     text = stringResource(id = transaction.category.type.textId),
-                    style = TextStyle(Color.White, fontSize = 13.sp),
+                    style = TextStyle(TransparentWhite, fontSize = 13.sp),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -102,7 +102,7 @@ fun TransactionItem(
                         .weight(1f),
                     text = transaction.time,
                     style = TextStyle(
-                        color = Color.White,
+                        color = TransparentWhite,
                         fontSize = 13.sp
                     ),
                     maxLines = 1,

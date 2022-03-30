@@ -2,13 +2,14 @@ package ru.alexbur.smartwallet.ui.wallet.detailwallet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -75,6 +76,20 @@ fun DetailWalletScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.close_detail_wallet),
+                contentDescription = "Currency close",
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .wrapContentWidth()
+                    .padding(16.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .align(Alignment.Start)
+                    .clickable {
+                        navController.popBackStack()
+                    }
+            )
+
             FullCardWalletInDetail(
                 pagerState = pagerState,
                 wallets = walletsState,

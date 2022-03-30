@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundCourseColor
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundTransactionsColor
 
 @Composable
 fun TransactionsList(
@@ -27,7 +28,7 @@ fun TransactionsList(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-            .background(color = BackgroundCourseColor)
+            .background(color = BackgroundTransactionsColor)
     ) {
         Box(
             modifier = Modifier

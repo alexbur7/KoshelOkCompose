@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.alexbur.smartwallet.R
+import ru.alexbur.smartwallet.ui.utils.theme.TransparentWhite
 
 @Composable
 fun BalanceColumn(
@@ -34,7 +35,7 @@ fun BalanceColumn(
             Text(
                 modifier = Modifier.padding(start = 6.dp),
                 text = text,
-                style = TextStyle(color = Color.White, fontSize = 13.sp)
+                style = TextStyle(color = TransparentWhite, fontSize = 13.sp)
             )
         }
 

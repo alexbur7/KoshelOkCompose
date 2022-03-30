@@ -3,10 +3,10 @@ package ru.alexbur.smartwallet.ui.utils.theme
 import androidx.compose.ui.graphics.Color
 
 val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 val BackgroundColor = Color(0xFF17192B)
+val BackgroundTransactionsColor = Color(0x322A7A7A)
 val BackgroundMainCardFirstColor = Color(0x25E5FFFF)
 val BackgroundMainCardSecondColor = Color(0x05E5FFFF)
 val BackgroundCourseColor = Color(0xFF46D0D0).copy(alpha = 0.32f)
@@ -28,3 +28,4 @@ val ThirdCardWalletColor = Color(0xFF123340)
 val ProgressBarColor = Color(0xFF0A8585)
 val OutcomeColor = Color(0xFFF52222)
 val IncomeColor = Color(0xFF00B92D)
+val TransparentWhite = Color.White.copy(alpha = 0.6f)

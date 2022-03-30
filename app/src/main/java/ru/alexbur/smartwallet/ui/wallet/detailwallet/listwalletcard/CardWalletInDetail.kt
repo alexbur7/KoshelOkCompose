@@ -107,7 +107,7 @@ fun CardWalletInDetail(
                     .padding(top = 10.dp),
                 text = wallet.limit + " " + wallet.currency.icon,
                 style = TextStyle(
-                    color = Color.White,
+                    color = TransparentWhite,
                     fontSize = 9.sp,
                     fontWeight = FontWeight(500),
                     textAlign = TextAlign.End
