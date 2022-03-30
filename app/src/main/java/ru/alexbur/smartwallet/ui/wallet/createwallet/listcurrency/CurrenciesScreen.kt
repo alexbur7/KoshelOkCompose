@@ -87,7 +87,7 @@ fun CurrenciesScreen(
     }
 }
 
-class CurrenciesScreenNavigation @Inject constructor() : NavigationScreenFactory {
+class CurrenciesScreenFactory @Inject constructor() : NavigationScreenFactory {
     companion object Companion : NavigationFactory.NavigationFactoryCompanion
 
     override val factoryType: List<NavigationFactory.NavigationFactoryType>

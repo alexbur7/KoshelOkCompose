@@ -31,7 +31,7 @@ import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenNavigation
+import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
 import javax.inject.Inject
 
 @Composable
@@ -104,7 +104,7 @@ fun CreateWalletScreen(
             ) {
                 Image(
                     modifier = Modifier.clickable {
-                        navigation.navigate(CurrenciesScreenNavigation.route)
+                        navigation.navigate(CurrenciesScreenFactory.route)
                     },
                     painter = painterResource(id = R.drawable.arrow_right),
                     contentDescription = "Arrow right"

@@ -7,6 +7,8 @@ import ru.alexbur.smartwallet.ui.profile.ListWalletScreenFactory
 import ru.alexbur.smartwallet.ui.main.MainNavHostScreenFactory
 import ru.alexbur.smartwallet.ui.search.SearchWalletScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
 
 sealed class NavItem(val route: String) {
 
@@ -19,24 +21,28 @@ sealed class NavItem(val route: String) {
         val icon: Int,
         @DrawableRes
         val selectedIcon: Int,
-        val route: String
+        val route: String,
+        val nestedRoute: List<String>
     ) {
         Profile(
             R.drawable.profile_icon,
             R.drawable.profile_choose_icon,
-            ListWalletScreenFactory.route
+            ListWalletScreenFactory.route,
+            listOf(DetailWalletScreenFactory.route)
         ),
 
         NewItem(
             R.drawable.new_wallet_icon,
             R.drawable.new_wallet_confirm_icon,
-            CreateWalletScreenFactory.route
+            CreateWalletScreenFactory.route,
+            listOf(CurrenciesScreenFactory.route)
         ),
 
         Search(
             R.drawable.search_icon,
-            R.drawable.search_icon, //TODO поменять иконку на выделенную
-            SearchWalletScreenFactory.route
+            R.drawable.search_choose_icon,
+            SearchWalletScreenFactory.route,
+            emptyList()
         )
     }
 }

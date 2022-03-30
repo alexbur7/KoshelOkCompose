@@ -63,7 +63,7 @@ fun DetailWalletScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = BottomNavigationHeight)
+            .padding(bottom = BottomNavigationHeight - 4.dp)
             .background(BackgroundColor)
     ) {
         Image(

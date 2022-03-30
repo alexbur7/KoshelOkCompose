@@ -3,7 +3,6 @@ package ru.alexbur.smartwallet.di.modules
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ActivityRetainedScoped
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoSet
 import ru.alexbur.smartwallet.di.navigation.NavigationHostFactory
@@ -13,7 +12,7 @@ import ru.alexbur.smartwallet.ui.main.MainNavHostScreenFactory
 import ru.alexbur.smartwallet.ui.profile.ListWalletScreenFactory
 import ru.alexbur.smartwallet.ui.search.SearchWalletScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
-import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenNavigation
+import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
 import javax.inject.Singleton
 
@@ -39,7 +38,7 @@ interface NavigationModule {
     @IntoSet
     @Binds
     @Singleton
-    fun bindCurrenciesScreenFactory(currenciesScreenNavigation: CurrenciesScreenNavigation): NavigationScreenFactory
+    fun bindCurrenciesScreenFactory(currenciesScreenFactory: CurrenciesScreenFactory): NavigationScreenFactory
 
     @IntoSet
     @Binds

@@ -14,7 +14,6 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.unit.dp
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.utils.theme.BackgroundCourseColor
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundTransactionsColor
 
 @Composable
@@ -61,7 +60,7 @@ fun TransactionsList(
                                 .fillMaxWidth()
                                 .wrapContentHeight()
                                 .padding(horizontal = 24.dp)
-                                .padding(top = 8.dp),
+                                .padding(top = 18.dp, bottom = if (index == transactions.lastIndex) 24.dp else 0.dp),
                             transaction = item,
                             isShimmer = isShimmer
                         )
@@ -71,7 +70,8 @@ fun TransactionsList(
                             Modifier
                                 .fillMaxWidth()
                                 .wrapContentHeight()
-                                .padding(24.dp),
+                                .padding(horizontal = 24.dp)
+                                .padding(top = 24.dp, bottom = 6.dp),
                             item,
                             isShimmer
                         )

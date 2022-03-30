@@ -2,14 +2,17 @@ package ru.alexbur.smartwallet.ui.navbar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -29,6 +32,7 @@ fun BottomNavBar(
     navController: NavController,
     viewModel: NavBarViewModel = hiltViewModel()
 ) {
+
     val navControllerBackStackEntry by navController.currentBackStackEntryAsState()
     val route = navControllerBackStackEntry?.destination?.route
 
@@ -78,7 +82,8 @@ fun BottomNavBar(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         items.forEach { tab ->
-            val isSelected = tab.route == route
+            val isSelected =
+                tab.route == route || tab.nestedRoute.find { route?.contains(it) ?: false } != null
             BottomNavigationItem(
                 modifier = Modifier,
                 selected = isSelected,
