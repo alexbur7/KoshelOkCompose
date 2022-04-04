@@ -12,7 +12,6 @@ data class TransactionDb(
     val type: Int,
     val operation: String,
     val idIcon: Int,
-    val color: Int,
     val currency: String,
     val time: Long,
     val walletId: Long

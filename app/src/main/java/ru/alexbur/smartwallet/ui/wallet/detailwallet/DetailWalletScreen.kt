@@ -77,7 +77,7 @@ fun DetailWalletScreen(
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.close_detail_wallet),
+                painter = painterResource(id = R.drawable.close_screen),
                 contentDescription = "Currency close",
                 modifier = Modifier
                     .wrapContentHeight()

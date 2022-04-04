@@ -15,7 +15,6 @@ class TransactionDbToTransactionApiMapper @Inject constructor() :
             type = transaction.type,
             operation = transaction.operation,
             idIcon = transaction.idIcon,
-            color = transaction.color,
             currency = transaction.currency,
             time = transaction.time
         )

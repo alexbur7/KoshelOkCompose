@@ -17,8 +17,6 @@ data class TransactionApi(
     val operation: String,
     @SerialName("icon")
     val idIcon: Int,
-    @SerialName("color")
-    val color: Int,
     val currency: String,
     val time: Long
 )

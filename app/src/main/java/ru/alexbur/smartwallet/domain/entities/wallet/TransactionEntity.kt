@@ -9,7 +9,7 @@ data class TransactionEntity(
     val idWallet: Long,
     val sum: String,
     val type: TypeOperation,
-    val categoryEntity: CategoryEntity,
+    val categoryEntity: CategoryEntity?,
     val date: Long,
     val currency: Currency = Currency.RUB
 )

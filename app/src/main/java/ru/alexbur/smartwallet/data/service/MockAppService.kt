@@ -21,7 +21,6 @@ class MockAppService : AppService {
                 type = 1,
                 operation = "35315",
                 idIcon = 24,
-                color = 21,
                 currency = "USD",
                 time = 2125156662
             ),
@@ -32,7 +31,6 @@ class MockAppService : AppService {
                 type = 1,
                 operation = "35315",
                 idIcon = 24,
-                color = 21,
                 currency = "USD",
                 time = 2125156662
             ),
@@ -43,7 +41,6 @@ class MockAppService : AppService {
                 type = 0,
                 operation = "35315",
                 idIcon = 24,
-                color = 21,
                 currency = "RUB",
                 time = 2125156662
             ), TransactionApi(
@@ -53,7 +50,6 @@ class MockAppService : AppService {
                 type = 1,
                 operation = "35315",
                 idIcon = 24,
-                color = 21,
                 currency = "RUB",
                 time = 2125156662
             )
@@ -164,7 +160,6 @@ class MockAppService : AppService {
             type = 0,
             operation = "5831758",
             idIcon = 24,
-            color = Color.Black.value.toInt(),
             currency = "RUB",
             time = 153531599153
         )
@@ -182,7 +177,6 @@ class MockAppService : AppService {
             type = 0,
             operation = "51831758",
             idIcon = 24,
-            color = Color.Black.value.toInt(),
             currency = "RUB",
             time = 153531599246
         )

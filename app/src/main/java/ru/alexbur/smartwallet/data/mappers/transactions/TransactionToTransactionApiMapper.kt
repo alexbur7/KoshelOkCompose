@@ -10,11 +10,10 @@ class TransactionToTransactionApiMapper @Inject constructor() :
 
     override operator fun invoke(transactionEntity: TransactionEntity) =
         CreateTransactionApi(
-            id = transactionEntity.id,
             idWallet = transactionEntity.idWallet,
-            money = transactionEntity.sum ?: "0",
+            money = transactionEntity.sum,
             idCategory = transactionEntity.categoryEntity?.id ?: 0,
-            time = transactionEntity.date ?: Calendar.getInstance().timeInMillis,
+            time = transactionEntity.date,
             currency = transactionEntity.currency.name
         )
 }

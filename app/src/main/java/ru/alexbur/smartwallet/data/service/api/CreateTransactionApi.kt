@@ -5,8 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CreateTransactionApi(
-    @SerialName("transactionId")
-    val id: Long?,
     @SerialName("walletId")
     val idWallet: Long,
     @SerialName("value")
