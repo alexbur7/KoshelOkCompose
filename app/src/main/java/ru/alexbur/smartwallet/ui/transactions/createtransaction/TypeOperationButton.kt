@@ -1,7 +1,6 @@
 package ru.alexbur.smartwallet.ui.transactions.createtransaction
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,25 +13,27 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.alexbur.smartwallet.R
+import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
+import ru.alexbur.smartwallet.ui.utils.TextWithEndImage
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.TextFieldBorderColor
 
 @Composable
-fun TypeOperationSelector(
+fun TypeOperationChooser(
     modifier: Modifier,
     textLabel: String,
-    initialValue: String,
-    isInitialExpanded: Boolean = false
+    currentOperationType: TypeOperation,
+    changeTypeOperation: (TypeOperation) -> Unit
 ) {
 
     var isExpanded by rememberSaveable {
-        mutableStateOf(isInitialExpanded)
+        mutableStateOf(false)
     }
     Column(modifier = modifier
         .drawWithContent {
@@ -43,8 +44,7 @@ fun TypeOperationSelector(
                 style = Stroke(width = 1.dp.toPx())
             )
             drawContent()
-        }
-        .padding(horizontal = 12.dp)) {
+        }.padding(horizontal = 8.dp)) {
 
         Text(
             text = textLabel,
@@ -56,51 +56,43 @@ fun TypeOperationSelector(
             style = TextStyle(color = Color.White, fontSize = 12.sp)
         )
 
-        Row(modifier = Modifier
+        TextWithEndImage(modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(top = 4.dp)
             .clickable {
                 isExpanded = !isExpanded
             }
-            .padding(vertical = 12.dp)) {
-            Text(
-                text = initialValue,
-                modifier = Modifier.weight(1f),
-                style = TextStyle(color = Color.White, fontSize = 16.sp),
-            )
-
-            Image(
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .wrapContentHeight(),
-                painter = painterResource(id = R.drawable.arrow_right), contentDescription = ""
-            )
-        }
+            .padding(vertical = 12.dp),
+            text = stringResource(id = currentOperationType.typeId),
+            textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+            imageId = R.drawable.arrow_right
+        )
 
         AnimatedVisibility(visible = isExpanded, modifier = Modifier.fillMaxWidth()) {
             Column {
-                Text(
-                    text = initialValue,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp)
-                        .clickable {
 
-                        },
-                    style = TextStyle(color = Color.White, fontSize = 16.sp),
-                )
+                TextWithEndImage(modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        changeTypeOperation(TypeOperation.SELECT_INCOME)
+                        isExpanded = !isExpanded
+                    }
+                    .padding(vertical = 12.dp),
+                    text = stringResource(id = TypeOperation.SELECT_INCOME.typeId),
+                    textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+                    imageId = if (currentOperationType == TypeOperation.SELECT_INCOME) R.drawable.choose_icon else null)
 
-                Text(
-                    text = initialValue,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp, bottom = 12.dp)
-                        .clickable {
-
-                        },
-                    style = TextStyle(color = Color.White, fontSize = 16.sp)
-                )
+                TextWithEndImage(modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        changeTypeOperation(TypeOperation.SELECT_EXPENSE)
+                        isExpanded = !isExpanded
+                    }
+                    .padding(vertical = 12.dp),
+                    text = stringResource(id = TypeOperation.SELECT_EXPENSE.typeId),
+                    textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+                    imageId = if (currentOperationType == TypeOperation.SELECT_EXPENSE) R.drawable.choose_icon else null)
             }
         }
     }
@@ -109,9 +101,16 @@ fun TypeOperationSelector(
 @Preview
 @Composable
 fun TypeOperationSelectorIsExpanded() {
-    TypeOperationSelector(
-        modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+    var currentOperationType by remember{
+        mutableStateOf(TypeOperation.SELECT_INCOME)
+    }
+    TypeOperationChooser(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
         textLabel = "Тип",
-        initialValue = "Расход"
-    )
+        currentOperationType = currentOperationType
+    ){
+        currentOperationType = it
+    }
 }
