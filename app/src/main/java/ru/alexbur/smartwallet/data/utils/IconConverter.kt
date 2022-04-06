@@ -5,7 +5,6 @@ import javax.inject.Inject
 
 class IconConverter @Inject constructor() {
 
-
     fun convertNumberToDrawableId(number: Int): Int {
         return when (number) {
             CAPITALIZATION -> R.drawable.capitalization
@@ -15,29 +14,31 @@ class IconConverter @Inject constructor() {
             RESTAURANT -> R.drawable.restaurant
             SALARY -> R.drawable.salary
             SUPERMARKET -> R.drawable.supermarket
-            BANK -> R.drawable.ic_bank
-            CAR -> R.drawable.ic_car
-            CLOTHES -> R.drawable.ic_clothes
-            COFFEE -> R.drawable.ic_coffee
-            COMMUNAL -> R.drawable.ic_communal
-            CONSTRUCTION -> R.drawable.ic_construction
-            EDUCATION -> R.drawable.ic_education
-            ENTERTAIMENTS -> R.drawable.ic_entertainments
-            FRIENDS -> R.drawable.ic_friends
-            GAMES -> R.drawable.ic_games
-            INTERNET -> R.drawable.ic_internet
+            BANK -> R.drawable.bank
+            CAR -> R.drawable.car
+            CLOTHES -> R.drawable.clothes
+            COFFEE -> R.drawable.coffee
+            COMMUNAL -> R.drawable.communal
+            CONSTRUCTION -> R.drawable.construction
+            EDUCATION -> R.drawable.education
+            ENTERTAIMENTS -> R.drawable.entertainments
+            FRIENDS -> R.drawable.friends
+            GAMES -> R.drawable.games
+            INTERNET -> R.drawable.internet
             MEDICINE -> R.drawable.ic_medicine
-            MEDICINES -> R.drawable.ic_medicines
-            MOVIE -> R.drawable.ic_movie
-            MUSIC -> R.drawable.ic_music
-            PETS -> R.drawable.ic_pets
-            PHONE -> R.drawable.ic_phone
-            REST -> R.drawable.ic_rest
-            SAVINGS -> R.drawable.ic_savings
-            SPORT -> R.drawable.ic_sport
-            TRANSPORT -> R.drawable.ic_transport
-            TV -> R.drawable.ic_tv
-            WIFI -> R.drawable.ic_wifi
+            MEDICINES -> R.drawable.medicines
+            MOVIE -> R.drawable.movie
+            MUSIC -> R.drawable.music
+            PETS -> R.drawable.pets
+            PHONE -> R.drawable.phone
+            REST -> R.drawable.rest
+            SAVINGS -> R.drawable.savings
+            SPORT -> R.drawable.sport
+            TRAIN -> R.drawable.train
+            TV -> R.drawable.tv
+            WIFI -> R.drawable.wifi
+            TRANSPORT -> R.drawable.transport
+            ETH -> R.drawable.eth
             else -> R.drawable.salary
         }
     }
@@ -52,30 +53,32 @@ class IconConverter @Inject constructor() {
             R.drawable.restaurant -> RESTAURANT
             R.drawable.salary -> SALARY
             R.drawable.supermarket -> SUPERMARKET
-            R.drawable.ic_wifi -> WIFI
-            R.drawable.ic_transport -> TRANSPORT
-            R.drawable.ic_tv -> TV
+            R.drawable.wifi -> WIFI
+            R.drawable.train -> TRAIN
+            R.drawable.tv -> TV
             R.drawable.ic_rent -> RENT
-            R.drawable.ic_sport -> SPORT
-            R.drawable.ic_savings -> SAVINGS
-            R.drawable.ic_rest -> REST
-            R.drawable.ic_phone -> PHONE
-            R.drawable.ic_medicines -> MEDICINES
-            R.drawable.ic_pets -> PETS
-            R.drawable.ic_music -> MUSIC
-            R.drawable.ic_movie -> MOVIE
+            R.drawable.sport -> SPORT
+            R.drawable.savings -> SAVINGS
+            R.drawable.rest -> REST
+            R.drawable.phone -> PHONE
+            R.drawable.medicines -> MEDICINES
+            R.drawable.pets -> PETS
+            R.drawable.music -> MUSIC
+            R.drawable.movie -> MOVIE
             R.drawable.ic_medicine -> MEDICINE
-            R.drawable.ic_internet -> INTERNET
-            R.drawable.ic_games -> GAMES
-            R.drawable.ic_friends -> FRIENDS
-            R.drawable.ic_entertainments -> ENTERTAIMENTS
-            R.drawable.ic_education -> EDUCATION
-            R.drawable.ic_construction -> CONSTRUCTION
-            R.drawable.ic_communal -> COMMUNAL
-            R.drawable.ic_coffee -> COFFEE
-            R.drawable.ic_clothes -> CLOTHES
-            R.drawable.ic_car -> CAR
-            R.drawable.ic_bank -> BANK
+            R.drawable.internet -> INTERNET
+            R.drawable.games -> GAMES
+            R.drawable.friends -> FRIENDS
+            R.drawable.entertainments -> ENTERTAIMENTS
+            R.drawable.education -> EDUCATION
+            R.drawable.construction -> CONSTRUCTION
+            R.drawable.communal -> COMMUNAL
+            R.drawable.coffee -> COFFEE
+            R.drawable.clothes -> CLOTHES
+            R.drawable.car -> CAR
+            R.drawable.bank -> BANK
+            R.drawable.transport -> TRANSPORT
+            R.drawable.eth -> ETH
             else -> R.drawable.salary
         }
     }
@@ -108,9 +111,11 @@ class IconConverter @Inject constructor() {
         const val REST = 24
         const val SAVINGS = 25
         const val SPORT = 26
-        const val TRANSPORT = 27
+        const val TRAIN = 27
         const val TV = 28
         const val WIFI = 29
         const val RENT = 30
+        const val TRANSPORT = 31
+        const val ETH = 32
     }
 }

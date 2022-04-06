@@ -29,7 +29,7 @@ sealed class DetailWalletItem {
                     id = 0,
                     type = TypeOperation.SELECT_EXPENSE,
                     operation = "",
-                    iconId = R.drawable.ic_coffee
+                    iconId = R.drawable.coffee
                 ),
                 money = "",
                 time = "",
@@ -42,7 +42,7 @@ sealed class DetailWalletItem {
                     id = 0,
                     type = TypeOperation.SELECT_EXPENSE,
                     operation = "",
-                    iconId = R.drawable.ic_coffee
+                    iconId = R.drawable.coffee
                 ),
                 money = "",
                 time = "",
@@ -55,7 +55,7 @@ sealed class DetailWalletItem {
                     id = 0,
                     type = TypeOperation.SELECT_EXPENSE,
                     operation = "",
-                    iconId = R.drawable.ic_coffee
+                    iconId = R.drawable.coffee
                 ),
                 money = "",
                 time = "",
@@ -68,7 +68,7 @@ sealed class DetailWalletItem {
                     id = 0,
                     type = TypeOperation.SELECT_EXPENSE,
                     operation = "",
-                    iconId = R.drawable.ic_coffee
+                    iconId = R.drawable.coffee
                 ),
                 money = "",
                 time = "",
