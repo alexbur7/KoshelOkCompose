@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
+import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
@@ -21,18 +23,25 @@ class CurrenciesViewModel @Inject constructor(
     val createWalletFlow: StateFlow<CreateWalletEntity?>
         get() = savingDataManager.createWalletFlow.asStateFlow()
 
+    val createTransactionEntity: StateFlow<TransactionEntity?>
+        get() = savingDataManager.createTransactionFlow.asStateFlow()
+
     val currencies: StateFlow<List<Currency>> =
         MutableStateFlow(Currency.values().toList()).asStateFlow()
 
     override fun obtainEvent(event: Event) {
         when (event) {
             is Event.ChooseCurrency -> {
-                chooseCurrency(event.currency)
+                when (event.createTypeScreen) {
+                    CurrencyScreenType.WALLET_SCREEN -> chooseWalletCurrency(event.currency)
+                    CurrencyScreenType.TRANSACTION_SCREEN -> chooseTransactionCurrency(event.currency)
+                }
+                chooseWalletCurrency(event.currency)
             }
         }
     }
 
-    private fun chooseCurrency(currency: Currency) = viewModelScope.launch {
+    private fun chooseWalletCurrency(currency: Currency) = viewModelScope.launch {
         savingDataManager.createWalletFlow.emit(
             savingDataManager.createWalletFlow.value?.copy(
                 currency = currency
@@ -40,7 +49,16 @@ class CurrenciesViewModel @Inject constructor(
         )
     }
 
+    private fun chooseTransactionCurrency(currency: Currency) = viewModelScope.launch {
+        savingDataManager.createTransactionFlow.emit(
+            savingDataManager.createTransactionFlow.value?.copy(
+                currency = currency
+            )
+        )
+    }
+
     sealed class Event : BaseEvent() {
-        class ChooseCurrency(val currency: Currency) : Event()
+        class ChooseCurrency(val createTypeScreen: CurrencyScreenType, val currency: Currency) :
+            Event()
     }
 }

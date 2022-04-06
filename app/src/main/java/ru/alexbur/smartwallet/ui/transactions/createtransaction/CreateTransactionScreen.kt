@@ -1,5 +1,7 @@
 package ru.alexbur.smartwallet.ui.transactions.createtransaction
 
+import android.app.DatePickerDialog
+import android.widget.DatePicker
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,9 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.composable
-import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.datetime.date.datepicker
-import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.data.extentions.getCalendar
 import ru.alexbur.smartwallet.data.extentions.getDayWithMonth
@@ -35,12 +35,13 @@ import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
-import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
+import java.util.*
 import javax.inject.Inject
 
 @Composable
@@ -49,8 +50,6 @@ fun CreateTransactionScreen(
     navController: NavController,
     viewModel: CreateTransactionViewModel = hiltViewModel()
 ) {
-
-    val dialogState = rememberMaterialDialogState()
 
     val createTransactionData = viewModel.createTransactionFlow.collectAsState()
     val initialCreateTransaction = TransactionEntity(
@@ -73,6 +72,9 @@ fun CreateTransactionScreen(
             )
         )
     }
+
+    val datePickerDialog =
+        createDatePickerDialog(viewModel, createTransactionData, initialCreateTransaction)
 
     Box(
         modifier = Modifier
@@ -169,7 +171,7 @@ fun CreateTransactionScreen(
                         ?: initialCreateTransaction.currency.nameId
                 )
             ) {
-                navController.navigate(CurrenciesScreenFactory.route)
+                navController.navigate("${CurrenciesScreenFactory.route}/${CurrencyScreenType.TRANSACTION_SCREEN.code}")
             }
 
             OutlinedButton(
@@ -185,23 +187,31 @@ fun CreateTransactionScreen(
                     ?: initialCreateTransaction.date.getCalendar()
                         .getDayWithMonth(LocalContext.current)
             ) {
-                dialogState.show()
+                datePickerDialog.show()
             }
-        }
-
-        MaterialDialog(
-            dialogState = dialogState,
-            buttons = {
-                positiveButton("Ok")
-                negativeButton("Cancel")
-            }
-        ) {
-            /*datepicker { date ->
-                viewModel.obtainEvent(CreateTransactionViewModel.Event.UpdateDate(date))
-            }*/
         }
     }
 }
+
+@Composable
+private fun createDatePickerDialog(
+    viewModel: CreateTransactionViewModel,
+    createTransactionData: State<TransactionEntity?>,
+    initialCreateTransaction: TransactionEntity
+) = DatePickerDialog(
+    LocalContext.current,
+    { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+        val cal = Calendar.getInstance()
+        cal.set(year, month, dayOfMonth)
+        viewModel.obtainEvent(CreateTransactionViewModel.Event.UpdateDate(cal.time.time))
+    },
+    createTransactionData.value?.date?.getCalendar()?.get(Calendar.YEAR)
+        ?: initialCreateTransaction.date.getCalendar().get(Calendar.YEAR),
+    createTransactionData.value?.date?.getCalendar()?.get(Calendar.MONTH)
+        ?: initialCreateTransaction.date.getCalendar().get(Calendar.MONTH),
+    createTransactionData.value?.date?.getCalendar()?.get(Calendar.DAY_OF_MONTH)
+        ?: initialCreateTransaction.date.getCalendar().get(Calendar.DAY_OF_MONTH)
+)
 
 class CreateTransactionScreenFactory @Inject constructor() : NavigationScreenFactory {
     companion object Companion : NavigationFactory.NavigationFactoryCompanion {

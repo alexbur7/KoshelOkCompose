@@ -55,9 +55,9 @@ class CreateTransactionViewModel @Inject constructor(
         )
     }
 
-    private fun updateDate(date: LocalDate) = viewModelScope.launch {
+    private fun updateDate(date: Long) = viewModelScope.launch {
         savingDataManager.createTransactionFlow.emit(
-            savingDataManager.createTransactionFlow.value?.copy(date = date.toEpochDay())
+            savingDataManager.createTransactionFlow.value?.copy(date = date)
         )
     }
 
@@ -65,6 +65,6 @@ class CreateTransactionViewModel @Inject constructor(
         class InitCreateTransaction(val transaction: TransactionEntity) : Event()
         class UpdateSumTransaction(val sum: String) : Event()
         class UpdateTypeOperation(val typeOperation: TypeOperation) : Event()
-        class UpdateDate(val date: LocalDate) : Event()
+        class UpdateDate(val date: Long) : Event()
     }
 }

@@ -28,6 +28,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
@@ -101,7 +102,7 @@ fun CreateWalletScreen(
                         ?: initialCreateWallet.currency.nameId
                 )
             ) {
-                navigation.navigate(CurrenciesScreenFactory.route)
+                navigation.navigate("${CurrenciesScreenFactory.route}/${CurrencyScreenType.WALLET_SCREEN.code}")
             }
 
             OutlinedEditText(

@@ -35,6 +35,7 @@ fun TypeOperationChooser(
     var isExpanded by rememberSaveable {
         mutableStateOf(false)
     }
+
     Column(modifier = modifier
         .drawWithContent {
             drawRoundRect(
@@ -63,13 +64,15 @@ fun TypeOperationChooser(
             .clickable {
                 isExpanded = !isExpanded
             }
-            .padding(vertical = 12.dp),
+            .padding(12.dp),
             text = stringResource(id = currentOperationType.typeId),
             textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
             imageId = R.drawable.arrow_right
         )
 
-        AnimatedVisibility(visible = isExpanded, modifier = Modifier.fillMaxWidth()) {
+        AnimatedVisibility(visible = isExpanded, modifier = Modifier.fillMaxWidth().padding(
+            horizontal = 12.dp
+        )) {
             Column {
 
                 TextWithEndImage(modifier = Modifier
