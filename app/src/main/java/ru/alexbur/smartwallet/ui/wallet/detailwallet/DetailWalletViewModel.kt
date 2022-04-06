@@ -16,6 +16,7 @@ import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.repositories.DeleteTransactionRepository
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
+import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
 
@@ -23,7 +24,8 @@ class DetailWalletViewModel @AssistedInject constructor(
     @Assisted
     private val walletId: Long,
     private val detailWalletRepository: DetailWalletRepository,
-    private val deleteTransactionRepository: DeleteTransactionRepository
+    private val deleteTransactionRepository: DeleteTransactionRepository,
+    private val savingDataManager: SavingDataManager
 ) : BaseViewModel<DetailWalletViewModel.Event>() {
 
     val walletsData: StateFlow<List<WalletEntity>>
@@ -127,6 +129,7 @@ class DetailWalletViewModel @AssistedInject constructor(
     }
 
     private fun startDBTransactionLoading(walletId: Long) = viewModelScope.launch {
+        savingDataManager.walletIdFlow.emit(walletId)
         _transitionsData.emit(DetailWalletItem.shimmerData)
 
         val transactionData = detailWalletRepository.getDbTransactionsData(walletId).getOrNull()

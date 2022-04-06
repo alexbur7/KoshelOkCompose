@@ -32,8 +32,6 @@ import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.Transactio
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard.FullCardWalletInDetail
 import javax.inject.Inject
 
-private const val WALLET_ID_KEY = "walletId"
-
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun DetailWalletScreen(
@@ -126,7 +124,9 @@ fun detailWalletViewModel(
 }
 
 class DetailWalletScreenFactory @Inject constructor() : NavigationScreenFactory {
-    companion object Companion : NavigationFactory.NavigationFactoryCompanion
+    companion object Companion : NavigationFactory.NavigationFactoryCompanion{
+        private const val WALLET_ID_KEY = "walletId"
+    }
 
     override val factoryType: List<NavigationFactory.NavigationFactoryType>
         get() = listOf(NavigationFactory.NavigationFactoryType.Nested)

@@ -12,7 +12,10 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -23,7 +26,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
+import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
 
 @Composable
@@ -38,7 +44,7 @@ fun BottomNavBar(
 
     val loadState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
     val errorState = viewModel.errorState.collectAsState("")
-    val walletIdState = viewModel.walletIdData.collectAsState(initial = -1L)
+    val walletIdState = viewModel.walletIdData.collectAsState()
 
     val snackBarHostState = SnackbarHostState()
 
@@ -88,17 +94,29 @@ fun BottomNavBar(
                 modifier = Modifier,
                 selected = isSelected,
                 onClick = {
-                    if (tab.route != route) {
+                    if (tab.route != route && tab.nestedRoute.find { route?.contains(it) == true } == null) {
+                        val newRoute = if (tab == NavItem.NavBarItems.NewItem) {
+                            if (route == ProfileScreenFactory.route) tab.route
+                            else {
+                                "${CreateTransactionScreenFactory.route}/${walletIdState.value}"
+                            }
+                        } else {
+                            tab.route
+                        }
                         with(navController) {
-                            navigate(tab.route) {
+                            navigate(newRoute) {
                                 popUpTo(graph.startDestinationId) {
                                     saveState = true
                                 }
                                 restoreState = true
                             }
                         }
-                    } else if (tab.route == route && tab == NavItem.NavBarItems.NewItem) {
-                        viewModel.obtainEvent(NavBarViewModel.Event.CreateWalletStarted)
+                    } else if (tab.nestedRoute.find { route?.contains(it) == true } != null && tab == NavItem.NavBarItems.NewItem) {
+                        if (route?.contains(CreateWalletScreenFactory.route) == true) {
+                            viewModel.obtainEvent(NavBarViewModel.Event.CreateWalletStarted)
+                        } else {
+                            viewModel.obtainEvent(NavBarViewModel.Event.CreateTransactionStarted)
+                        }
                     }
                 },
                 icon = {

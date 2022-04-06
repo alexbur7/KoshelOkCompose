@@ -82,7 +82,7 @@ fun ProfileScreen(
     }
 }
 
-class ListWalletScreenFactory @Inject constructor() : NavigationScreenFactory {
+class ProfileScreenFactory @Inject constructor() : NavigationScreenFactory {
 
     companion object Companion : NavigationFactory.NavigationFactoryCompanion
 

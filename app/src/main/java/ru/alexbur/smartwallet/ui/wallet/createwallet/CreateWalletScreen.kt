@@ -2,7 +2,6 @@ package ru.alexbur.smartwallet.ui.wallet.createwallet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
@@ -29,6 +28,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
@@ -89,26 +89,19 @@ fun CreateWalletScreen(
                 initialField = createWalletData.value?.name ?: initialCreateWallet.name
             )
 
-            OutlinedEditText(
+            OutlinedButton(
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.currency),
-                readOnly = true,
-                initialField = stringResource(
+                text = stringResource(
                     id = createWalletData.value?.currency?.nameId
                         ?: initialCreateWallet.currency.nameId
                 )
             ) {
-                Image(
-                    modifier = Modifier.clickable {
-                        navigation.navigate(CurrenciesScreenFactory.route)
-                    },
-                    painter = painterResource(id = R.drawable.arrow_right),
-                    contentDescription = "Arrow right"
-                )
+                navigation.navigate(CurrenciesScreenFactory.route)
             }
 
             OutlinedEditText(
@@ -143,5 +136,4 @@ class CreateWalletScreenFactory @Inject constructor() : NavigationScreenFactory 
             CreateWalletScreen(navGraph)
         }
     }
-
 }

@@ -26,8 +26,8 @@ class NavBarViewModel @Inject constructor(
         get() = _loadStateData.asStateFlow().onEach { delay(300) }
     val errorState: StateFlow<String>
         get() = _errorData.asStateFlow()
-    val walletIdData: Flow<Long>
-        get() = savingDataManager.walletFlow.map { it?.id ?: -1L }
+    val walletIdData: StateFlow<Long>
+        get() = savingDataManager.walletIdFlow
 
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
     private val _errorData = MutableStateFlow("")
@@ -80,7 +80,7 @@ class NavBarViewModel @Inject constructor(
     }
 
     private fun succeedCreateWallet(wallet: WalletEntity) = viewModelScope.launch {
-        savingDataManager.walletFlow.emit(wallet)
+        savingDataManager.walletIdFlow.emit(wallet.id)
         savingDataManager.createWalletFlow.emit(null)
         _loadStateData.emit(LoadingState.LOAD_SUCCEED)
     }

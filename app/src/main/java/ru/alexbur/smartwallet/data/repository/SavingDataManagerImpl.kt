@@ -16,8 +16,9 @@ class SavingDataManagerImpl @Inject constructor() : SavingDataManager {
     override val createTransactionFlow: MutableStateFlow<TransactionEntity?> =
         MutableStateFlow(null)
 
-    override val walletFlow: MutableStateFlow<WalletEntity?> = MutableStateFlow(null)
-
     override val transactionFlow: MutableStateFlow<DetailWalletItem.Transaction?> =
         MutableStateFlow(null)
+
+    override val walletIdFlow: MutableStateFlow<Long> =
+        MutableStateFlow(-1)
 }

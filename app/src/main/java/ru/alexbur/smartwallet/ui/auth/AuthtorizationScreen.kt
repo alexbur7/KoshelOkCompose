@@ -37,7 +37,7 @@ import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.enums.LoadingState
-import ru.alexbur.smartwallet.ui.profile.ListWalletScreenFactory
+import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.utils.ButtonState
 import ru.alexbur.smartwallet.ui.utils.GradientButton
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
@@ -91,7 +91,7 @@ fun AuthorizationScreen(
         when (state.value) {
             LoadingState.LOAD_SUCCEED -> {
                 buttonState = ButtonState.ENABLED
-                navController.navigate(ListWalletScreenFactory.route)
+                navController.navigate(ProfileScreenFactory.route)
             }
             LoadingState.LOAD_IN_PROGRESS -> {
                 buttonState = ButtonState.LOADING

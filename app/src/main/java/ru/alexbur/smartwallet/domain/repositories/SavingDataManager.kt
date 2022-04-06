@@ -13,7 +13,7 @@ interface SavingDataManager {
 
     val createTransactionFlow: MutableStateFlow<TransactionEntity?>
 
-    val walletFlow: MutableStateFlow<WalletEntity?>
-
     val transactionFlow: MutableStateFlow<DetailWalletItem.Transaction?>
+
+    val walletIdFlow: MutableStateFlow<Long>
 }

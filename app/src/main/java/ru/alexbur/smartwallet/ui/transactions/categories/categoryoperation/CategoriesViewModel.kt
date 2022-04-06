@@ -17,11 +17,11 @@ import ru.alexbur.smartwallet.domain.repositories.LoadCategoriesRepository
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
 
-class CategoryViewModel @AssistedInject constructor(
+class CategoriesViewModel @AssistedInject constructor(
     @Assisted
     type: Int,
     private val loadCategories: LoadCategoriesRepository
-) : BaseViewModel<CategoryViewModel.Event>() {
+) : BaseViewModel<CategoriesViewModel.Event>() {
 
     val listCategory: StateFlow<List<CategoryEntity>>
         get() = _listCategories.asStateFlow()
@@ -81,7 +81,7 @@ class CategoryViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(type: Int): CategoryViewModel
+        fun create(type: Int): CategoriesViewModel
     }
 
     @Suppress("UNCHECKED_CAST")

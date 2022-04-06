@@ -25,7 +25,7 @@
     <string name="new_operation">Новая операция</string>
     <string name="main_operation">Основные</string>
     <string name="edition_settings">Дополнительные настройки</string>
-    <string name="data_operation">Дата операции</string>
+    <string name="date_operation">Дата операции</string>
     <string name="capitalization_text">Капитализация</string>
     <string name="salary_text">Зарплата</string>
     <string name="part_time_text">Подработка</string>
@@ -103,5 +103,6 @@
     <string name="usd_list">" Доллар США (USD)"</string>
     <string name="chf_list">Швейцарсие франки (CHF)</string>
     <string name="close_description">Закрыть экран</string>
-    <string name="operation_title">Операции</string>
+    <string name="operation_title">Операция</string>
+    <string name="operations">Операции</string>
 </resources>

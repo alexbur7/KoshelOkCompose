@@ -9,8 +9,10 @@ import ru.alexbur.smartwallet.di.navigation.NavigationHostFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.auth.AuthorizationScreenFactory
 import ru.alexbur.smartwallet.ui.main.MainNavHostScreenFactory
-import ru.alexbur.smartwallet.ui.profile.ListWalletScreenFactory
+import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.search.SearchWalletScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
@@ -28,7 +30,7 @@ interface NavigationModule {
     @IntoSet
     @Binds
     @Singleton
-    fun bindListWalletFactory(listWalletScreenFactory: ListWalletScreenFactory): NavigationScreenFactory
+    fun bindListWalletFactory(profileScreenFactory: ProfileScreenFactory): NavigationScreenFactory
 
     @IntoSet
     @Binds
@@ -54,4 +56,14 @@ interface NavigationModule {
     @Binds
     @Singleton
     fun bindDetailWalletScreenFactory(detailWalletScreenFactory: DetailWalletScreenFactory): NavigationScreenFactory
+
+    @IntoSet
+    @Binds
+    @Singleton
+    fun bindCreateTransactionScreenFactory(createTransactionScreenFactory: CreateTransactionScreenFactory): NavigationScreenFactory
+
+    @IntoSet
+    @Binds
+    @Singleton
+    fun bindCategoriesScreenFactory(categoriesScreenFactory: CategoriesScreenFactory): NavigationScreenFactory
 }
