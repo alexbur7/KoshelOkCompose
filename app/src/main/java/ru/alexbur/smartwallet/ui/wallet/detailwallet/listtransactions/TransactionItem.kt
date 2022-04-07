@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
+import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.data.extentions.formattedMoney
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.ui.utils.theme.*
@@ -46,7 +48,8 @@ fun TransactionItem(
                 .clip(CircleShape)
                 .background(BackgroundColor),
             painter = painterResource(id = transaction.category.iconId),
-            contentDescription = "Transaction category icon"
+            contentDescription = stringResource(id = R.string.category_image_description),
+            contentScale = ContentScale.None
         )
 
         Column(modifier = Modifier

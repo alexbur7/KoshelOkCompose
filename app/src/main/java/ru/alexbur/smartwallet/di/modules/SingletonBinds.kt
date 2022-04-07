@@ -10,9 +10,11 @@ import ru.alexbur.smartwallet.data.db.source.WalletSource
 import ru.alexbur.smartwallet.data.db.source.WalletSourceImpl
 import ru.alexbur.smartwallet.data.repository.DeleteTransactionRepositoryImpl
 import ru.alexbur.smartwallet.data.repository.DetailWalletRepositoryImpl
+import ru.alexbur.smartwallet.data.repository.LoadCategoriesRepositoryImpl
 import ru.alexbur.smartwallet.data.repository.SavingDataManagerImpl
 import ru.alexbur.smartwallet.domain.repositories.DeleteTransactionRepository
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
+import ru.alexbur.smartwallet.domain.repositories.LoadCategoriesRepository
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import javax.inject.Singleton
 
@@ -37,4 +39,8 @@ interface SingletonBinds {
     @Binds
     fun bindOptionTransactionRepository(optionsTransactionRepositoryImpl: DeleteTransactionRepositoryImpl)
             : DeleteTransactionRepository
+
+    @Binds
+    fun bindLoadCategoriesRepository(loadCategoriesRepositoryImpl: LoadCategoriesRepositoryImpl)
+            : LoadCategoriesRepository
 }

@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.transactions.createtransaction
+package ru.alexbur.smartwallet.ui.utils
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -19,8 +19,9 @@ import androidx.compose.ui.unit.sp
 import ru.alexbur.smartwallet.R
 
 @Composable
-fun CreateTransactionToolbar(
+fun TitleWithBackButtonToolbar(
     modifier: Modifier,
+    titleText: String,
     close: () -> Unit
 ) {
     Row(modifier = modifier) {
@@ -40,7 +41,7 @@ fun CreateTransactionToolbar(
         )
 
         Text(
-            text = stringResource(id = R.string.operation_title),
+            text = titleText,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()

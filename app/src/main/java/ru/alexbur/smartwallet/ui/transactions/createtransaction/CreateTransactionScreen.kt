@@ -39,6 +39,7 @@ import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
+import ru.alexbur.smartwallet.ui.utils.TitleWithBackButtonToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
 import java.util.*
@@ -96,8 +97,9 @@ fun CreateTransactionScreen(
                 )
                 .padding(24.dp)
         ) {
-            CreateTransactionToolbar(
+            TitleWithBackButtonToolbar(
                 modifier = Modifier.fillMaxWidth(),
+                titleText = stringResource(id = R.string.operation_title),
                 navController::popBackStack
             )
 

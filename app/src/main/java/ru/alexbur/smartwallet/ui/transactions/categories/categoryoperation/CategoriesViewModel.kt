@@ -6,89 +6,52 @@ import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
-import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
-import ru.alexbur.smartwallet.domain.enums.LoadingState
-import ru.alexbur.smartwallet.domain.repositories.LoadCategoriesRepository
+import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
+import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
 
 class CategoriesViewModel @AssistedInject constructor(
     @Assisted
-    type: Int,
-    private val loadCategories: LoadCategoriesRepository
+    private val type: TypeOperation,
+    private val savingDataManager: SavingDataManager
 ) : BaseViewModel<CategoriesViewModel.Event>() {
 
-    val listCategory: StateFlow<List<CategoryEntity>>
-        get() = _listCategories.asStateFlow()
-    val transaction: StateFlow<TransactionEntity?>
-        get() = _transactionFlow.asStateFlow()
-    val productsLoadState: StateFlow<LoadingState>
-        get() = _productsLoadState.asStateFlow()
-
-    private val _listCategories = MutableStateFlow<List<CategoryEntity>>(emptyList())
-    private val _transactionFlow = MutableStateFlow<TransactionEntity?>(null)
-    private val _productsLoadState = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
-
-    init {
-        viewModelScope.launch { obtainEvent(Event.OnLoadingStarted(type)) }
-    }
+    val listCategory: Flow<List<CategoryEntity>>
+        get() = savingDataManager.categoriesFlow.asStateFlow()
+            .map { it.filter { category -> category.type == type } }
 
     override fun obtainEvent(event: Event) {
         when (event) {
-            is Event.OnLoadingStarted -> {
-                startLoading(type = event.type)
-            }
-            is Event.OnLoadingFailed -> {
-                failLoading(error = event.error)
-            }
-            is Event.OnLoadingSucceed -> {
-                succeedLoading(list = event.data)
-            }
+            is Event.ChooseCategory -> chooseCategory(event.categoryEntity)
         }
     }
 
-    private fun startLoading(type: Int) = viewModelScope.launch {
-        _productsLoadState.emit(LoadingState.LOAD_IN_PROGRESS)
-
-        loadCategories.getCategories(type)
-            .onSuccess {
-                obtainEvent(Event.OnLoadingSucceed(it))
-            }
-            .onFailure {
-                obtainEvent(Event.OnLoadingFailed(it.localizedMessage))
-            }
-    }
-
-    private fun failLoading(error: String?) = viewModelScope.launch {
-        _productsLoadState.emit(LoadingState.LOAD_FAILED)
-    }
-
-    private fun succeedLoading(list: List<CategoryEntity>) = viewModelScope.launch {
-        _listCategories.emit(list)
-        _productsLoadState.emit(LoadingState.LOAD_SUCCEED)
+    private fun chooseCategory(categoryEntity: CategoryEntity) = viewModelScope.launch {
+        savingDataManager.createTransactionFlow.emit(
+            savingDataManager.createTransactionFlow.value?.copy(categoryEntity = categoryEntity)
+        )
     }
 
     sealed class Event : BaseEvent() {
-        class OnLoadingStarted(val type: Int) : Event()
-        class OnLoadingFailed(val error: String?) : Event()
-        class OnLoadingSucceed(val data: List<CategoryEntity>) : Event()
+        class ChooseCategory(val categoryEntity: CategoryEntity) : Event()
     }
 
     @AssistedFactory
     interface Factory {
-        fun create(type: Int): CategoriesViewModel
+        fun create(typeOperation: TypeOperation): CategoriesViewModel
     }
 
     @Suppress("UNCHECKED_CAST")
     companion object {
         fun provideFactory(
             assistedFactory: Factory,
-            type: Int
+            type: TypeOperation
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return assistedFactory.create(type) as T

@@ -56,7 +56,6 @@ class IconConverter @Inject constructor() {
             R.drawable.wifi -> WIFI
             R.drawable.train -> TRAIN
             R.drawable.tv -> TV
-            R.drawable.ic_rent -> RENT
             R.drawable.sport -> SPORT
             R.drawable.savings -> SAVINGS
             R.drawable.rest -> REST
@@ -114,8 +113,7 @@ class IconConverter @Inject constructor() {
         const val TRAIN = 27
         const val TV = 28
         const val WIFI = 29
-        const val RENT = 30
-        const val TRANSPORT = 31
-        const val ETH = 32
+        const val TRANSPORT = 30
+        const val ETH = 31
     }
 }

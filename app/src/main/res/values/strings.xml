@@ -60,7 +60,6 @@
     <string name="empty_wallets">У вас пока нет созданных кошельков</string>
     <string name="checked_category">Выбранная категория</string>
     <string name="icon_category">Иконка категории</string>
-    <string name="check_category">Выберите категорию</string>
     <string name="create_transaction">Создать транзакцию</string>
     <string name="main">Основные</string>
     <string name="sum">Сумма</string>
@@ -105,4 +104,5 @@
     <string name="close_description">Закрыть экран</string>
     <string name="operation_title">Операция</string>
     <string name="operations">Операции</string>
+    <string name="category_image_description">Иконка для категории</string>
 </resources>
