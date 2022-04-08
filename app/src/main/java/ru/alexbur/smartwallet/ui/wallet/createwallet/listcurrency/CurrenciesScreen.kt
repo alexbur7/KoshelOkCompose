@@ -18,6 +18,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
+import ru.alexbur.smartwallet.ui.utils.ChooseDataToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import javax.inject.Inject
 
@@ -56,7 +57,7 @@ fun CurrenciesScreen(
                 .fillMaxSize()
                 .padding(24.dp)
         ) {
-            CurrencyToolbar(
+            ChooseDataToolbar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),

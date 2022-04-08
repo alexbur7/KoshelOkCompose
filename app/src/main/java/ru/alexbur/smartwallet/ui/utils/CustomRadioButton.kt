@@ -29,7 +29,7 @@ fun CustomRadioButton(
 ) {
 
     val dotRadius = animateDpAsState(
-        targetValue = RadioButtonDotSize / 2,
+        targetValue = if (isSelect) RadioButtonDotSize / 2 else 0.dp,
         animationSpec = tween(durationMillis = RadioAnimationDuration)
     )
     val selectableModifier =
@@ -59,7 +59,6 @@ fun CustomRadioButton(
         modifier
             .then(selectableModifier)
             .wrapContentSize(Alignment.Center)
-            .padding(RadioButtonPadding)
             .requiredSize(RadioButtonSize)
     ) {
         // Draw the radio button
@@ -70,18 +69,19 @@ fun CustomRadioButton(
             radius = RadioRadius.toPx() - strokeWidth / 2,
             style = Stroke(strokeWidth)
         )
-        drawCircle(
-            brush = Brush.linearGradient(firstGradientList),
-            dotRadius.value.toPx() - strokeWidth / 2,
-            style = Fill
-        )
+        if (dotRadius.value > 0.dp) {
+            drawCircle(
+                brush = Brush.linearGradient(firstGradientList),
+                dotRadius.value.toPx() - strokeWidth / 2,
+                style = Fill
+            )
+        }
     }
 }
 
 private const val RadioAnimationDuration = 100
 
 private val RadioButtonRippleRadius = 24.dp
-private val RadioButtonPadding = 2.dp
 private val RadioButtonSize = 20.dp
 private val RadioRadius = RadioButtonSize / 2
 private val RadioButtonDotSize = 12.dp

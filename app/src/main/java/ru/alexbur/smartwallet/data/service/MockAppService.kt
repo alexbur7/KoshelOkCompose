@@ -1,8 +1,8 @@
 package ru.alexbur.smartwallet.data.service
 
-import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.delay
 import ru.alexbur.smartwallet.data.service.api.*
+import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 
 class MockAppService : AppService {
 
@@ -187,9 +187,70 @@ class MockAppService : AppService {
         return true
     }
 
-    override suspend fun getCategories(type: Int): List<CategoryApi> {
+    override suspend fun getCategories(): List<CategoryApi> {
         delay(3000L)
-        return listOf()
+        return listOf(
+            CategoryApi(
+                0,
+                type = 0,
+                operation = "Супермаркет",
+                idIcon = 1
+            ),
+            CategoryApi(
+                1,
+                type = 1,
+                operation = "Супермаркет2",
+                idIcon = 3
+            ),
+            CategoryApi(
+                2,
+                type = 1,
+                operation = "Супермаркет3",
+                idIcon = 2
+            ),
+            CategoryApi(
+                3,
+                type = 0,
+                operation = "Супермаркет4",
+                idIcon = 4
+            ),
+            CategoryApi(
+                4,
+                type = 1,
+                operation = "Супермаркет4",
+                idIcon = 4
+            ),
+            CategoryApi(
+                5,
+                type = 1,
+                operation = "Супермаркет5",
+                idIcon = 19
+            ),
+            CategoryApi(
+                6,
+                type = 0,
+                operation = "Супермаркет6",
+                idIcon = 4
+            ),
+            CategoryApi(
+                7,
+                type = 0,
+                operation = "Супермаркет7",
+                idIcon = 12
+            ),
+            CategoryApi(
+                8,
+                type = 0,
+                operation = "Супермаркет 8",
+                idIcon = 6
+            ),
+            CategoryApi(
+                9,
+                type = 1,
+                operation = "Супермаркет10",
+                idIcon = 8
+            ),
+        )
     }
 
     override suspend fun createCategory(categoryApi: CategoryApi): CategoryApi {

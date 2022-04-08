@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -36,7 +37,9 @@ import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
+import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
+import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.TitleWithBackButtonToolbar
@@ -51,13 +54,13 @@ fun CreateTransactionScreen(
     navController: NavController,
     viewModel: CreateTransactionViewModel = hiltViewModel()
 ) {
-
+    val categoriesState = viewModel.categoriesFlow.collectAsState()
     val createTransactionData = viewModel.createTransactionFlow.collectAsState()
     val initialCreateTransaction = TransactionEntity(
         idWallet = walletId,
         currency = Currency.RUB,
-        sum = "10000",
         type = TypeOperation.SELECT_INCOME,
+        sum = "10000",
         categoryEntity = CategoryEntity(
             0,
             TypeOperation.SELECT_INCOME,
@@ -66,12 +69,21 @@ fun CreateTransactionScreen(
         ),
         date = System.currentTimeMillis()
     )
-    if (createTransactionData.value == null) {
-        viewModel.obtainEvent(
-            CreateTransactionViewModel.Event.InitCreateTransaction(
-                initialCreateTransaction
+
+    val loadState = viewModel.loadStateFlow.collectAsState()
+
+    LaunchedEffect(key1 = loadState.value, categoriesState.value) {
+        if (loadState.value == LoadingState.LOAD_FAILED) {
+            //TODO вызвать снэкбар с ошибкой
+        }
+        if (categoriesState.value.isNotEmpty() && createTransactionData.value == null) {
+            viewModel.obtainEvent(
+                CreateTransactionViewModel.Event.InitCreateTransaction(
+                    initialCreateTransaction.copy(categoryEntity = categoriesState.value.first
+                    { it.type == TypeOperation.SELECT_INCOME })
+                )
             )
-        )
+        }
     }
 
     val datePickerDialog =
@@ -146,7 +158,14 @@ fun CreateTransactionScreen(
                 text = createTransactionData.value?.categoryEntity?.operation
                     ?: initialCreateTransaction.categoryEntity.operation
             ) {
-                //navController.navigate(CategoriesScreenFactory.route)
+                if (categoriesState.value.isNotEmpty()) {
+                    navController.navigate(
+                        "${CategoriesScreenFactory.route}/${
+                            createTransactionData.value?.type?.code
+                                ?: initialCreateTransaction.type.code
+                        }"
+                    )
+                }
             }
 
             Text(

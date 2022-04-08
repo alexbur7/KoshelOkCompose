@@ -33,10 +33,8 @@ interface AppService {
     @DELETE("transactions/{transactionId}")
     suspend fun deleteTransaction(@Path("transactionId") id: Long): Boolean
 
-    @GET("categories/person/{value}")
-    suspend fun getCategories(
-        @Path("value") type: Int
-    ): List<CategoryApi>
+    @GET("categories/person")
+    suspend fun getCategories(): List<CategoryApi>
 
     @POST("categories")
     suspend fun createCategory(@Body categoryApi: CategoryApi): CategoryApi

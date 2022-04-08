@@ -40,7 +40,9 @@ fun MainNavHostScreen(
             startDestination = NavItem.NavBarItems.Profile.route
         ) {
             navigationFactoryList
-                .forEach { it.create(this, controller) }
+                .forEach {
+                    it.create(this, controller)
+                }
         }
     }
 }

@@ -63,11 +63,11 @@ fun CreateWalletScreen(
             contentScale = ContentScale.FillWidth
         )
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                    .padding(bottom = 16.dp),
                 text = stringResource(id = R.string.new_wallet),
                 style = TextStyle(
                     color = Color.White,

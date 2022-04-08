@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency
+package ru.alexbur.smartwallet.ui.utils
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import ru.alexbur.smartwallet.R
 
 @Composable
-fun CurrencyToolbar(
+fun ChooseDataToolbar(
     modifier: Modifier,
     close: () -> Unit,
     done: () -> Unit
@@ -58,7 +58,7 @@ fun CurrencyToolbar(
 @Preview
 @Composable
 fun CurrencyToolbarPreview() {
-    CurrencyToolbar(modifier = Modifier
+    ChooseDataToolbar(modifier = Modifier
         .fillMaxWidth()
         .wrapContentHeight(), {}, {})
 }

@@ -25,7 +25,6 @@ import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
 import ru.alexbur.smartwallet.ui.utils.CustomRadioButton
-import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 
 @Composable
 fun CategoryItem(
@@ -35,16 +34,11 @@ fun CategoryItem(
     onClick: (CategoryEntity) -> Unit
 ) {
     Row(modifier = modifier
-        .clickable {
-            onClick(categoryEntity)
-        }
-        .padding(vertical = 12.dp, horizontal = 16.dp)) {
+        .padding(vertical = 12.dp)) {
         Image(
             modifier = Modifier
                 .align(Alignment.CenterVertically)
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(BackgroundColor),
+                .size(24.dp),
             painter = painterResource(id = categoryEntity.iconId),
             contentDescription = stringResource(id = R.string.category_image_description),
             contentScale = ContentScale.None

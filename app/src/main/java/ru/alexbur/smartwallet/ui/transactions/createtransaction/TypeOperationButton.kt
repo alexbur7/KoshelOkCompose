@@ -60,7 +60,6 @@ fun TypeOperationChooser(
         TextWithEndImage(modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(top = 4.dp)
             .clickable {
                 isExpanded = !isExpanded
             }

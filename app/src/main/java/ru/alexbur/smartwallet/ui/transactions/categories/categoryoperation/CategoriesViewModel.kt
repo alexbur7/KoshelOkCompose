@@ -7,11 +7,14 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
+import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
+import ru.alexbur.smartwallet.domain.repositories.CreateTransactionRepository
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
@@ -25,6 +28,9 @@ class CategoriesViewModel @AssistedInject constructor(
     val listCategory: Flow<List<CategoryEntity>>
         get() = savingDataManager.categoriesFlow.asStateFlow()
             .map { it.filter { category -> category.type == type } }
+
+    val chooseCategory: StateFlow<TransactionEntity?>
+        get() = savingDataManager.createTransactionFlow.asStateFlow()
 
     override fun obtainEvent(event: Event) {
         when (event) {

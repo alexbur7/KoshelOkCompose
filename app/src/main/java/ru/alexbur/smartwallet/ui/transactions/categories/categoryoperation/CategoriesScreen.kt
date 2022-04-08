@@ -5,13 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
@@ -23,7 +21,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
 import ru.alexbur.smartwallet.ui.MainActivity
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
-import ru.alexbur.smartwallet.ui.utils.TitleWithBackButtonToolbar
+import ru.alexbur.smartwallet.ui.utils.ChooseDataToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import javax.inject.Inject
 
@@ -35,6 +33,9 @@ fun CategoriesScreen(
 
     val state = rememberLazyListState()
     val categoriesState = viewModel.listCategory.collectAsState(initial = emptyList())
+    var currentCategory by remember {
+        mutableStateOf(viewModel.chooseCategory.value?.categoryEntity)
+    }
 
     Box(
         modifier = Modifier
@@ -53,11 +54,13 @@ fun CategoriesScreen(
                 .fillMaxSize()
                 .padding(24.dp)
         ) {
-            TitleWithBackButtonToolbar(
-                modifier = Modifier.fillMaxWidth(),
-                titleText = stringResource(id = R.string.choose_category),
-                navController::popBackStack
-            )
+            ChooseDataToolbar(modifier = Modifier.fillMaxWidth(), close = {
+                navController.popBackStack()
+            }) {
+                currentCategory?.let {
+                    viewModel.obtainEvent(CategoriesViewModel.Event.ChooseCategory(it))
+                }
+            }
 
             LazyColumn(
                 modifier = Modifier
@@ -65,8 +68,15 @@ fun CategoriesScreen(
                     .fillMaxHeight(),
                 state = state
             ) {
-                items(categoriesState.value.size) {
-
+                items(categoriesState.value.size) { position ->
+                    CategoryItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        categoryEntity = categoriesState.value[position],
+                        isSelect = currentCategory?.id == categoriesState.value[position].id,
+                        onClick = { category ->
+                            currentCategory = category
+                        }
+                    )
                 }
             }
         }
@@ -106,10 +116,10 @@ class CategoriesScreenFactory @Inject constructor() : NavigationScreenFactory {
             }}",
             arguments = listOf(navArgument(TYPE_OPERATION_CODE_KEY) { type = NavType.IntType })
         ) {
-            it.arguments?.getInt(TYPE_OPERATION_CODE_KEY)?.let {
+            it.arguments?.getInt(TYPE_OPERATION_CODE_KEY)?.let { code ->
                 CategoriesScreen(
                     navGraph, viewModel = categoriesViewModel(
-                        TypeOperation.SELECT_INCOME
+                        TypeOperation.convertCodeToType(code)
                     )
                 )
             }

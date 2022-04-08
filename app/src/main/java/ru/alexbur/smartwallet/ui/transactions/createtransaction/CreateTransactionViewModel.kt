@@ -2,25 +2,46 @@ package ru.alexbur.smartwallet.ui.transactions.createtransaction
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
+import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.domain.repositories.LoadCategoriesRepository
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
-import java.time.LocalDate
-import java.time.ZoneId
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateTransactionViewModel @Inject constructor(
     private val savingDataManager: SavingDataManager,
+    loadCategoriesRepository: LoadCategoriesRepository
 ) : BaseViewModel<CreateTransactionViewModel.Event>() {
 
     val createTransactionFlow: StateFlow<TransactionEntity?>
         get() = savingDataManager.createTransactionFlow.asStateFlow()
+
+    val categoriesFlow: StateFlow<List<CategoryEntity>>
+        get() = savingDataManager.categoriesFlow.asStateFlow()
+
+    val loadStateFlow: StateFlow<LoadingState>
+        get() = _loadStateFlow.asStateFlow()
+
+    private val _loadStateFlow = MutableStateFlow(LoadingState.LOAD_DEFAULT)
+
+    init {
+        viewModelScope.launch {
+            loadCategoriesRepository.getCategories().onSuccess {
+                savingDataManager.categoriesFlow.emit(it)
+            }.onFailure {
+                _loadStateFlow.emit(LoadingState.LOAD_FAILED)
+            }
+        }
+    }
 
     override fun obtainEvent(event: Event) {
         when (event) {
@@ -51,7 +72,8 @@ class CreateTransactionViewModel @Inject constructor(
 
     private fun updateTypeOperation(typeOperation: TypeOperation) = viewModelScope.launch {
         savingDataManager.createTransactionFlow.emit(
-            savingDataManager.createTransactionFlow.value?.copy(type = typeOperation)
+            savingDataManager.createTransactionFlow.value?.copy(type = typeOperation,
+                categoryEntity = categoriesFlow.value.first { it.type == typeOperation })
         )
     }
 
