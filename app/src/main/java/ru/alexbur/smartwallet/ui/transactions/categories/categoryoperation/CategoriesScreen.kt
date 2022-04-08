@@ -61,9 +61,9 @@ fun CategoriesScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp)
+                .padding(vertical = 24.dp)
         ) {
-            ChooseDataToolbar(modifier = Modifier.fillMaxWidth(), close = {
+            ChooseDataToolbar(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp), close = {
                 navController.popBackStack()
             }) {
                 currentCategory?.let {
@@ -73,7 +73,8 @@ fun CategoriesScreen(
 
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
                 state = state
             ) {
                 items(categoriesState.value.size) { position ->
@@ -94,7 +95,7 @@ fun CategoriesScreen(
                     .clickable {
                         navController.navigate(CreateCategoryScreenFactory.route)
                     }
-                    .padding(vertical = 12.dp),
+                    .padding(vertical = 12.dp, horizontal = 24.dp),
                 text = stringResource(id = R.string.create_category),
                 style = TextStyle(color = Color.White, fontSize = 16.sp)
             )

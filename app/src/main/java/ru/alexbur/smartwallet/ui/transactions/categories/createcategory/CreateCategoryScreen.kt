@@ -33,6 +33,7 @@ import ru.alexbur.smartwallet.ui.transactions.createtransaction.TypeOperationCho
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.TitleWithBackButtonToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
+import ru.alexbur.smartwallet.ui.utils.theme.SelectedRadioButtonColor
 import javax.inject.Inject
 
 @Composable
@@ -80,7 +81,8 @@ fun CreateCategoryScreen(
                 onValueChanged = {
                     viewModel.obtainEvent(CreateCategoryViewModel.Event.UpdateNameCategory(it))
                 },
-                initialField = createCategoryState.value.operation
+                initialField = createCategoryState.value.operation,
+                maxLength = 100 //TODO можем командой обсудить
             )
 
             TypeOperationChooser(
@@ -110,6 +112,10 @@ fun CreateCategoryScreen(
                     Image(
                         modifier = Modifier
                             .clip(CircleShape)
+                            .background(
+                                if (createCategoryState.value.iconId == iconsState.value[position].resIcon)
+                                    SelectedRadioButtonColor else Color.Transparent
+                            )
                             .clickable {
                                 viewModel.obtainEvent(
                                     CreateCategoryViewModel.Event.UpdateIconCategory(

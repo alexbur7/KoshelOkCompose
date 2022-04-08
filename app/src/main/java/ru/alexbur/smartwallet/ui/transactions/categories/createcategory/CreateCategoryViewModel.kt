@@ -61,15 +61,27 @@ class CreateCategoryViewModel @Inject constructor(
     }
 
     private fun updateNameCategory(name: String) = viewModelScope.launch {
-
+        savingDataManager.createCategoryFlow.emit(
+            savingDataManager.createCategoryFlow.value.copy(
+                operation = name
+            )
+        )
     }
 
     private fun updateTypeOperation(typeOperation: TypeOperation) = viewModelScope.launch {
-
+        savingDataManager.createCategoryFlow.emit(
+            savingDataManager.createCategoryFlow.value.copy(
+                type = typeOperation
+            )
+        )
     }
 
     private fun updateIconCategory(idIcon: Int) = viewModelScope.launch {
-
+        savingDataManager.createCategoryFlow.emit(
+            savingDataManager.createCategoryFlow.value.copy(
+                iconId = idIcon
+            )
+        )
     }
 
     sealed class Event : BaseEvent() {
