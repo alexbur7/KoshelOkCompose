@@ -1,7 +1,7 @@
 package ru.alexbur.smartwallet.domain.entities.utils
 
 data class CategoryEntity(
-    val id: Long,
+    val id: Long? = null,
     val type: TypeOperation,
     val operation: String,
     val iconId: Int,

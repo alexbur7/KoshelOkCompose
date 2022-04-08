@@ -1,7 +1,9 @@
 package ru.alexbur.smartwallet.data.repository
 
 import kotlinx.coroutines.flow.MutableStateFlow
+import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
+import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
@@ -24,4 +26,12 @@ class SavingDataManagerImpl @Inject constructor() : SavingDataManager {
 
     override val categoriesFlow: MutableStateFlow<List<CategoryEntity>> =
         MutableStateFlow(emptyList())
+
+    override val createCategoryFlow: MutableStateFlow<CategoryEntity> = MutableStateFlow(
+        CategoryEntity(
+            type = TypeOperation.SELECT_INCOME,
+            operation = "",
+            iconId = R.drawable.capitalization
+        )
+    )
 }

@@ -16,4 +16,6 @@ interface SavingDataManager {
     val walletIdFlow: MutableStateFlow<Long>
 
     val categoriesFlow: MutableStateFlow<List<CategoryEntity>>
+
+    val createCategoryFlow: MutableStateFlow<CategoryEntity>
 }

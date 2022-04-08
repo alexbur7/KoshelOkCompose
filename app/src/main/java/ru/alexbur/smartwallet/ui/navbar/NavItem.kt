@@ -7,6 +7,7 @@ import ru.alexbur.smartwallet.ui.main.MainNavHostScreenFactory
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.search.SearchWalletScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
@@ -40,7 +41,8 @@ sealed class NavItem(val route: String) {
             listOf(
                 CreateTransactionScreenFactory.route,
                 CurrenciesScreenFactory.route,
-                CategoriesScreenFactory.route
+                CategoriesScreenFactory.route,
+                CreateCategoryScreenFactory.route
             )
         ),
 

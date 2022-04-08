@@ -70,9 +70,15 @@ fun ProfileScreen(
                     mainData.value.wallets.size
                 ) { index ->
                     WalletItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(
+                                top = if (index == 0) 36.dp else 12.dp,
+                                bottom = if (mainData.value.wallets.lastIndex == index) 12.dp else 0.dp
+                            ),
                         mainData.value.wallets[index],
-                        isShimmer = mainData.value == MainScreenDataEntity.shimmerData,
-                        isLast = mainData.value.wallets.lastIndex == index
+                        isShimmer = mainData.value == MainScreenDataEntity.shimmerData
                     ) {
                         navController.navigate(DetailWalletScreenFactory.route + "/$it")
                     }
