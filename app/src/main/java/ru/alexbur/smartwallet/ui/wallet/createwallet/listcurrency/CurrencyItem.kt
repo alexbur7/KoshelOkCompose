@@ -2,9 +2,8 @@ package ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Switch
-import androidx.compose.material.SwitchDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,22 +12,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.alexbur.smartwallet.domain.enums.Currency
-import ru.alexbur.smartwallet.ui.utils.theme.CheckedThumbColor
-import ru.alexbur.smartwallet.ui.utils.theme.CheckedTrackColor
-import ru.alexbur.smartwallet.ui.utils.theme.UnCheckedTrackColor
+import ru.alexbur.smartwallet.ui.utils.CustomRadioButton
 
 @Composable
 fun CurrencyItem(
+    modifier: Modifier,
     currency: Currency,
-    isCurrent: Boolean,
-    onCheckedChange: (Currency) -> Unit
+    isSelect: Boolean,
+    onClick: (Currency) -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
+        modifier = modifier.padding(vertical = 12.dp)
     ) {
         Text(
             text = stringResource(id = currency.nameListId), modifier = Modifier
@@ -38,30 +35,12 @@ fun CurrencyItem(
             style = TextStyle(color = Color.White, fontSize = 16.sp)
         )
 
-        Switch(
-            checked = isCurrent,
-            onCheckedChange = {
-                if (it) {
-                    onCheckedChange(currency)
-                }
-            }, colors = SwitchDefaults.colors(
-                checkedThumbColor = CheckedThumbColor,
-                uncheckedThumbColor = UnCheckedTrackColor,
-                checkedTrackColor = CheckedTrackColor,
-                uncheckedTrackColor = UnCheckedTrackColor
-            )
-        )
+        CustomRadioButton(
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(end = 16.dp), isSelect = isSelect
+        ) {
+            onClick(currency)
+        }
     }
-}
-
-@Preview("Currency is current")
-@Composable
-fun CurrencyItemPreview() {
-    CurrencyItem(currency = Currency.USD, isCurrent = true, onCheckedChange = {})
-}
-
-@Preview("Currency is not current")
-@Composable
-fun CurrencyItemPreviewTwo() {
-    CurrencyItem(currency = Currency.CHF, isCurrent = false, onCheckedChange = {})
 }

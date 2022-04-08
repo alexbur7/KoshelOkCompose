@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -34,7 +35,9 @@ fun CategoriesScreen(
     val state = rememberLazyListState()
     val categoriesState = viewModel.listCategory.collectAsState(initial = emptyList())
     var currentCategory by remember {
-        mutableStateOf(viewModel.chooseCategory.value?.categoryEntity)
+        mutableStateOf(
+            viewModel.chooseCategory.value?.categoryEntity
+        )
     }
 
     Box(

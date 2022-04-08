@@ -86,9 +86,10 @@ fun CurrenciesScreen(
                 ) { position ->
                     val isCurrent = position == currentIndex
                     CurrencyItem(
+                        modifier = Modifier.fillMaxWidth(),
                         currency = currencies.value[position],
-                        isCurrent = isCurrent,
-                        onCheckedChange = { currency ->
+                        isSelect = isCurrent,
+                        onClick = { currency ->
                             currentCurrency = currency
                         }
                     )

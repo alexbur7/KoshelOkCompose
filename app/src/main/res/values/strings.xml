@@ -99,7 +99,7 @@
     <string name="main_text_welcome">Добро пожаловать!</string>
     <string name="limit_wallet">Лимит</string>
     <string name="eur_list">Евро (EUR)</string>
-    <string name="usd_list">" Доллар США (USD)"</string>
+    <string name="usd_list">Доллар США (USD)</string>
     <string name="chf_list">Швейцарсие франки (CHF)</string>
     <string name="close_description">Закрыть экран</string>
     <string name="operation_title">Операция</string>
