@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
@@ -59,12 +60,16 @@ fun BottomNavBar(
             LoadingState.LOAD_IN_PROGRESS -> {
             }
             LoadingState.LOAD_SUCCEED -> {
-                navController.navigate(NavItem.NavBarItems.Profile.route) {
-                    popUpTo(navController.graph.startDestinationId) {
-                        inclusive = true
+                if(route?.contains(CreateCategoryScreenFactory.route) == true){
+                    navController.popBackStack()
+                }else {
+                    navController.navigate(NavItem.NavBarItems.Profile.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            inclusive = true
+                        }
                     }
+                    navController.navigate("${DetailWalletScreenFactory.route}/${walletIdState.value}")
                 }
-                navController.navigate("${DetailWalletScreenFactory.route}/${walletIdState.value}")
             }
             LoadingState.LOAD_DEFAULT -> {}
         }
@@ -112,10 +117,16 @@ fun BottomNavBar(
                             }
                         }
                     } else if (tab.nestedRoute.find { route?.contains(it) == true } != null && tab == NavItem.NavBarItems.NewItem) {
-                        if (route?.contains(CreateWalletScreenFactory.route) == true) {
-                            viewModel.obtainEvent(NavBarViewModel.Event.CreateWalletStarted)
-                        } else {
-                            viewModel.obtainEvent(NavBarViewModel.Event.CreateTransactionStarted)
+                        when {
+                            route?.contains(CreateWalletScreenFactory.route) == true -> {
+                                viewModel.obtainEvent(NavBarViewModel.Event.CreateWalletStarted)
+                            }
+                            route?.contains(CreateCategoryScreenFactory.route) == true -> {
+                                viewModel.obtainEvent(NavBarViewModel.Event.CreateCategoryStarted)
+                            }
+                            else -> {
+                                viewModel.obtainEvent(NavBarViewModel.Event.CreateTransactionStarted)
+                            }
                         }
                     }
                 },

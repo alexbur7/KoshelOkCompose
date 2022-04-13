@@ -254,8 +254,8 @@ class MockAppService : AppService {
     }
 
     override suspend fun createCategory(categoryApi: CategoryApi): CategoryApi {
-        delay(3000L)
-        return CategoryApi(12, 0, "GJbajng", 2)
+        delay(1000L)
+        return CategoryApi(19, 0, "GJbafkwjng", 2)
     }
 
     override suspend fun updateToken(userApi: UserApi): String {

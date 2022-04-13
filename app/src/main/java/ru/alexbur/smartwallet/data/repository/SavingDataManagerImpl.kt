@@ -28,10 +28,6 @@ class SavingDataManagerImpl @Inject constructor() : SavingDataManager {
         MutableStateFlow(emptyList())
 
     override val createCategoryFlow: MutableStateFlow<CategoryEntity> = MutableStateFlow(
-        CategoryEntity(
-            type = TypeOperation.SELECT_INCOME,
-            operation = "",
-            iconId = R.drawable.capitalization
-        )
+        CategoryEntity.defaultCategory
     )
 }
