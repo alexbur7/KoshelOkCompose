@@ -3,7 +3,6 @@ package ru.alexbur.smartwallet.ui.profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -63,8 +62,9 @@ fun ProfileScreen(
 
             WalletsList(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp), state = state, wallets = mainData.value.wallets
+                    .fillMaxWidth(),
+                state = state,
+                wallets = mainData.value.wallets
             ) {
                 navController.navigate(DetailWalletScreenFactory.route + "/$it")
             }

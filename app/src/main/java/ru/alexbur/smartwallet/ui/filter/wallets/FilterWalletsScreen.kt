@@ -56,7 +56,7 @@ fun FilterWalletsScreen(
             WalletsList(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(38.dp),
+                    .padding(top = 12.dp),
                 state = state,
                 wallets = walletsState.value,
                 clickItem = {}

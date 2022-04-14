@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
-import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.repositories.MainScreenRepository
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
@@ -19,14 +18,15 @@ class FilterWalletsViewModel @Inject constructor(
     private val mainScreenRepository: MainScreenRepository
 ) : BaseViewModel<FilterWalletsViewModel.Event>() {
 
-    val loadStateData: StateFlow<LoadingState>
-        get() = _loadStateData.asStateFlow()
     val walletsData: StateFlow<List<WalletEntity>>
         get() = _walletsData.asStateFlow()
 
     private val _walletsData = MutableStateFlow(MainScreenDataEntity.shimmerData.wallets)
-    private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
     private val allWallets = mutableListOf<WalletEntity>()
+
+    init {
+        obtainEvent(Event.OnLoadingStarted)
+    }
 
     override fun obtainEvent(event: Event) {
         when (event) {
@@ -52,7 +52,6 @@ class FilterWalletsViewModel @Inject constructor(
     }
 
     private fun startLoading() = viewModelScope.launch {
-        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
         val data = mainScreenRepository.getDbMainScreenData().getOrNull()?.wallets
             ?: MainScreenDataEntity.shimmerData.wallets
         obtainEvent(
@@ -80,12 +79,10 @@ class FilterWalletsViewModel @Inject constructor(
         allWallets.clear()
         allWallets.addAll(data)
         _walletsData.emit(allWallets)
-        _loadStateData.emit(LoadingState.LOAD_SUCCEED)
     }
 
     private fun failLoading(error: String?) = viewModelScope.launch {
-        _walletsData.emit(MainScreenDataEntity.emptyData.wallets)
-        _loadStateData.emit(LoadingState.LOAD_FAILED)
+        _walletsData.emit(emptyList())
     }
 
     private fun filterWallets(filter: String) = viewModelScope.launch {

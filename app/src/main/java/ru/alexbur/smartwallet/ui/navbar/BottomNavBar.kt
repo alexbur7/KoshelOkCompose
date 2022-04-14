@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.ui.filter.transactions.FilterTransactionsScreenFactory
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
@@ -60,9 +61,9 @@ fun BottomNavBar(
             LoadingState.LOAD_IN_PROGRESS -> {
             }
             LoadingState.LOAD_SUCCEED -> {
-                if(route?.contains(CreateCategoryScreenFactory.route) == true){
+                if (route?.contains(CreateCategoryScreenFactory.route) == true) {
                     navController.popBackStack()
-                }else {
+                } else {
                     navController.navigate(NavItem.NavBarItems.Profile.route) {
                         popUpTo(navController.graph.startDestinationId) {
                             inclusive = true
@@ -104,6 +105,11 @@ fun BottomNavBar(
                             if (route == ProfileScreenFactory.route) tab.route
                             else {
                                 "${CreateTransactionScreenFactory.route}/${walletIdState.value}"
+                            }
+                        } else if (tab == NavItem.NavBarItems.Search) {
+                            if (route == ProfileScreenFactory.route) tab.route
+                            else {
+                                FilterTransactionsScreenFactory.route
                             }
                         } else {
                             tab.route

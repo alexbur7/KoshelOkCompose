@@ -3,7 +3,6 @@ package ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -44,7 +43,9 @@ fun TransactionsBottomSheet(
         }
 
         TransactionsList(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp),
             state = state,
             transactions = transactions,
             isShimmer = isShimmer

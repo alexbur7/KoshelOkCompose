@@ -25,7 +25,7 @@ fun WalletsList(modifier: Modifier, state: LazyListState, wallets: List<WalletEn
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(
-                        top = 12.dp,
+                        top = if (index == 0 ) 36.dp else 12.dp,
                         bottom = if (wallets.lastIndex == index) 12.dp else 0.dp
                     ),
                 wallets[index],

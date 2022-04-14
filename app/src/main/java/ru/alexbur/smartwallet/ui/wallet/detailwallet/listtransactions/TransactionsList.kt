@@ -32,7 +32,6 @@ fun TransactionsList(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
-                            .padding(horizontal = 24.dp)
                             .padding(
                                 top = 18.dp,
                                 bottom = if (index == transactions.lastIndex) 24.dp else 0.dp
@@ -46,7 +45,6 @@ fun TransactionsList(
                         Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
-                            .padding(horizontal = 24.dp)
                             .padding(top = 24.dp, bottom = 6.dp),
                         item,
                         isShimmer
