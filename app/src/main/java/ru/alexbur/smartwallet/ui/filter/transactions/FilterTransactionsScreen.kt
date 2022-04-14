@@ -1,16 +1,14 @@
-package ru.alexbur.smartwallet.ui.profile
+package ru.alexbur.smartwallet.ui.filter.transactions
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -20,27 +18,26 @@ import androidx.navigation.compose.composable
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
-import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
+import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
+import ru.alexbur.smartwallet.ui.filter.FilterToolbar
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
-import ru.alexbur.smartwallet.ui.profile.toolbar.MainCollapsingToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsBottomSheet
+import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsList
 import javax.inject.Inject
 
 @Composable
-fun ProfileScreen(
+fun FilterTransactionsScreen(
     navController: NavController,
-    mainViewModel: ProfileViewModel = hiltViewModel()
+    viewModel: FilterTransactionsViewModel = hiltViewModel()
 ) {
-    val name =
-        mainViewModel.nameFlow.collectAsState(initial = stringResource(id = R.string.unknown))
-    val mainData = mainViewModel.mainScreenData.collectAsState()
+    val transactions = viewModel.transitionsData.collectAsState()
     val state = rememberLazyListState()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = BottomNavigationHeight)
+            .padding(bottom = BottomNavigationHeight - 4.dp)
             .background(BackgroundColor)
     ) {
         Image(
@@ -50,29 +47,27 @@ fun ProfileScreen(
             contentScale = ContentScale.FillWidth
         )
         Column(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, start = 24.dp, end = 24.dp)
+                .padding(24.dp)
         ) {
+            FilterToolbar(modifier = Modifier.fillMaxWidth(), filter = {
+                viewModel.obtainEvent(FilterTransactionsViewModel.Event.FilterTransaction(it))
+            })
 
-            MainCollapsingToolbar(
-                isShimmer = mainData.value == MainScreenDataEntity.shimmerData,
-                name = name.value,
-                mainData = mainData.value
-            )
-
-            WalletsList(
+            TransactionsList(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp), state = state, wallets = mainData.value.wallets
-            ) {
-                navController.navigate(DetailWalletScreenFactory.route + "/$it")
-            }
+                    .fillMaxSize()
+                    .padding(top = 24.dp),
+                state = state,
+                transactions = transactions.value,
+                isShimmer = transactions.value == DetailWalletItem.shimmerData
+            )
         }
     }
 }
 
-class ProfileScreenFactory @Inject constructor() : NavigationScreenFactory {
+class FilterTransactionsScreenFactory @Inject constructor() : NavigationScreenFactory {
 
     companion object Companion : NavigationFactory.NavigationFactoryCompanion
 
@@ -80,8 +75,10 @@ class ProfileScreenFactory @Inject constructor() : NavigationScreenFactory {
         get() = listOf(NavigationFactory.NavigationFactoryType.Nested)
 
     override fun create(builder: NavGraphBuilder, navGraph: NavHostController) {
-        builder.composable(route = route) {
-            ProfileScreen(navGraph)
+        builder.composable(
+            route = route
+        ) {
+            FilterTransactionsScreen(navController = navGraph)
         }
     }
 }

@@ -34,6 +34,9 @@ fun CategoryItem(
     onClick: (CategoryEntity) -> Unit
 ) {
     Row(modifier = modifier
+        .clickable {
+            onClick(categoryEntity)
+        }
         .padding(vertical = 12.dp)) {
         Image(
             modifier = Modifier

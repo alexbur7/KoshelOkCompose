@@ -106,4 +106,6 @@
     <string name="operations">Операции</string>
     <string name="category_image_description">Иконка для категории</string>
     <string name="new_category">Новая категория</string>
+    <string name="name_place_holder">Название ...</string>
+    <string name="find_description">Поиск</string>
 </resources>

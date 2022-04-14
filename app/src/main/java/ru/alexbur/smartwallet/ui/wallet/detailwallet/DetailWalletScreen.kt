@@ -28,7 +28,7 @@ import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.ui.MainActivity
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsList
+import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsBottomSheet
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard.FullCardWalletInDetail
 import javax.inject.Inject
 
@@ -94,7 +94,7 @@ fun DetailWalletScreen(
                 isShimmer = walletsState == WalletEntity.shimmerData
             )
 
-            TransactionsList(
+            TransactionsBottomSheet(
                 modifier = Modifier
                     .padding(top = 50.dp)
                     .fillMaxSize(),

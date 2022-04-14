@@ -3,9 +3,10 @@ package ru.alexbur.smartwallet.ui.navbar
 import androidx.annotation.DrawableRes
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.ui.auth.AuthorizationScreenFactory
+import ru.alexbur.smartwallet.ui.filter.transactions.FilterTransactionsScreenFactory
+import ru.alexbur.smartwallet.ui.filter.wallets.FilterWalletsScreenFactory
 import ru.alexbur.smartwallet.ui.main.MainNavHostScreenFactory
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
-import ru.alexbur.smartwallet.ui.search.SearchWalletScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
@@ -49,8 +50,10 @@ sealed class NavItem(val route: String) {
         Search(
             R.drawable.search_icon,
             R.drawable.search_choose_icon,
-            SearchWalletScreenFactory.route,
-            emptyList()
+            FilterWalletsScreenFactory.route,
+            listOf(
+                FilterTransactionsScreenFactory.route
+            )
         )
     }
 }
