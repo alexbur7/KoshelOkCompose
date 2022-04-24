@@ -20,6 +20,9 @@ import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import dagger.hilt.android.EntryPointAccessors
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
@@ -31,6 +34,7 @@ import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsBottomSheet
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard.FullCardWalletInDetail
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -43,6 +47,7 @@ fun DetailWalletScreen(
     val pagerState =
         rememberPagerState(initialPage = if (viewModel.positionWallet >= 0) viewModel.positionWallet else 0)
     val state = rememberLazyListState()
+    val collapsingState = rememberCollapsingToolbarScaffoldState()
     var isFirstLaunch by remember {
         mutableStateOf(true)
     }
@@ -70,33 +75,46 @@ fun DetailWalletScreen(
             contentDescription = "Background image",
             contentScale = ContentScale.FillWidth
         )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
+
+        CollapsingToolbarScaffold(
+            modifier = Modifier.fillMaxSize(),
+            state = collapsingState,
+            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+            toolbar = {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.close_screen),
+                        contentDescription = "Currency close",
+                        modifier = Modifier
+                            .wrapContentHeight()
+                            .wrapContentWidth()
+                            .padding(16.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .align(Alignment.Start)
+                            .clickable {
+                                navController.popBackStack()
+                            }
+                    )
+
+                    FullCardWalletInDetail(
+                        pagerState = pagerState,
+                        wallets = walletsState,
+                        isShimmer = walletsState == WalletEntity.shimmerData
+                    )
+                }
+            }
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.close_screen),
-                contentDescription = "Currency close",
-                modifier = Modifier
-                    .wrapContentHeight()
-                    .wrapContentWidth()
-                    .padding(16.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .align(Alignment.Start)
-                    .clickable {
-                        navController.popBackStack()
-                    }
-            )
-
-            FullCardWalletInDetail(
-                pagerState = pagerState,
-                wallets = walletsState,
-                isShimmer = walletsState == WalletEntity.shimmerData
-            )
-
             TransactionsBottomSheet(
                 modifier = Modifier
-                    .padding(top = 50.dp)
                     .fillMaxSize(),
                 state = state,
                 transactions = transactionState.value,
@@ -124,7 +142,7 @@ fun detailWalletViewModel(
 }
 
 class DetailWalletScreenFactory @Inject constructor() : NavigationScreenFactory {
-    companion object Companion : NavigationFactory.NavigationFactoryCompanion{
+    companion object Companion : NavigationFactory.NavigationFactoryCompanion {
         private const val WALLET_ID_KEY = "walletId"
     }
 

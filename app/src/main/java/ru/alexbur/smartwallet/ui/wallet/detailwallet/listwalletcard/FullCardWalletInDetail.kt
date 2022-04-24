@@ -34,6 +34,7 @@ fun FullCardWalletInDetail(
 
     Column(
         modifier = Modifier
+            .padding(bottom = 50.dp)
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
@@ -41,7 +42,7 @@ fun FullCardWalletInDetail(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 50.dp, end = 50.dp)
+                .padding(horizontal = 50.dp)
                 .placeholder(
                     visible = isShimmer,
                     color = BackgroundMainCardFirstColor,

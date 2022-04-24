@@ -52,7 +52,158 @@ class MockAppService : AppService {
                 idIcon = 24,
                 currency = "RUB",
                 time = 2125156662
-            )
+            ),
+            TransactionApi(
+                id = 3,
+                money = "2512",
+                idCategory = 12,
+                type = 0,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 4,
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ),
+            TransactionApi(
+                id = 3,
+                money = "2512",
+                idCategory = 12,
+                type = 0,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 4,
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ),
+            TransactionApi(
+                id = 3,
+                money = "2512",
+                idCategory = 12,
+                type = 0,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 4,
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ),
+            TransactionApi(
+                id = 3,
+                money = "2512",
+                idCategory = 12,
+                type = 0,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 4,
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ),
+            TransactionApi(
+                id = 3,
+                money = "2512",
+                idCategory = 12,
+                type = 0,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 4,
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ),
+            TransactionApi(
+                id = 3,
+                money = "2512",
+                idCategory = 12,
+                type = 0,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 4,
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 3,
+                money = "2512",
+                idCategory = 12,
+                type = 0,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 4,
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ),
+            TransactionApi(
+                id = 3,
+                money = "2512",
+                idCategory = 12,
+                type = 0,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ), TransactionApi(
+                id = 4,
+                money = "2512",
+                idCategory = 12,
+                type = 1,
+                operation = "35315",
+                idIcon = 24,
+                currency = "RUB",
+                time = 2125156662
+            ),
         )
     }
 
