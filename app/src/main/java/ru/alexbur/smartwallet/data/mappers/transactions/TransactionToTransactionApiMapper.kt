@@ -12,7 +12,7 @@ class TransactionToTransactionApiMapper @Inject constructor() :
         CreateTransactionApi(
             idWallet = transactionEntity.idWallet,
             money = transactionEntity.sum,
-            idCategory = transactionEntity.categoryEntity?.id ?: 0,
+            idCategory = transactionEntity.categoryEntity.id ?: 0,
             time = transactionEntity.date,
             currency = transactionEntity.currency.name
         )

@@ -1,5 +1,6 @@
 package ru.alexbur.smartwallet.ui.profile.toolbar
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -16,44 +17,47 @@ import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 
 @Composable
 fun MainCollapsingToolbar(
+    modifier: Modifier,
     isShimmer: Boolean,
     name: String?,
     mainData: MainScreenDataEntity
 ) {
-    Text(
-        modifier = Modifier.fillMaxWidth(),
-        text = stringResource(
-            id = R.string.hello,
-            name ?: stringResource(id = R.string.unknown)
-        ),
-        color = Color.White,
-        fontWeight = FontWeight(700),
-        style = MaterialTheme.typography.subtitle1
-    )
+    Column(modifier = modifier) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(
+                id = R.string.hello,
+                name ?: stringResource(id = R.string.unknown)
+            ),
+            color = Color.White,
+            fontWeight = FontWeight(700),
+            style = MaterialTheme.typography.subtitle1
+        )
 
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp),
-        text = stringResource(id = R.string.main_text_welcome),
-        color = Color.White,
-        style = MaterialTheme.typography.subtitle2
-    )
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp),
+            text = stringResource(id = R.string.main_text_welcome),
+            color = Color.White,
+            style = MaterialTheme.typography.subtitle2
+        )
 
-    CardWithBalance(
-        modifier = Modifier
-            .padding(top = 12.dp)
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        balance = mainData.balanceEntity,
-        isShimmer = isShimmer
-    )
+        CardWithBalance(
+            modifier = Modifier
+                .padding(top = 12.dp)
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            balance = mainData.balanceEntity,
+            isShimmer = isShimmer
+        )
 
-    CurrenciesCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 12.dp),
-        isShimmer = isShimmer,
-        exchangeRatesEntity = mainData.exchangeRatesEntity
-    )
+        CurrenciesCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp),
+            isShimmer = isShimmer,
+            exchangeRatesEntity = mainData.exchangeRatesEntity
+        )
+    }
 }

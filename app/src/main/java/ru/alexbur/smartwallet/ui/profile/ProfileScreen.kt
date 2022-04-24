@@ -16,6 +16,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
@@ -34,7 +37,7 @@ fun ProfileScreen(
     val name =
         mainViewModel.nameFlow.collectAsState(initial = stringResource(id = R.string.unknown))
     val mainData = mainViewModel.mainScreenData.collectAsState()
-    val state = rememberLazyListState()
+    val scrollState = rememberLazyListState()
 
     Box(
         modifier = Modifier
@@ -48,22 +51,33 @@ fun ProfileScreen(
             contentDescription = "Background image",
             contentScale = ContentScale.FillWidth
         )
-        Column(
-            Modifier
+        CollapsingToolbarScaffold(
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, start = 24.dp, end = 24.dp)
+                .padding(top = 24.dp, start = 24.dp, end = 24.dp),
+            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+            toolbar = {
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(45.dp)
+                )
+                MainCollapsingToolbar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    isShimmer = mainData.value == MainScreenDataEntity.shimmerData,
+                    name = name.value,
+                    mainData = mainData.value,
+                )
+            },
+            state = rememberCollapsingToolbarScaffoldState()
         ) {
-
-            MainCollapsingToolbar(
-                isShimmer = mainData.value == MainScreenDataEntity.shimmerData,
-                name = name.value,
-                mainData = mainData.value
-            )
 
             WalletsList(
                 modifier = Modifier
                     .fillMaxWidth(),
-                state = state,
+                state = scrollState,
                 wallets = mainData.value.wallets
             ) {
                 navController.navigate(DetailWalletScreenFactory.route + "/$it")

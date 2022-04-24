@@ -30,6 +30,7 @@ import ru.alexbur.smartwallet.ui.filter.transactions.FilterTransactionsScreenFac
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
+import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
@@ -85,7 +86,7 @@ fun BottomNavBar(
                 brush = Brush.verticalGradient(
                     listOf(
                         ShadowNavBarColor,
-                        Color.Transparent,
+                        BackgroundColor,
                     ),
                     endY = 28.dp.value
                 )

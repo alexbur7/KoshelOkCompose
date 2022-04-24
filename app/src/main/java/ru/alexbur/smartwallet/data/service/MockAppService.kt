@@ -76,7 +76,7 @@ class MockAppService : AppService {
     }
 
     override suspend fun getDataForMainScreen(): MainScreenDataApi {
-        delay(3000)
+        delay(2000)
         return MainScreenDataApi(
             balance = BalanceApi(
                 amountMoney = "1000245",
@@ -138,15 +138,245 @@ class MockAppService : AppService {
                     currency = "RUB",
                     isHide = false
                 ), WalletApi(
-                    id = 20,
-                    name = "Кошелек 12154",
+                    id = 40,
+                    name = "Wallt 12154",
                     amountMoney = "15000",
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
                     currency = "EUR",
                     isHide = false
-                )
+                ),
+                WalletApi(
+                    id = 120,
+                    name = "Wallets 12154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 21,
+                    name = "Wal 154",
+                    amountMoney = "150",
+                    income = "1000",
+                    consumption = "8000",
+                    limit = "1100",
+                    currency = "USD",
+                    isHide = false
+                ),
+                WalletApi(
+                    id = 30,
+                    name = "Кошелек154",
+                    amountMoney = "15000",
+                    income = "114000",
+                    consumption = "158000",
+                    limit = "125000",
+                    currency = "EUR",
+                    isHide = false
+                ),
             )
         )
     }
