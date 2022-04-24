@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
-import ru.alexbur.smartwallet.domain.repositories.MainScreenRepository
+import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class FilterWalletsViewModel @Inject constructor(
-    private val mainScreenRepository: MainScreenRepository
+    private val detailWalletRepository: DetailWalletRepository
 ) : BaseViewModel<FilterWalletsViewModel.Event>() {
 
     val walletsData: StateFlow<List<WalletEntity>>
@@ -52,7 +52,7 @@ class FilterWalletsViewModel @Inject constructor(
     }
 
     private fun startLoading() = viewModelScope.launch {
-        val data = mainScreenRepository.getDbMainScreenData().getOrNull()?.wallets
+        val data = detailWalletRepository.getDbWalletData().getOrNull()
             ?: MainScreenDataEntity.shimmerData.wallets
         obtainEvent(
             Event.OnLoadingDBSucceed(
@@ -68,8 +68,8 @@ class FilterWalletsViewModel @Inject constructor(
     }
 
     private fun startNetworkLoading() = viewModelScope.launch {
-        mainScreenRepository.getServerMainScreenData().onSuccess {
-            obtainEvent(Event.OnLoadingNetworkSucceed(it.wallets))
+        detailWalletRepository.getServerWalletsData().onSuccess {
+            obtainEvent(Event.OnLoadingNetworkSucceed(it))
         }.onFailure {
             obtainEvent(Event.OnLoadingFailed(it.localizedMessage))
         }
