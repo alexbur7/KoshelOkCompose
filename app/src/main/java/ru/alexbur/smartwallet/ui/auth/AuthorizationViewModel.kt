@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.data.utils.AccountDataStore
 import ru.alexbur.smartwallet.domain.entities.onboarding.UserEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.RegistrationRepository
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthorizationViewModel @Inject constructor(
     private val registrationRepository: RegistrationRepository,
-    private val accountDataStore: AccountDataStore
+    private val accountDataStore: AccountDataStore,
+    private val errorHandler: ErrorHandler
 ) : BaseViewModel<AuthorizationViewModel.Event>() {
 
 
@@ -58,7 +60,7 @@ class AuthorizationViewModel @Inject constructor(
             }.onFailure {
                 accountDataStore.updateEmail(email)
                 accountDataStore.updateName(displayName)
-                obtainEvent(Event.RegistrationFailed(it.localizedMessage ?: "Network"))
+                obtainEvent(Event.RegistrationFailed(errorHandler.handleError(it)))
             }
     }
 

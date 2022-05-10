@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -19,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +28,7 @@ import ru.alexbur.smartwallet.ui.filter.transactions.FilterTransactionsScreenFac
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
+import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
@@ -46,7 +45,7 @@ fun BottomNavBar(
     val route = navControllerBackStackEntry?.destination?.route
 
     val loadState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
-    val errorState = viewModel.errorState.collectAsState("")
+    val errorState = viewModel.errorState.collectAsState()
     val walletIdState = viewModel.walletIdData.collectAsState()
 
     val snackBarHostState = SnackbarHostState()
@@ -55,8 +54,7 @@ fun BottomNavBar(
         when (loadState.value) {
             LoadingState.LOAD_FAILED -> {
                 snackBarHostState.showSnackbar(
-                    errorState.value,
-                    duration = SnackbarDuration.Short
+                    errorState.value
                 )
             }
             LoadingState.LOAD_IN_PROGRESS -> {
@@ -147,7 +145,9 @@ fun BottomNavBar(
         }
     }
 
-    SnackbarHost(hostState = snackBarHostState)
+    SnackbarHost(hostState = snackBarHostState) {
+        SmartWalletSnackBar(snackbarData = it)
+    }
 }
 
 val BottomNavigationHeight = 56.dp

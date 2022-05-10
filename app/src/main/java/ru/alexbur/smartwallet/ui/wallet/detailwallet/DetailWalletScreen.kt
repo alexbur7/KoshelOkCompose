@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,11 +32,11 @@ import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.ui.MainActivity
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
+import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsBottomSheet
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard.FullCardWalletInDetail
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -47,17 +49,24 @@ fun DetailWalletScreen(
     val pagerState =
         rememberPagerState(initialPage = if (viewModel.positionWallet >= 0) viewModel.positionWallet else 0)
     val state = rememberLazyListState()
+    val errorMessage = viewModel.errorMessage.collectAsState()
     val collapsingState = rememberCollapsingToolbarScaffoldState()
+    val snackBarHostState = SnackbarHostState()
     var isFirstLaunch by remember {
         mutableStateOf(true)
     }
 
-    LaunchedEffect(key1 = pagerState.currentPage) {
+    LaunchedEffect(key1 = pagerState.currentPage, errorMessage.value) {
         if (!isFirstLaunch) {
             viewModel.obtainEvent(
                 DetailWalletViewModel.Event.OnLoadingTransactionStarted(
                     walletsState[pagerState.currentPage].id
                 )
+            )
+        }
+        if (errorMessage.value.isNotBlank()) {
+            snackBarHostState.showSnackbar(
+                message = errorMessage.value
             )
         }
         isFirstLaunch = false
@@ -120,6 +129,10 @@ fun DetailWalletScreen(
                 transactions = transactionState.value,
                 isShimmer = transactionState.value == DetailWalletItem.shimmerData
             )
+        }
+
+        SnackbarHost(hostState = snackBarHostState) {
+            SmartWalletSnackBar(snackbarData = it)
         }
     }
 }

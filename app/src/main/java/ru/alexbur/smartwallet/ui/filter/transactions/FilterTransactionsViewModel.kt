@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
@@ -18,15 +19,19 @@ import javax.inject.Inject
 @HiltViewModel
 class FilterTransactionsViewModel @Inject constructor(
     private val detailWalletRepository: DetailWalletRepository,
-    private val savingDataManager: SavingDataManager
+    private val savingDataManager: SavingDataManager,
+    private val errorHandler: ErrorHandler
 ) : BaseViewModel<FilterTransactionsViewModel.Event>() {
     val loadStateData: SharedFlow<LoadingState>
         get() = _loadStateData.asStateFlow()
     val transitionsData: StateFlow<List<DetailWalletItem>>
         get() = _transitionsData.asStateFlow()
+    val errorMessage: StateFlow<String>
+        get() = _errorMessage.asStateFlow()
 
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_DEFAULT)
     private val _transitionsData = MutableStateFlow(DetailWalletItem.shimmerData)
+    private val _errorMessage = MutableStateFlow("")
     private val allTransactions = mutableListOf<DetailWalletItem>()
 
     init {
@@ -56,7 +61,8 @@ class FilterTransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun failLoading(error: String?) = viewModelScope.launch {
+    private fun failLoading(error: String) = viewModelScope.launch {
+        _errorMessage.emit(error)
         _loadStateData.emit(LoadingState.LOAD_FAILED)
     }
 
@@ -83,8 +89,8 @@ class FilterTransactionsViewModel @Inject constructor(
             .onSuccess {
                 obtainEvent(Event.OnLoadingTransactionServerSucceed(it))
             }.onFailure {
-            obtainEvent(Event.OnLoadingFailed(it.localizedMessage ?: "Error"))
-        }
+                obtainEvent(Event.OnLoadingFailed(errorHandler.handleError(it)))
+            }
     }
 
     private fun succeedNetworkTransactionLoading(data: List<DetailWalletItem>) =
@@ -112,7 +118,7 @@ class FilterTransactionsViewModel @Inject constructor(
 
         class OnLoadingTransactionServerSucceed(val transactions: List<DetailWalletItem>) : Event()
 
-        class OnLoadingFailed(val error: String?) : Event()
+        class OnLoadingFailed(val error: String) : Event()
 
         class FilterTransaction(val filterText: String) : Event()
     }

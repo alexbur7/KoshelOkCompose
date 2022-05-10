@@ -40,6 +40,7 @@ import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.utils.ButtonState
 import ru.alexbur.smartwallet.ui.utils.GradientButton
+import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.PingDarkColor
 import ru.alexbur.smartwallet.ui.utils.theme.PingLightColor
@@ -145,7 +146,9 @@ fun AuthorizationScreen(
             authResultLauncher.launch(1)
         }
 
-        SnackbarHost(hostState = snackBarHostState)
+        SnackbarHost(hostState = snackBarHostState) {
+            SmartWalletSnackBar(snackbarData = it)
+        }
     }
 }
 

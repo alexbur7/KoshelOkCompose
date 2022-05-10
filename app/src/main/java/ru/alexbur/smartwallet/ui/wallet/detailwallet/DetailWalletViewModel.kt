@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.DeleteTransactionRepository
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
@@ -25,7 +26,8 @@ class DetailWalletViewModel @AssistedInject constructor(
     private val walletId: Long,
     private val detailWalletRepository: DetailWalletRepository,
     private val deleteTransactionRepository: DeleteTransactionRepository,
-    private val savingDataManager: SavingDataManager
+    private val savingDataManager: SavingDataManager,
+    private val errorHandler: ErrorHandler
 ) : BaseViewModel<DetailWalletViewModel.Event>() {
 
     val walletsData: StateFlow<List<WalletEntity>>
@@ -34,6 +36,8 @@ class DetailWalletViewModel @AssistedInject constructor(
         get() = _transitionsData.asStateFlow()
     val loadStateData: SharedFlow<LoadingState>
         get() = _loadStateData.asStateFlow()
+    val errorMessage: StateFlow<String>
+        get() = _errorMessage.asStateFlow()
 
     val positionWallet: Int
         get() = walletsData.value.indexOfFirst { it.id == walletId }
@@ -42,6 +46,7 @@ class DetailWalletViewModel @AssistedInject constructor(
     private val _transitionsData =
         MutableStateFlow(DetailWalletItem.shimmerData)
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
+    private val _errorMessage = MutableStateFlow("")
 
     init {
         viewModelScope.launch {
@@ -111,7 +116,7 @@ class DetailWalletViewModel @AssistedInject constructor(
             .onSuccess {
                 obtainEvent(Event.OnLoadingNetworkSucceed(it, transactions ?: emptyList()))
             }.onFailure {
-                obtainEvent(Event.OnLoadingFailed(it.localizedMessage))
+                obtainEvent(Event.OnLoadingFailed(errorHandler.handleError(it)))
             }
     }
 
@@ -124,7 +129,8 @@ class DetailWalletViewModel @AssistedInject constructor(
         _loadStateData.emit(LoadingState.LOAD_SUCCEED)
     }
 
-    private fun failLoading(error: String?) = viewModelScope.launch {
+    private fun failLoading(error: String) = viewModelScope.launch {
+        _errorMessage.emit(error)
         _loadStateData.emit(LoadingState.LOAD_FAILED)
     }
 
@@ -151,7 +157,7 @@ class DetailWalletViewModel @AssistedInject constructor(
         detailWalletRepository.getServerTransactionsData(walletId = walletId).onSuccess {
             obtainEvent(Event.OnLoadingTransactionServerSucceed(it))
         }.onFailure {
-            obtainEvent(Event.OnLoadingFailed(it.localizedMessage ?: "Error"))
+            obtainEvent(Event.OnLoadingFailed(errorHandler.handleError(it)))
         }
     }
 
@@ -174,6 +180,7 @@ class DetailWalletViewModel @AssistedInject constructor(
                 })
                 _loadStateData.emit(LoadingState.LOAD_SUCCEED)
             }.onFailure {
+                _errorMessage.emit(errorHandler.handleError(it))
                 _loadStateData.emit(LoadingState.LOAD_FAILED)
             }
         }
@@ -181,7 +188,7 @@ class DetailWalletViewModel @AssistedInject constructor(
     sealed class Event : BaseEvent() {
         class OnLoadingStarted(val walletId: Long) : Event()
         class OnLoadingNetworkStarted(val walletId: Long) : Event()
-        class OnLoadingFailed(val error: String?) : Event()
+        class OnLoadingFailed(val error: String) : Event()
         class OnLoadingDBSucceed(
             val data: List<WalletEntity>,
             val transactions: List<DetailWalletItem>

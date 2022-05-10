@@ -9,6 +9,7 @@ import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.CreateCategoryRepository
 import ru.alexbur.smartwallet.domain.repositories.CreateTransactionRepository
 import ru.alexbur.smartwallet.domain.repositories.CreateWalletRepository
@@ -22,7 +23,8 @@ class NavBarViewModel @Inject constructor(
     private val createWalletRepository: CreateWalletRepository,
     private val createTransactionRepository: CreateTransactionRepository,
     private val createCategoryRepository: CreateCategoryRepository,
-    private val savingDataManager: SavingDataManager
+    private val savingDataManager: SavingDataManager,
+    private val errorHandler: ErrorHandler
 ) : BaseViewModel<NavBarViewModel.Event>() {
 
     val loadingState: Flow<LoadingState>
@@ -68,7 +70,7 @@ class NavBarViewModel @Inject constructor(
             .onSuccess {
                 obtainEvent(Event.CreateWalletSucceed(it))
             }.onFailure {
-                obtainEvent(Event.CreateDataFailed(it.localizedMessage ?: ""))
+                obtainEvent(Event.CreateDataFailed(errorHandler.handleError(it)))
             }
     }
 
@@ -79,7 +81,7 @@ class NavBarViewModel @Inject constructor(
             .onSuccess {
                 obtainEvent(Event.CreateTransactionSucceed(it))
             }.onFailure {
-                obtainEvent(Event.CreateDataFailed(it.localizedMessage ?: ""))
+                obtainEvent(Event.CreateDataFailed(errorHandler.handleError(it)))
             }
     }
 
@@ -89,7 +91,7 @@ class NavBarViewModel @Inject constructor(
             .onSuccess {
                 obtainEvent(Event.CreateCategorySucceed(it))
             }.onFailure {
-                obtainEvent(Event.CreateDataFailed(it.localizedMessage ?: ""))
+                obtainEvent(Event.CreateDataFailed(errorHandler.handleError(it)))
             }
     }
 

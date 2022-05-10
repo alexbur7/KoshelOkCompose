@@ -4,7 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,6 +24,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.filter.FilterToolbar
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.profile.WalletsList
+import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import javax.inject.Inject
 
@@ -30,7 +34,17 @@ fun FilterWalletsScreen(
     viewModel: FilterWalletsViewModel = hiltViewModel()
 ) {
     val walletsState = viewModel.walletsData.collectAsState()
+    val errorMessage = viewModel.errorMessage.collectAsState()
+    val snackBarHostState = SnackbarHostState()
     val state = rememberLazyListState()
+
+    LaunchedEffect(key1 = errorMessage.value) {
+        if (errorMessage.value.isNotBlank()) {
+            snackBarHostState.showSnackbar(
+                message = errorMessage.value
+            )
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -61,6 +75,10 @@ fun FilterWalletsScreen(
                 wallets = walletsState.value,
                 clickItem = {}
             )
+        }
+
+        SnackbarHost(hostState = snackBarHostState) {
+            SmartWalletSnackBar(snackbarData = it)
         }
     }
 }

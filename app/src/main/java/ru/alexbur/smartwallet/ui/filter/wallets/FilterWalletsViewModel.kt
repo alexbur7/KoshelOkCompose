@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
+import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
@@ -15,13 +16,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilterWalletsViewModel @Inject constructor(
-    private val detailWalletRepository: DetailWalletRepository
+    private val detailWalletRepository: DetailWalletRepository,
+    private val errorHandler: ErrorHandler
 ) : BaseViewModel<FilterWalletsViewModel.Event>() {
 
     val walletsData: StateFlow<List<WalletEntity>>
         get() = _walletsData.asStateFlow()
+    val errorMessage: StateFlow<String>
+        get() = _errorMessage.asStateFlow()
 
     private val _walletsData = MutableStateFlow(MainScreenDataEntity.shimmerData.wallets)
+    private val _errorMessage = MutableStateFlow("")
     private val allWallets = mutableListOf<WalletEntity>()
 
     init {
@@ -71,7 +76,7 @@ class FilterWalletsViewModel @Inject constructor(
         detailWalletRepository.getServerWalletsData().onSuccess {
             obtainEvent(Event.OnLoadingNetworkSucceed(it))
         }.onFailure {
-            obtainEvent(Event.OnLoadingFailed(it.localizedMessage))
+            obtainEvent(Event.OnLoadingFailed(errorHandler.handleError(it)))
         }
     }
 
@@ -81,7 +86,8 @@ class FilterWalletsViewModel @Inject constructor(
         _walletsData.emit(allWallets)
     }
 
-    private fun failLoading(error: String?) = viewModelScope.launch {
+    private fun failLoading(error: String) = viewModelScope.launch {
+        _errorMessage.emit(error)
         _walletsData.emit(emptyList())
     }
 
@@ -96,7 +102,7 @@ class FilterWalletsViewModel @Inject constructor(
         class OnLoadingDBSucceed(val data: List<WalletEntity>) : Event()
         object OnLoadingNetworkStarted : Event()
         class OnLoadingNetworkSucceed(val data: List<WalletEntity>) : Event()
-        class OnLoadingFailed(val error: String?) : Event()
+        class OnLoadingFailed(val error: String) : Event()
         class FilterWallets(val filter: String) : Event()
     }
 }

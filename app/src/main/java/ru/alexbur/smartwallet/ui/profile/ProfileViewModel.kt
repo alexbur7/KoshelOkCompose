@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.DeleteWalletRepository
 import ru.alexbur.smartwallet.domain.repositories.MainScreenRepository
 import ru.alexbur.smartwallet.ui.base.BaseEvent
@@ -17,16 +18,20 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val mainScreenRepository: MainScreenRepository,
     private val deleteWalletRepository: DeleteWalletRepository,
+    private val errorHandler: ErrorHandler
 ) : BaseViewModel<ProfileViewModel.Event>() {
 
     val loadStateData: Flow<LoadingState>
         get() = _loadStateData.asStateFlow().onEach { delay(100L) }
     val mainScreenData: StateFlow<MainScreenDataEntity>
         get() = _mainScreenData.asStateFlow()
+    val errorMessage: StateFlow<String>
+        get() = _errorMessage.asStateFlow()
     val nameFlow = mainScreenRepository.nameFlow
 
     private val _mainScreenData = MutableStateFlow(MainScreenDataEntity.shimmerData)
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
+    private val _errorMessage = MutableStateFlow("")
 
     init {
         obtainEvent(Event.OnLoadingStarted)
@@ -68,10 +73,10 @@ class ProfileViewModel @Inject constructor(
 
     private fun startNetworkLoading() = viewModelScope.launch {
         mainScreenRepository.getServerMainScreenData().onSuccess {
-                obtainEvent(Event.OnLoadingNetworkSucceed(it))
-            }.onFailure {
-                obtainEvent(Event.OnLoadingFailed(it.localizedMessage))
-            }
+            obtainEvent(Event.OnLoadingNetworkSucceed(it))
+        }.onFailure {
+            obtainEvent(Event.OnLoadingFailed(errorHandler.handleError(it)))
+        }
     }
 
     private fun succeedNetworkLoading(data: MainScreenDataEntity) = viewModelScope.launch {
@@ -79,8 +84,9 @@ class ProfileViewModel @Inject constructor(
         _loadStateData.emit(LoadingState.LOAD_SUCCEED)
     }
 
-    private fun failLoading(error: String?) = viewModelScope.launch {
+    private fun failLoading(error: String) = viewModelScope.launch {
         _mainScreenData.emit(MainScreenDataEntity.emptyData)
+        _errorMessage.emit(error)
         _loadStateData.emit(LoadingState.LOAD_FAILED)
     }
 
@@ -95,6 +101,7 @@ class ProfileViewModel @Inject constructor(
                 )
                 _loadStateData.emit(LoadingState.LOAD_SUCCEED)
             }.onFailure {
+                _errorMessage.emit(errorHandler.handleError(it))
                 _loadStateData.emit(LoadingState.LOAD_FAILED)
             }
     }
@@ -104,7 +111,7 @@ class ProfileViewModel @Inject constructor(
         class OnLoadingDBSucceed(val data: MainScreenDataEntity) : Event()
         object OnLoadingNetworkStarted : Event()
         class OnLoadingNetworkSucceed(val data: MainScreenDataEntity) : Event()
-        class OnLoadingFailed(val error: String?) : Event()
+        class OnLoadingFailed(val error: String) : Event()
         class DeleteWallet(val walletId: Long) : Event()
     }
 }

@@ -15,7 +15,6 @@ import retrofit2.Retrofit
 import ru.alexbur.smartwallet.BuildConfig
 import ru.alexbur.smartwallet.data.service.AppService
 import ru.alexbur.smartwallet.data.service.MockAppService
-import ru.alexbur.smartwallet.di.MockApi
 import javax.inject.Singleton
 
 private const val BASE_URL = "http://34.88.54.200:9090/"

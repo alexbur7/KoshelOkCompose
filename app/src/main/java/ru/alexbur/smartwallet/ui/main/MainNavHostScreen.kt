@@ -1,5 +1,6 @@
 package ru.alexbur.smartwallet.ui.main
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import ru.alexbur.smartwallet.ui.navbar.NavBarViewModel
 import ru.alexbur.smartwallet.ui.navbar.NavItem
 import javax.inject.Inject
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainNavHostScreen(
     modifier: Modifier,
