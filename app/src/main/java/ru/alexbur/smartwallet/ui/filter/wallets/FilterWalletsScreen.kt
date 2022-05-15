@@ -66,14 +66,16 @@ fun FilterWalletsScreen(
             FilterToolbar(modifier = Modifier.fillMaxWidth(), filter = {
                 viewModel.obtainEvent(FilterWalletsViewModel.Event.FilterWallets(it))
             })
-
+            //TODO подставить методы
             WalletsList(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = 12.dp),
                 state = state,
                 wallets = walletsState.value,
-                clickItem = {}
+                clickItem = {},
+                deleteItem = {},
+                editItem = {}
             )
         }
 

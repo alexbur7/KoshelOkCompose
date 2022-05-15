@@ -87,14 +87,17 @@ fun ProfileScreen(
             },
             state = rememberCollapsingToolbarScaffoldState()
         ) {
-
+            //TODO подставить методы
             WalletsList(
                 modifier = Modifier
                     .fillMaxWidth(),
                 state = scrollState,
-                wallets = mainData.value.wallets
+                wallets = mainData.value.wallets,
+                clickItem = {
+                    navController.navigate(DetailWalletScreenFactory.route + "/$it")
+                },
+                editItem = {}
             ) {
-                navController.navigate(DetailWalletScreenFactory.route + "/$it")
             }
         }
 

@@ -18,7 +18,9 @@ fun WalletsList(
     state: LazyListState,
     wallets: List<WalletEntity>,
     firstItem: LazyListScope.() -> Unit = {},
-    clickItem: (Long) -> Unit
+    clickItem: (Long) -> Unit,
+    editItem: (WalletEntity) -> Unit,
+    deleteItem: (Long) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -39,9 +41,13 @@ fun WalletsList(
                         bottom = if (wallets.lastIndex == index) 12.dp else 0.dp
                     ),
                 wallets[index],
-                isShimmer = wallets == MainScreenDataEntity.shimmerData.wallets
+                isShimmer = wallets == MainScreenDataEntity.shimmerData.wallets,
+                onClick = {
+                    clickItem(it)
+                },
+                onEdit = { editItem(it) }
             ) {
-                clickItem(it)
+                deleteItem(it)
             }
         }
     }
