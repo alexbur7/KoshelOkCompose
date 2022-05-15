@@ -10,6 +10,7 @@ import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.LoadCategoriesRepository
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
@@ -19,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateTransactionViewModel @Inject constructor(
     private val savingDataManager: SavingDataManager,
+    private val errorHandler: ErrorHandler,
     loadCategoriesRepository: LoadCategoriesRepository
 ) : BaseViewModel<CreateTransactionViewModel.Event>() {
 
@@ -31,6 +33,9 @@ class CreateTransactionViewModel @Inject constructor(
     val loadStateFlow: StateFlow<LoadingState>
         get() = _loadStateFlow.asStateFlow()
 
+    private val _errorMessage = MutableStateFlow("")
+    val errorMessage: StateFlow<String> = _errorMessage.asStateFlow()
+
     private val _loadStateFlow = MutableStateFlow(LoadingState.LOAD_DEFAULT)
 
     init {
@@ -38,6 +43,7 @@ class CreateTransactionViewModel @Inject constructor(
             loadCategoriesRepository.getCategories().onSuccess {
                 savingDataManager.categoriesFlow.emit(it)
             }.onFailure {
+                _errorMessage.emit(errorHandler.handleError(it))
                 _loadStateFlow.emit(LoadingState.LOAD_FAILED)
             }
         }

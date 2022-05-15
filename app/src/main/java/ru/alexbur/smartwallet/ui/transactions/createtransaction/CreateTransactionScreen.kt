@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,6 +44,7 @@ import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
+import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.TitleWithBackButtonToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
@@ -71,10 +74,16 @@ fun CreateTransactionScreen(
     )
 
     val loadState = viewModel.loadStateFlow.collectAsState()
+    val errorMessage = viewModel.errorMessage.collectAsState()
+    val snackBarHostState = SnackbarHostState()
 
     LaunchedEffect(key1 = loadState.value, categoriesState.value) {
         if (loadState.value == LoadingState.LOAD_FAILED) {
-            //TODO вызвать снэкбар с ошибкой
+            if (errorMessage.value.isNotBlank()) {
+                snackBarHostState.showSnackbar(
+                    message = errorMessage.value
+                )
+            }
         }
         if (categoriesState.value.isNotEmpty() && createTransactionData.value == null) {
             viewModel.obtainEvent(
@@ -208,6 +217,10 @@ fun CreateTransactionScreen(
             ) {
                 datePickerDialog.show()
             }
+        }
+
+        SnackbarHost(hostState = snackBarHostState) {
+            SmartWalletSnackBar(snackbarData = it)
         }
     }
 }
