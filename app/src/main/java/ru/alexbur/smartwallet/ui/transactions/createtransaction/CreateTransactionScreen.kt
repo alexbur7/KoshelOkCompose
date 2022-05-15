@@ -33,11 +33,11 @@ import ru.alexbur.smartwallet.data.extentions.getDayWithMonth
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
-import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
+import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
-import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
 import ru.alexbur.smartwallet.domain.enums.LoadingState
+import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
@@ -58,7 +58,7 @@ fun CreateTransactionScreen(
     val createTransactionData = viewModel.createTransactionFlow.collectAsState()
     val initialCreateTransaction = TransactionEntity(
         idWallet = walletId,
-        currency = Currency.RUB,
+        currency = CurrencyEntity.default,
         type = TypeOperation.SELECT_INCOME,
         sum = "10000",
         categoryEntity = CategoryEntity(
@@ -187,10 +187,8 @@ fun CreateTransactionScreen(
                     .wrapContentHeight()
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.currency),
-                text = stringResource(
-                    id = createTransactionData.value?.currency?.nameId
-                        ?: initialCreateTransaction.currency.nameId
-                )
+                text = createTransactionData.value?.currency?.fullName
+                    ?: initialCreateTransaction.currency.fullName
             ) {
                 navController.navigate("${CurrenciesScreenFactory.route}/${CurrencyScreenType.TRANSACTION_SCREEN.code}")
             }

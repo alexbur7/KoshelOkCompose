@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.alexbur.smartwallet.R
-import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
+import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.ui.utils.TextWithEndImage
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.TextFieldBorderColor

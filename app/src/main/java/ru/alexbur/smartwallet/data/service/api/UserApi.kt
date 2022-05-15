@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserApi(
     @SerialName("email")
-    val email: String
+    val email: String,
+    val name : String
 )

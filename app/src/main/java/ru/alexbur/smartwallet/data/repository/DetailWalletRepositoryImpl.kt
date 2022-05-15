@@ -27,7 +27,7 @@ class DetailWalletRepositoryImpl @Inject constructor(
 ) : DetailWalletRepository {
 
     override suspend fun getServerWalletsData(): Result<List<WalletEntity>> {
-        return resultRequest { appService.getWallets() }.onSuccess {
+        return runCatching { appService.getWallets() }.onSuccess {
             walletSource.insertWallets(wallets = it)
         }.map { wallets ->
             wallets.map(mapWallet)
@@ -35,7 +35,7 @@ class DetailWalletRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getServerTransactionsData(walletId: Long): Result<List<DetailWalletItem>> {
-        return resultRequest { appService.getTransaction(walletId = walletId) }.map {
+        return runCatching { appService.getTransaction(walletId = walletId) }.map {
             mapDetailWallet(it)
         }
     }

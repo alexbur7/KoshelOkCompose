@@ -16,7 +16,7 @@ class CreateTransactionRepositoryImpl @Inject constructor(
 ) : CreateTransactionRepository {
 
     override suspend fun editTransaction(transactionEntity: TransactionEntity): Result<DetailWalletItem.Transaction> {
-        return resultRequest {
+        return runCatching {
             appService.editTransaction(
                 transactionEntity.id ?: 0,
                 mapper(transactionEntity)
@@ -25,7 +25,7 @@ class CreateTransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createTransaction(transactionEntity: TransactionEntity): Result<DetailWalletItem.Transaction> {
-        return resultRequest { appService.createTransaction(mapper(transactionEntity)) }.map(
+        return runCatching { appService.createTransaction(mapper(transactionEntity)) }.map(
             mapperTransaction
         )
     }

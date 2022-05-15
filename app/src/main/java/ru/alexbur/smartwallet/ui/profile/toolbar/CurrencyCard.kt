@@ -19,9 +19,8 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
-import ru.alexbur.smartwallet.domain.entities.listwallet.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.listwallet.ExchangeRatesEntity
-import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundCourseColor
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardFirstColor
 import ru.alexbur.smartwallet.ui.utils.theme.ShimmerPlaceHolderColor
@@ -77,7 +76,7 @@ fun CurrencyCard(
         Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
             Text(
                 modifier = Modifier,
-                text = currencyEntity.name.name,
+                text = currencyEntity.name,
                 style = TextStyle(color = Color.White, fontSize = 13.sp)
             )
 
@@ -100,17 +99,4 @@ fun CurrencyCard(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun CurrenciesCardPreview() {
-    CurrenciesCard(
-        modifier = Modifier.fillMaxWidth(),
-        isShimmer = false, ExchangeRatesEntity(
-            firstCurrency = CurrencyEntity(Currency.EUR, "35,1", false),
-            secondCurrency = CurrencyEntity(Currency.USD, "54,1", true),
-            thirdCurrency = CurrencyEntity(Currency.CHF, "98.1", false)
-        )
-    )
 }

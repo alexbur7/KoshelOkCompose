@@ -1,5 +1,6 @@
 package ru.alexbur.smartwallet.data.db.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -12,7 +13,8 @@ data class TransactionDb(
     val type: Int,
     val operation: String,
     val idIcon: Int,
-    val currency: String,
+    @Embedded
+    val currency: CurrencyDb,
     val time: Long,
     val walletId: Long
 )

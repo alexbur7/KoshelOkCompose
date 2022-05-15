@@ -12,7 +12,7 @@ interface AppService {
     suspend fun getTransaction(@Path("walletId") walletId: Long): List<TransactionApi>
 
     @POST("wallets")
-    suspend fun createWallet(@Body walletApi: WalletApi): WalletApi
+    suspend fun createWallet(@Body walletApi: CreateWalletApi): WalletApi
 
     @DELETE("wallets/{walletId}")
     suspend fun deleteWallet(@Path("walletId") walletId: Long): Boolean
@@ -41,4 +41,7 @@ interface AppService {
 
     @POST("person")
     suspend fun updateToken(@Body userApi: UserApi): String
+
+    @GET("currencies")
+    suspend fun getCurrencies(): List<CurrencyApi>
 }

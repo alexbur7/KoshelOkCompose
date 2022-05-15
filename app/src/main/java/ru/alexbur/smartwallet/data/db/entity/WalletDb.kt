@@ -1,6 +1,7 @@
 package ru.alexbur.smartwallet.data.db.entity
 
 import androidx.annotation.FloatRange
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -13,7 +14,8 @@ data class WalletDb(
     val income: String,
     val consumption: String,
     val limit: String?,
-    val currency: String,
+    @Embedded
+    val currency: CurrencyDb,
     val isHide: Boolean,
     @FloatRange(from = 0.0, to =1.0)
     val partSpending: Float?,

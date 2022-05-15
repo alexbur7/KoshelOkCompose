@@ -1,6 +1,6 @@
 package ru.alexbur.smartwallet.data.mappers
 
-import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
+import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import javax.inject.Inject
 
 class IntToTypeCategoryMapper @Inject constructor() : (Int) -> TypeOperation {

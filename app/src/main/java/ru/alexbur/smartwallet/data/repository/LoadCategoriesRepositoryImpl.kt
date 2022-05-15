@@ -1,6 +1,5 @@
 package ru.alexbur.smartwallet.data.repository
 
-import ru.alexbur.smartwallet.data.extentions.resultRequest
 import ru.alexbur.smartwallet.data.mappers.category.CategoryApiToCategoryMapper
 import ru.alexbur.smartwallet.data.service.AppService
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
@@ -13,9 +12,6 @@ class LoadCategoriesRepositoryImpl @Inject constructor(
 ) : LoadCategoriesRepository {
 
     override suspend fun getCategories(): Result<List<CategoryEntity>> {
-        return resultRequest { appService.getCategories() }
-            .map { categories ->
-                categories.map(categoryMapper)
-            }
+        return runCatching { appService.getCategories().map(categoryMapper) }
     }
 }

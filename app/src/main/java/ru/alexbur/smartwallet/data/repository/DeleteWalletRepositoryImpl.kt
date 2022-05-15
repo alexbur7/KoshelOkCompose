@@ -12,7 +12,7 @@ class DeleteWalletRepositoryImpl @Inject constructor(
 ) : DeleteWalletRepository {
 
     override suspend fun deleteWallet(walletId: Long): Result<Boolean> {
-        return resultRequest { appService.deleteWallet(walletId) }.onSuccess {
+        return runCatching { appService.deleteWallet(walletId) }.onSuccess {
             walletSource.deleteWallet(walletId)
         }
     }

@@ -15,7 +15,7 @@ class CreateCategoryRepositoryImpl @Inject constructor(
 ) : CreateCategoryRepository {
 
     override suspend fun createCategory(category: CategoryEntity): Result<CategoryEntity> {
-        return resultRequest {
+        return runCatching {
             appService.createCategory(
                 categoryMapper(category)
             )

@@ -16,7 +16,7 @@ import androidx.navigation.compose.composable
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
-import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
 import ru.alexbur.smartwallet.ui.utils.ChooseDataToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
@@ -36,7 +36,7 @@ fun CurrenciesScreen(
             when (currencyScreenType) {
                 CurrencyScreenType.WALLET_SCREEN -> viewModel.createWalletFlow.value?.currency
                 CurrencyScreenType.TRANSACTION_SCREEN -> viewModel.createTransactionEntity.value?.currency
-            } ?: Currency.RUB
+            } ?: CurrencyEntity.default
         )
     }
 

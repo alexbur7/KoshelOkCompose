@@ -8,7 +8,8 @@ class UserEntityToUserApiMapper @Inject constructor() : (UserEntity) -> UserApi 
 
     override fun invoke(user: UserEntity): UserApi {
         return UserApi(
-            email = user.email
+            email = user.email,
+            name = user.name
         )
     }
 }

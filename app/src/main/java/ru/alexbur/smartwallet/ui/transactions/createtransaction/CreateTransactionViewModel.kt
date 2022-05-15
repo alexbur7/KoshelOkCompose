@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
-import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
+import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.repositories.LoadCategoriesRepository

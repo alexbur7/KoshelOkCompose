@@ -2,8 +2,8 @@ package ru.alexbur.smartwallet.domain.entities.wallet
 
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
-import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
-import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
+import ru.alexbur.smartwallet.domain.enums.TypeOperation
 
 sealed class DetailWalletItem {
 
@@ -15,7 +15,7 @@ sealed class DetailWalletItem {
         val money: String,
         val time: String,
         val day: String,
-        val currency: Currency
+        val currency: CurrencyEntity
     ) : DetailWalletItem()
 
     companion object {
@@ -34,7 +34,7 @@ sealed class DetailWalletItem {
                 money = "",
                 time = "",
                 day = "",
-                Currency.RUB
+                currency = CurrencyEntity.default
             ),
             Transaction(
                 id = 2,
@@ -47,7 +47,7 @@ sealed class DetailWalletItem {
                 money = "",
                 time = "",
                 day = "",
-                Currency.RUB
+                currency = CurrencyEntity.default
             ),
             Transaction(
                 id = 3,
@@ -60,7 +60,7 @@ sealed class DetailWalletItem {
                 money = "",
                 time = "",
                 day = "",
-                Currency.RUB
+                currency = CurrencyEntity.default
             ),
             Transaction(
                 id = 4,
@@ -73,7 +73,7 @@ sealed class DetailWalletItem {
                 money = "",
                 time = "",
                 day = "",
-                Currency.RUB
+                currency = CurrencyEntity.default
             )
         )
     }

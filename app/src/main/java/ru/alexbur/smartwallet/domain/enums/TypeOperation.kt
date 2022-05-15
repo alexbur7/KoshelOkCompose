@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.domain.entities.utils
+package ru.alexbur.smartwallet.domain.enums
 
 import androidx.annotation.StringRes
 import ru.alexbur.smartwallet.R

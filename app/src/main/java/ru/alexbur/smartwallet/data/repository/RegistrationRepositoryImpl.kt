@@ -13,6 +13,6 @@ class RegistrationRepositoryImpl @Inject constructor(
 ) : RegistrationRepository {
 
     override suspend fun registrationUser(user: UserEntity): Result<String> {
-        return resultRequest { appService.updateToken(userApiMapper(user)) }
+        return runCatching { appService.updateToken(userApiMapper(user)) }
     }
 }

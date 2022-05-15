@@ -12,9 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
-import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
+import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
-import ru.alexbur.smartwallet.domain.repositories.CreateTransactionRepository
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel

@@ -24,7 +24,7 @@ import dagger.hilt.android.EntryPointAccessors
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
-import ru.alexbur.smartwallet.domain.entities.utils.TypeOperation
+import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.ui.MainActivity
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory

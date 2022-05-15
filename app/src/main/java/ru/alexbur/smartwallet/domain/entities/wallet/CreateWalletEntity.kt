@@ -1,10 +1,10 @@
 package ru.alexbur.smartwallet.domain.entities.wallet
 
-import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 
 data class CreateWalletEntity(
     val id: Long? = null,
-    var limit: String? = null,
-    var name: String,
-    var currency: Currency,
+    val limit: String? = null,
+    val name: String,
+    val currency: CurrencyEntity,
 )

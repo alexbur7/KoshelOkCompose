@@ -1,25 +1,29 @@
 package ru.alexbur.smartwallet.data.mappers.wallets
 
 import ru.alexbur.smartwallet.data.db.entity.WalletDb
+import ru.alexbur.smartwallet.data.extentions.defaultMoney
+import ru.alexbur.smartwallet.data.mappers.currency.CurrencyApiToDbMapper
 import ru.alexbur.smartwallet.data.service.api.WalletApi
 import javax.inject.Inject
 
-class WalletApiToDbMapper @Inject constructor() : (String, WalletApi) -> WalletDb {
+class WalletApiToDbMapper @Inject constructor(
+    private val currencyMapper: CurrencyApiToDbMapper
+) : (String, WalletApi) -> WalletDb {
 
     override fun invoke(email: String, wallet: WalletApi): WalletDb {
         return WalletDb(
-            id = wallet.id ?: 0,
+            id = wallet.id,
             name = wallet.name,
-            amountMoney = wallet.amountMoney,
-            income = wallet.income,
-            consumption = wallet.consumption,
+            amountMoney = wallet.amountMoney.defaultMoney(),
+            income = wallet.income.defaultMoney(),
+            consumption = wallet.consumption.defaultMoney(),
             limit = wallet.limit,
-            currency = wallet.currency,
+            currency = currencyMapper(wallet.currency),
             isHide = wallet.isHide,
             email = email,
             partSpending = calculatePartSpending(
                 limit = wallet.limit,
-                consumption = wallet.consumption
+                consumption = wallet.consumption.defaultMoney()
             )
         )
     }

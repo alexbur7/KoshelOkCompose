@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.placeholder.PlaceholderHighlight
@@ -22,7 +21,6 @@ import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
-import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.profile.toolbar.BalanceColumn
 import ru.alexbur.smartwallet.ui.utils.ProgressIndicator
 import ru.alexbur.smartwallet.ui.utils.theme.*
@@ -122,42 +120,4 @@ fun CardWalletInDetail(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun CardWalletInDetailPreview() {
-    CardWalletInDetail(
-        modifier = Modifier.fillMaxWidth(),
-        wallet = WalletEntity(
-            id = 124,
-            name = "12452",
-            amountMoney = "312421",
-            incomeMoney = "125251",
-            consumptionMoney = "12512525",
-            limit = "2532",
-            currency = Currency.USD,
-            isHide = false,
-            partSpending = 0.5f
-        ), isShimmer = false
-    )
-}
-
-@Preview
-@Composable
-fun CardWalletInDetailWithoutLimitPreview() {
-    CardWalletInDetail(
-        modifier = Modifier.fillMaxWidth(),
-        wallet = WalletEntity(
-            id = 12,
-            name = "12452",
-            amountMoney = "312421",
-            incomeMoney = "12551",
-            consumptionMoney = "12525",
-            limit = null,
-            currency = Currency.USD,
-            isHide = false,
-            partSpending = null
-        ), isShimmer = false
-    )
 }

@@ -26,8 +26,8 @@ import androidx.navigation.compose.composable
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
+import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
-import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
@@ -45,7 +45,7 @@ fun CreateWalletScreen(
     val initialCreateWallet = CreateWalletEntity(
         limit = "100000",
         name = stringResource(id = R.string.wallet_text),
-        currency = Currency.RUB
+        currency = CurrencyEntity.default
     )
     if (createWalletData.value == null) {
         viewModel.obtainEvent(CreateWalletViewModel.Event.InitCreateWallet(initialCreateWallet))
@@ -63,7 +63,11 @@ fun CreateWalletScreen(
             contentScale = ContentScale.FillWidth
         )
 
-        Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp)
+        ) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -97,10 +101,8 @@ fun CreateWalletScreen(
                     .wrapContentHeight()
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.currency),
-                text = stringResource(
-                    id = createWalletData.value?.currency?.nameId
-                        ?: initialCreateWallet.currency.nameId
-                )
+                text = createWalletData.value?.currency?.fullName
+                    ?: initialCreateWallet.currency.fullName
             ) {
                 navigation.navigate("${CurrenciesScreenFactory.route}/${CurrencyScreenType.WALLET_SCREEN.code}")
             }

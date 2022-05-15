@@ -6,12 +6,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class WalletApi(
     @SerialName("walletId")
-    val id: Long? = null,
+    val id: Long,
     val name: String,
-    val amountMoney: String,
-    val income: String,
-    val consumption: String,
+    val amountMoney: String?,
+    val income: String?,
+    val consumption: String?,
     val limit: String?,
-    val currency: String,
+    val currency: CurrencyApi,
     val isHide: Boolean
 )

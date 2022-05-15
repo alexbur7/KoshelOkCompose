@@ -12,7 +12,7 @@ class DeleteTransactionRepositoryImpl @Inject constructor(
 ) : DeleteTransactionRepository {
 
     override suspend fun deleteTransaction(transactionId: Long): Result<Boolean> {
-        return resultRequest { appService.deleteTransaction(transactionId) }.onSuccess {
+        return runCatching { appService.deleteTransaction(transactionId) }.onSuccess {
             detailSource.deleteTransaction(transactionId)
         }
     }

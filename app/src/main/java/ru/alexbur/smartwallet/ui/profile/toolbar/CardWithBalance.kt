@@ -22,7 +22,6 @@ import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.data.extentions.formattedMoney
 import ru.alexbur.smartwallet.domain.entities.listwallet.BalanceEntity
-import ru.alexbur.smartwallet.domain.enums.Currency
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardFirstColor
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundMainCardSecondColor
 import ru.alexbur.smartwallet.ui.utils.theme.CardFirstBorderColor
@@ -35,6 +34,7 @@ fun CardWithBalance(
     isShimmer: Boolean
 ) {
 
+    val rubIcon = "₽"
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(24.dp))
@@ -75,7 +75,7 @@ fun CardWithBalance(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(top = 6.dp),
-            text = balance.amountMoney.formattedMoney(Currency.RUB.icon),
+            text = balance.amountMoney.formattedMoney(rubIcon),
             style = TextStyle(color = Color.White, fontSize = 32.sp, fontWeight = FontWeight(500))
         )
         Row(
@@ -90,7 +90,7 @@ fun CardWithBalance(
                     .weight(1f),
                 colorIndicator = Color.Green,
                 text = stringResource(id = R.string.general_income),
-                money = balance.incomeMoney.formattedMoney(Currency.RUB.icon)
+                money = balance.incomeMoney.formattedMoney(rubIcon)
             )
 
             BalanceColumn(
@@ -99,7 +99,7 @@ fun CardWithBalance(
                     .weight(1f),
                 colorIndicator = Color.Red,
                 text = stringResource(id = R.string.general_consumption),
-                money = balance.consumptionMoney.formattedMoney(Currency.RUB.icon)
+                money = balance.consumptionMoney.formattedMoney(rubIcon)
             )
         }
     }

@@ -1,25 +1,28 @@
 package ru.alexbur.smartwallet.data.mappers.wallets
 
+import ru.alexbur.smartwallet.data.extentions.defaultMoney
+import ru.alexbur.smartwallet.data.mappers.currency.CurrencyApiToEntityMapper
 import ru.alexbur.smartwallet.data.service.api.WalletApi
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
-import ru.alexbur.smartwallet.domain.enums.Currency
 import javax.inject.Inject
 
-class WalletApiToWalletEntityMapper @Inject constructor() : (WalletApi) -> WalletEntity {
+class WalletApiToWalletEntityMapper @Inject constructor(
+    private val currencyMapper: CurrencyApiToEntityMapper
+) : (WalletApi) -> WalletEntity {
 
     override operator fun invoke(walletApi: WalletApi) =
         WalletEntity(
-            id = walletApi.id ?: 0,
+            id = walletApi.id,
             name = walletApi.name,
-            amountMoney = walletApi.amountMoney,
-            incomeMoney = walletApi.income,
-            consumptionMoney = walletApi.consumption,
-            currency = Currency.valueOf(walletApi.currency),
+            amountMoney = walletApi.amountMoney.defaultMoney(),
+            incomeMoney = walletApi.income.defaultMoney(),
+            consumptionMoney = walletApi.consumption.defaultMoney(),
+            currency = currencyMapper(walletApi.currency),
             isHide = walletApi.isHide,
             limit = walletApi.limit,
             partSpending = calculatePartSpending(
                 limit = walletApi.limit,
-                consumption = walletApi.consumption
+                consumption = walletApi.consumption.defaultMoney()
             )
         )
 

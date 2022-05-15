@@ -9,14 +9,7 @@ data class TransactionApi(
     val id: Long,
     @SerialName("value")
     val money: String,
-    @SerialName("categoryId")
-    val idCategory: Long,
-    @SerialName("category")
-    val type: Int,
-    @SerialName("categoryName")
-    val operation: String,
-    @SerialName("icon")
-    val idIcon: Int,
-    val currency: String,
+    val category: CategoryApi,
+    val currency: CurrencyApi,
     val time: Long
 )

@@ -1,7 +1,7 @@
 package ru.alexbur.smartwallet.domain.entities.listwallet
 
+import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
-import ru.alexbur.smartwallet.domain.enums.Currency
 
 data class MainScreenDataEntity(
     val balanceEntity: BalanceEntity,
@@ -16,21 +16,9 @@ data class MainScreenDataEntity(
                 consumptionMoney = ""
             ),
             exchangeRatesEntity = ExchangeRatesEntity(
-                firstCurrency = CurrencyEntity(
-                    Currency.RUB,
-                    "3",
-                    true
-                ),
-                secondCurrency = CurrencyEntity(
-                    Currency.EUR,
-                    "86",
-                    true
-                ),
-                thirdCurrency = CurrencyEntity(
-                    Currency.USD,
-                    "78",
-                    true
-                )
+                firstCurrency = CurrencyEntity.default,
+                secondCurrency = CurrencyEntity.default,
+                thirdCurrency = CurrencyEntity.default
             ),
             wallets = mutableListOf<WalletEntity>().apply {
                 repeat(3) {
@@ -41,7 +29,7 @@ data class MainScreenDataEntity(
                             amountMoney = "",
                             incomeMoney = "",
                             consumptionMoney = "",
-                            currency = Currency.RUB,
+                            currency = CurrencyEntity.default,
                             isHide = false,
                             limit = null,
                             partSpending = null
@@ -58,21 +46,9 @@ data class MainScreenDataEntity(
                 consumptionMoney = "0"
             ),
             exchangeRatesEntity = ExchangeRatesEntity(
-                firstCurrency = CurrencyEntity(
-                    Currency.CHF,
-                    "",
-                    true
-                ),
-                secondCurrency = CurrencyEntity(
-                    Currency.EUR,
-                    "",
-                    true
-                ),
-                thirdCurrency = CurrencyEntity(
-                    Currency.USD,
-                    "",
-                    true
-                )
+                firstCurrency = CurrencyEntity.default,
+                secondCurrency = CurrencyEntity.default,
+                thirdCurrency = CurrencyEntity.default
             ),
             wallets = emptyList()
         )

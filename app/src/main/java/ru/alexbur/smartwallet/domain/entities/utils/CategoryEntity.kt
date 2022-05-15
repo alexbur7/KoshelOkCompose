@@ -1,6 +1,7 @@
 package ru.alexbur.smartwallet.domain.entities.utils
 
 import ru.alexbur.smartwallet.R
+import ru.alexbur.smartwallet.domain.enums.TypeOperation
 
 data class CategoryEntity(
     val id: Long? = null,

@@ -3,6 +3,7 @@ package ru.alexbur.smartwallet.data.service
 import kotlinx.coroutines.delay
 import ru.alexbur.smartwallet.data.service.api.*
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
+import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 
 class MockAppService : AppService {
 
@@ -17,197 +18,177 @@ class MockAppService : AppService {
             TransactionApi(
                 id = 1,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "USD",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
             TransactionApi(
                 id = 2,
                 money = "251215",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "USD",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
             TransactionApi(
                 id = 3,
                 money = "2512",
-                idCategory = 12,
-                type = 0,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 4,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
             TransactionApi(
                 id = 3,
                 money = "2512",
-                idCategory = 12,
-                type = 0,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 4,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
             TransactionApi(
                 id = 3,
                 money = "2512",
-                idCategory = 12,
-                type = 0,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 4,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
             TransactionApi(
                 id = 3,
                 money = "2512",
-                idCategory = 12,
-                type = 0,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 4,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
             TransactionApi(
                 id = 3,
                 money = "2512",
-                idCategory = 12,
-                type = 0,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 4,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
             TransactionApi(
                 id = 3,
                 money = "2512",
-                idCategory = 12,
-                type = 0,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 4,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
             TransactionApi(
                 id = 3,
                 money = "2512",
-                idCategory = 12,
-                type = 0,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 4,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 3,
                 money = "2512",
-                idCategory = 12,
-                type = 0,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 4,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
             TransactionApi(
                 id = 3,
                 money = "2512",
-                idCategory = 12,
-                type = 0,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ), TransactionApi(
                 id = 4,
                 money = "2512",
-                idCategory = 12,
-                type = 1,
-                operation = "35315",
-                idIcon = 24,
-                currency = "RUB",
+                category = CategoryApi(
+                    0, 0, "gwegew", 1
+                ),
+                currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                 time = 2125156662
             ),
         )
     }
 
-    override suspend fun createWallet(walletApi: WalletApi): WalletApi {
+    override suspend fun createWallet(walletApi: CreateWalletApi): WalletApi {
         delay(3000L)
         return WalletApi(
             id = 10,
@@ -216,7 +197,7 @@ class MockAppService : AppService {
             income = "14000",
             consumption = "18000",
             limit = "15000",
-            currency = "RUB",
+            currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
             isHide = false
         )
     }
@@ -235,21 +216,9 @@ class MockAppService : AppService {
                 consumptionMoney = "21451"
             ),
             exchangeRatesApi = ExchangeRatesApi(
-                firstCurrency = CurrencyApi(
-                    name = "RUB",
-                    course = "69.1",
-                    isUp = false
-                ),
-                secondCurrency = CurrencyApi(
-                    name = "EUR",
-                    course = "39.1",
-                    isUp = true
-                ),
-                thirdCurrency = CurrencyApi(
-                    name = "USD",
-                    course = "81.1",
-                    isUp = false
-                )
+                firstCurrency  = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
+                secondCurrency = CurrencyApi(1,"EUR","65.4","Евро","Евро EUR","!", false),
+                thirdCurrency = CurrencyApi(2,"FRA","22.4","Евро","Евро EUR","!", false),
             ),
             wallets = listOf(
                 WalletApi(
@@ -259,7 +228,7 @@ class MockAppService : AppService {
                     income = "14000",
                     consumption = "18000",
                     limit = "15000",
-                    currency = "RUB",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ), WalletApi(
                     id = 10,
@@ -268,7 +237,7 @@ class MockAppService : AppService {
                     income = "14000",
                     consumption = "18000",
                     limit = "15000",
-                    currency = "RUB",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ), WalletApi(
                     id = 11,
@@ -277,7 +246,7 @@ class MockAppService : AppService {
                     income = "14000",
                     consumption = "18000",
                     limit = "15000",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ), WalletApi(
                     id = 14,
@@ -286,7 +255,7 @@ class MockAppService : AppService {
                     income = "14000",
                     consumption = "18000",
                     limit = null,
-                    currency = "RUB",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ), WalletApi(
                     id = 40,
@@ -295,7 +264,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -305,7 +274,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -315,7 +284,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -325,7 +294,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -335,7 +304,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -345,7 +314,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -355,7 +324,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -365,7 +334,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -375,7 +344,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -385,7 +354,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -395,7 +364,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -405,7 +374,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -415,7 +384,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -425,7 +394,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -435,7 +404,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -445,7 +414,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -455,7 +424,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -465,7 +434,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -475,7 +444,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -485,7 +454,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -495,7 +464,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -505,7 +474,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -515,7 +484,7 @@ class MockAppService : AppService {
                     income = "1000",
                     consumption = "8000",
                     limit = "1100",
-                    currency = "USD",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
                 WalletApi(
@@ -525,7 +494,7 @@ class MockAppService : AppService {
                     income = "114000",
                     consumption = "158000",
                     limit = "125000",
-                    currency = "EUR",
+                    currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
                     isHide = false
                 ),
             )
@@ -537,11 +506,8 @@ class MockAppService : AppService {
         return TransactionApi(
             id = 65,
             money = "19512",
-            idCategory = 124,
-            type = 0,
-            operation = "5831758",
-            idIcon = 24,
-            currency = "RUB",
+            category = CategoryApi(0,0,"fqwgeg",5),
+            currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
             time = 153531599153
         )
     }
@@ -554,11 +520,8 @@ class MockAppService : AppService {
         return TransactionApi(
             id = 72,
             money = "1952112",
-            idCategory = 124,
-            type = 0,
-            operation = "51831758",
-            idIcon = 24,
-            currency = "RUB",
+            category = CategoryApi(0,0,"fqwgeg",5),
+            currency = CurrencyApi(0,"USD","62.4","Евро","Евро EUR","!", false),
             time = 153531599246
         )
     }
@@ -642,5 +605,18 @@ class MockAppService : AppService {
     override suspend fun updateToken(userApi: UserApi): String {
         delay(3000L)
         return "New_token"
+    }
+
+    override suspend fun getCurrencies(): List<CurrencyApi> {
+        delay(1000L)
+        return listOf(
+            CurrencyApi(0,"UER", "521","qrqtg","gwehh","e",false),
+            CurrencyApi(1,"USD", "50","rhkn","gwqjowehh","e",false),
+            CurrencyApi(2,"GJN", "56","qagn","gweqjfnwhh","e",false),
+            CurrencyApi(3,"GQg", "19","qfqgkm","gwqjfnehh","e",false),
+            CurrencyApi(4,"Geg", "51","anwg","qjngwehh","e",false),
+            CurrencyApi(5,"GEQ", "19","qwqtg","gqnt3jwehh","e",false),
+            CurrencyApi(6,"OJJ", "521","htg","gweqtjhh","e",false),
+        )
     }
 }

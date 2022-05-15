@@ -1,7 +1,7 @@
 package ru.alexbur.smartwallet.domain.entities.wallet
 
 import androidx.annotation.FloatRange
-import ru.alexbur.smartwallet.domain.enums.Currency
+import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 
 data class WalletEntity(
     val id: Long,
@@ -9,7 +9,7 @@ data class WalletEntity(
     val amountMoney: String,
     val incomeMoney: String,
     val consumptionMoney: String,
-    val currency: Currency,
+    val currency: CurrencyEntity,
     val isHide: Boolean,
     val limit: String?,
     @FloatRange(from = 0.0, to = 1.0)
@@ -19,7 +19,7 @@ data class WalletEntity(
     companion object {
         val shimmerData = listOf(
             WalletEntity(
-                0, "", "", "", "", Currency.RUB, false, null, 0f
+                0, "", "", "", "", CurrencyEntity.default, false, null, 0f
             )
         )
     }

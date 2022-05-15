@@ -19,7 +19,7 @@ class CreateWalletRepositoryImpl @Inject constructor(
     override suspend fun createWallet(
         createWallet: CreateWalletEntity
     ): Result<WalletEntity> {
-        return resultRequest { appService.createWallet(mapperWallet(createWallet))}.onSuccess { wallet ->
+        return runCatching { appService.createWallet(mapperWallet(createWallet))}.onSuccess { wallet ->
             walletSource.insertWallet(wallet)
         }.map(walletEntityMapper)
     }

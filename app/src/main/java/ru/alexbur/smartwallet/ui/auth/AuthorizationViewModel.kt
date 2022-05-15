@@ -52,16 +52,20 @@ class AuthorizationViewModel @Inject constructor(
     }
 
     private fun registrationUser(email: String, displayName: String?) = viewModelScope.launch {
-        registrationRepository.registrationUser(user = UserEntity(email))
-            .onSuccess { token ->
-                accountDataStore.updateEmail(email)
-                accountDataStore.updateName(displayName)
-                obtainEvent(Event.RegistrationSucceed(token = token))
-            }.onFailure {
-                accountDataStore.updateEmail(email)
-                accountDataStore.updateName(displayName)
-                obtainEvent(Event.RegistrationFailed(errorHandler.handleError(it)))
-            }
+        registrationRepository.registrationUser(
+            user = UserEntity(
+                email,
+                name = displayName.orEmpty()
+            )
+        ).onSuccess { token ->
+            accountDataStore.updateEmail(email)
+            accountDataStore.updateName(displayName)
+            obtainEvent(Event.RegistrationSucceed(token = token))
+        }.onFailure {
+            accountDataStore.updateEmail(email)
+            accountDataStore.updateName(displayName)
+            obtainEvent(Event.RegistrationFailed(errorHandler.handleError(it)))
+        }
     }
 
     private fun registrationFailed(error: String) = viewModelScope.launch {

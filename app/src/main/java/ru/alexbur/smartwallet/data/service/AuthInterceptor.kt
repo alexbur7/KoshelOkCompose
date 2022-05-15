@@ -39,11 +39,11 @@ class AuthInterceptor @Inject constructor(
     }
 
     private suspend fun updateToken() {
-        accountDataStore.name.firstOrNull()?.let {
-            registrationRepository.registrationUser(UserEntity(it)).onSuccess { newToken ->
-                accountDataStore.updateToken(newToken)
-                token = newToken
-            }
+        val email = accountDataStore.email.firstOrNull() ?: return
+        val name = accountDataStore.name.firstOrNull() ?: return
+        registrationRepository.registrationUser(UserEntity(email, name)).onSuccess { newToken ->
+            accountDataStore.updateToken(newToken)
+            token = newToken
         }
     }
 

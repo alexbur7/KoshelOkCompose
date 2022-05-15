@@ -11,6 +11,6 @@ data class CreateTransactionApi(
     val money: String,
     @SerialName("categoryId")
     val idCategory: Long,
-    val currency: String,
+    val currencyId: Long,
     val time: Long
 )
