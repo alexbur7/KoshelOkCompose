@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -38,7 +39,8 @@ fun WalletItem(
     onDelete: (Long) -> Unit
 ) {
     val swipeState = rememberSwipeableState(0)
-    val anchors = mapOf(0f to 0, -400f to 1)
+    val pixel = with(LocalDensity.current) { -110.dp.toPx() }
+    val anchors = mapOf(0f to 0, pixel to 1)
     Box(
         modifier = modifier
             .swipeable(
@@ -119,7 +121,7 @@ fun WalletItem(
 
 @Preview
 @Composable
-fun WalletItem(){
+fun WalletItem() {
     WalletItem(
         modifier = Modifier.fillMaxWidth(),
         walletEntity = WalletEntity.shimmerData.first(),

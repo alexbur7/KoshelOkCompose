@@ -20,7 +20,9 @@ fun TransactionsBottomSheet(
     modifier: Modifier,
     state: LazyListState,
     transactions: List<DetailWalletItem>,
-    isShimmer: Boolean
+    isShimmer: Boolean,
+    editItem: (DetailWalletItem.Transaction) -> Unit,
+    deleteItem: (Long) -> Unit
 ) {
 
     Column(
@@ -48,7 +50,13 @@ fun TransactionsBottomSheet(
                 .padding(horizontal = 24.dp),
             state = state,
             transactions = transactions,
-            isShimmer = isShimmer
+            isShimmer = isShimmer,
+            editItem = {
+                editItem(it)
+            },
+            deleteItem = {
+                deleteItem(it)
+            }
         )
     }
 }

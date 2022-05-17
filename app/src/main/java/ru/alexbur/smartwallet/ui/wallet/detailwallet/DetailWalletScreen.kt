@@ -127,7 +127,13 @@ fun DetailWalletScreen(
                     .fillMaxSize(),
                 state = state,
                 transactions = transactionState.value,
-                isShimmer = transactionState.value == DetailWalletItem.shimmerData
+                isShimmer = transactionState.value == DetailWalletItem.shimmerData,
+                editItem = {
+                    // TODO подставить методы из vm
+                },
+                deleteItem = {
+                    // TODO подставить методы из vm
+                }
             )
         }
 

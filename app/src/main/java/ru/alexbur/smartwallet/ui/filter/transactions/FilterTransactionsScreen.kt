@@ -74,7 +74,12 @@ fun FilterTransactionsScreen(
                     .padding(top = 24.dp),
                 state = state,
                 transactions = transactions.value,
-                isShimmer = transactions.value == DetailWalletItem.shimmerData
+                isShimmer = transactions.value == DetailWalletItem.shimmerData,
+                editItem = { // TODO подставить методы из vm
+                    },
+                deleteItem = {
+                    // TODO подставить методы из vm
+                }
             )
         }
 

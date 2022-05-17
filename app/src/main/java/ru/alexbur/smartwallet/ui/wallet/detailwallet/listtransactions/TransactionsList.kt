@@ -1,6 +1,5 @@
 package ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions
 
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -16,7 +15,9 @@ fun TransactionsList(
     modifier: Modifier,
     state: LazyListState,
     transactions: List<DetailWalletItem>,
-    isShimmer: Boolean
+    isShimmer: Boolean,
+    editItem: (DetailWalletItem.Transaction) -> Unit,
+    deleteItem: (Long) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -37,7 +38,9 @@ fun TransactionsList(
                                 bottom = if (index == transactions.lastIndex) 24.dp else 0.dp
                             ),
                         transaction = item,
-                        isShimmer = isShimmer
+                        isShimmer = isShimmer,
+                        onEdit = { editItem(it) },
+                        onDelete = { deleteItem(it) }
                     )
                 }
                 is DetailWalletItem.Day -> {
