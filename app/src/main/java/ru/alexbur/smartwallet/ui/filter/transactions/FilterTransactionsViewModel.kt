@@ -58,6 +58,9 @@ class FilterTransactionsViewModel @Inject constructor(
             is Event.FilterTransaction -> {
                 filterTransactions(event.filterText)
             }
+            is Event.DeleteTransaction -> {
+                deleteTransaction(event.transactionId)
+            }
         }
     }
 
@@ -111,6 +114,10 @@ class FilterTransactionsViewModel @Inject constructor(
         })
     }
 
+    private fun deleteTransaction(id: Long) = viewModelScope.launch {
+        // TODO написать метод для удаления
+    }
+
     sealed class Event : BaseEvent() {
         object OnLoadingDBTransactionStarted : Event()
         object OnLoadingTransactionNetworkStarted : Event()
@@ -121,5 +128,7 @@ class FilterTransactionsViewModel @Inject constructor(
         class OnLoadingFailed(val error: String) : Event()
 
         class FilterTransaction(val filterText: String) : Event()
+
+        class DeleteTransaction(val transactionId: Long) : Event()
     }
 }

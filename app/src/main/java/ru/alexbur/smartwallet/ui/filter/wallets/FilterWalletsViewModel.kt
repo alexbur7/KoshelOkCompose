@@ -53,6 +53,9 @@ class FilterWalletsViewModel @Inject constructor(
             is Event.FilterWallets -> {
                 filterWallets(event.filter)
             }
+            is Event.DeleteWallet -> {
+                deleteWallet(event.walletId)
+            }
         }
     }
 
@@ -97,6 +100,10 @@ class FilterWalletsViewModel @Inject constructor(
         )
     }
 
+    private fun deleteWallet(id: Long) = viewModelScope.launch {
+        // TODO написать метод для удаления
+    }
+
     sealed class Event : BaseEvent() {
         object OnLoadingStarted : Event()
         class OnLoadingDBSucceed(val data: List<WalletEntity>) : Event()
@@ -104,5 +111,6 @@ class FilterWalletsViewModel @Inject constructor(
         class OnLoadingNetworkSucceed(val data: List<WalletEntity>) : Event()
         class OnLoadingFailed(val error: String) : Event()
         class FilterWallets(val filter: String) : Event()
+        class DeleteWallet(val walletId: Long) : Event()
     }
 }

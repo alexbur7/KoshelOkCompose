@@ -6,10 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
@@ -34,7 +31,7 @@ class DetailWalletViewModel @AssistedInject constructor(
         get() = _detailWalletData.asStateFlow()
     val transitionsData: StateFlow<List<DetailWalletItem>>
         get() = _transitionsData.asStateFlow()
-    val loadStateData: SharedFlow<LoadingState>
+    val loadStateData: StateFlow<LoadingState>
         get() = _loadStateData.asStateFlow()
     val errorMessage: StateFlow<String>
         get() = _errorMessage.asStateFlow()
@@ -84,7 +81,7 @@ class DetailWalletViewModel @AssistedInject constructor(
                 succeedNetworkTransactionLoading(event.transactions)
             }
             is Event.DeleteTransaction -> {
-                deleteTransaction(event.transaction)
+                deleteTransaction(event.transactionId)
             }
         }
     }
@@ -166,18 +163,19 @@ class DetailWalletViewModel @AssistedInject constructor(
             _transitionsData.emit(data)
         }
 
-    private fun deleteTransaction(deleteTransaction: DetailWalletItem.Transaction) =
+    private fun deleteTransaction(id: Long) =
         viewModelScope.launch {
             _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
-            deleteTransactionRepository.deleteTransaction(deleteTransaction.id).onSuccess {
-                _detailWalletData.emit(_detailWalletData.value.filter { detailWalletItem ->
-                    /*if (detailWalletItem is DetailWalletItem.Transaction && it) {
-                        detailWalletItem != deleteTransaction
-                    } else {
-                        true
-                    }*/
-                    true
-                })
+            deleteTransactionRepository.deleteTransaction(id).onSuccess {
+                _transitionsData.update {
+                    it.filter { detailWalletItem ->
+                        if (detailWalletItem is DetailWalletItem.Transaction) {
+                            detailWalletItem.id != id
+                        } else {
+                            true
+                        }
+                    }
+                }
                 _loadStateData.emit(LoadingState.LOAD_SUCCEED)
             }.onFailure {
                 _errorMessage.emit(errorHandler.handleError(it))
@@ -210,7 +208,7 @@ class DetailWalletViewModel @AssistedInject constructor(
             val transactions: List<DetailWalletItem>
         ) : Event()
 
-        class DeleteTransaction(val transaction: DetailWalletItem.Transaction) : Event()
+        class DeleteTransaction(val transactionId: Long) : Event()
     }
 
     @AssistedFactory

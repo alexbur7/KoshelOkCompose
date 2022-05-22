@@ -3,7 +3,6 @@ package ru.alexbur.smartwallet.domain.enums
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-//TODO придумать норм название
 @Parcelize
 enum class CurrencyScreenType(val code: Int): Parcelable {
     WALLET_SCREEN(0),

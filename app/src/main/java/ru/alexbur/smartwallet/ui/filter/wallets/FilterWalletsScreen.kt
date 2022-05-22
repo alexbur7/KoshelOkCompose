@@ -6,12 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -24,6 +23,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.filter.FilterToolbar
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.profile.WalletsList
+import ru.alexbur.smartwallet.ui.utils.ConfirmAlertDialog
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import javax.inject.Inject
@@ -37,6 +37,12 @@ fun FilterWalletsScreen(
     val errorMessage = viewModel.errorMessage.collectAsState()
     val snackBarHostState = SnackbarHostState()
     val state = rememberLazyListState()
+    var isShowDeleteDialog by remember {
+        mutableStateOf(false)
+    }
+    var deleteWalletId by remember {
+        mutableStateOf<Long?>(null)
+    }
 
     LaunchedEffect(key1 = errorMessage.value) {
         if (errorMessage.value.isNotBlank()) {
@@ -66,7 +72,6 @@ fun FilterWalletsScreen(
             FilterToolbar(modifier = Modifier.fillMaxWidth(), filter = {
                 viewModel.obtainEvent(FilterWalletsViewModel.Event.FilterWallets(it))
             })
-            //TODO подставить методы
             WalletsList(
                 modifier = Modifier
                     .fillMaxSize()
@@ -74,8 +79,30 @@ fun FilterWalletsScreen(
                 state = state,
                 wallets = walletsState.value,
                 clickItem = {},
-                deleteItem = {},
-                editItem = {}
+                deleteItem = {
+                    deleteWalletId = it
+                    isShowDeleteDialog = true
+                },
+                editItem = {
+                    //TODO подставить методы
+                }
+            )
+        }
+
+        if (isShowDeleteDialog) {
+            ConfirmAlertDialog(
+                modifier = Modifier,
+                text = stringResource(id = R.string.delete_title),
+                onConfirm = {
+                    deleteWalletId?.let {
+                        viewModel.obtainEvent(FilterWalletsViewModel.Event.DeleteWallet(it))
+                    }
+                    deleteWalletId = null
+                    isShowDeleteDialog = false
+                },
+                onDismiss = {
+                    isShowDeleteDialog = false
+                }
             )
         }
 

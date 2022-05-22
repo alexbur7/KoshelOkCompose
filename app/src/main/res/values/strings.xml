@@ -108,4 +108,7 @@
     <string name="new_category">Новая категория</string>
     <string name="name_place_holder">Название ...</string>
     <string name="find_description">Поиск</string>
+    <string name="confrim">Подтвердить</string>
+    <string name="cancelable">Отменить</string>
+    <string name="delete_title">Уверены что хотите удалить запись?</string>
 </resources>

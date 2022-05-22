@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.*
@@ -32,6 +33,7 @@ import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.ui.MainActivity
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
+import ru.alexbur.smartwallet.ui.utils.ConfirmAlertDialog
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsBottomSheet
@@ -50,10 +52,17 @@ fun DetailWalletScreen(
         rememberPagerState(initialPage = if (viewModel.positionWallet >= 0) viewModel.positionWallet else 0)
     val state = rememberLazyListState()
     val errorMessage = viewModel.errorMessage.collectAsState()
+    val loadState = viewModel.loadStateData.collectAsState()
     val collapsingState = rememberCollapsingToolbarScaffoldState()
     val snackBarHostState = SnackbarHostState()
     var isFirstLaunch by remember {
         mutableStateOf(true)
+    }
+    var isShowDeleteDialog by remember {
+        mutableStateOf(false)
+    }
+    var deleteTransactionId by remember {
+        mutableStateOf<Long?>(null)
     }
 
     LaunchedEffect(key1 = pagerState.currentPage, errorMessage.value) {
@@ -132,7 +141,25 @@ fun DetailWalletScreen(
                     // TODO подставить методы из vm
                 },
                 deleteItem = {
-                    // TODO подставить методы из vm
+                    deleteTransactionId = it
+                    isShowDeleteDialog = true
+                }
+            )
+        }
+
+        if (isShowDeleteDialog) {
+            ConfirmAlertDialog(
+                modifier = Modifier,
+                text = stringResource(id = R.string.delete_title),
+                onConfirm = {
+                    deleteTransactionId?.let {
+                        viewModel.obtainEvent(DetailWalletViewModel.Event.DeleteTransaction(it))
+                    }
+                    deleteTransactionId = null
+                    isShowDeleteDialog = false
+                },
+                onDismiss = {
+                    isShowDeleteDialog = false
                 }
             )
         }

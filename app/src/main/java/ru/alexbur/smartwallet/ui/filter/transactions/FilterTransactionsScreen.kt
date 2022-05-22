@@ -6,12 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -24,6 +23,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.ui.filter.FilterToolbar
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
+import ru.alexbur.smartwallet.ui.utils.ConfirmAlertDialog
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsList
@@ -38,6 +38,12 @@ fun FilterTransactionsScreen(
     val errorMessage = viewModel.errorMessage.collectAsState()
     val snackBarHostState = SnackbarHostState()
     val state = rememberLazyListState()
+    var isShowDeleteDialog by remember {
+        mutableStateOf(false)
+    }
+    var deleteTransactionId by remember {
+        mutableStateOf<Long?>(null)
+    }
 
     LaunchedEffect(key1 = errorMessage.value) {
         if (errorMessage.value.isNotBlank()) {
@@ -76,9 +82,27 @@ fun FilterTransactionsScreen(
                 transactions = transactions.value,
                 isShimmer = transactions.value == DetailWalletItem.shimmerData,
                 editItem = { // TODO подставить методы из vm
-                    },
+                },
                 deleteItem = {
-                    // TODO подставить методы из vm
+                    deleteTransactionId = it
+                    isShowDeleteDialog = true
+                }
+            )
+        }
+
+        if (isShowDeleteDialog) {
+            ConfirmAlertDialog(
+                modifier = Modifier,
+                text = stringResource(id = R.string.delete_title),
+                onConfirm = {
+                    deleteTransactionId?.let {
+                        viewModel.obtainEvent(FilterTransactionsViewModel.Event.DeleteTransaction(it))
+                    }
+                    deleteTransactionId = null
+                    isShowDeleteDialog = false
+                },
+                onDismiss = {
+                    isShowDeleteDialog = false
                 }
             )
         }
