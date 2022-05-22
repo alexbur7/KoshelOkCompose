@@ -8,4 +8,6 @@ interface CreateWalletRepository {
     suspend fun createWallet(
         createWallet: CreateWalletEntity
     ): Result<WalletEntity>
+
+    suspend fun editWallet(id: Long, walletEntity: CreateWalletEntity): Result<WalletEntity>
 }

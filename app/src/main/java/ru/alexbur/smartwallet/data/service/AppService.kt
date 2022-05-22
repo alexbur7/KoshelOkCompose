@@ -14,6 +14,13 @@ interface AppService {
     @POST("wallets")
     suspend fun createWallet(@Body walletApi: CreateWalletApi): WalletApi
 
+    @PUT("wallets/{walletId}")
+    suspend fun editWallet(
+        @Path("walletId")
+        id: Long,
+        @Body walletApi: CreateWalletApi
+    ): WalletApi
+
     @DELETE("wallets/{walletId}")
     suspend fun deleteWallet(@Path("walletId") walletId: Long): Boolean
 
