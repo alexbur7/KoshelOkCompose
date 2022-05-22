@@ -21,18 +21,20 @@ class AuthInterceptor @Inject constructor(
             .request()
             .newBuilder()
 
-        runBlocking {
+        token = runBlocking {
             token = accountDataStore.userToken.firstOrNull()
             if (token == null) {
                 updateToken()
             }
+            token
         }
 
         val response = chain.proceed(builder.addHeader("Authorization", "Bearer $token").build())
         if (response.code != UNAUTHORIZED_ERROR_CODE) return response
         //GlobalScope.async {  }
-        runBlocking {
+        token = runBlocking {
             updateToken()
+            token
         }
 
         return chain.proceed(builder.addHeader("Authorization", "Bearer $token").build())

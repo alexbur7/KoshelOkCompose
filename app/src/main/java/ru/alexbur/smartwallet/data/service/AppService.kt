@@ -39,9 +39,6 @@ interface AppService {
     @POST("categories")
     suspend fun createCategory(@Body categoryApi: CategoryApi): CategoryApi
 
-    @POST("person")
-    suspend fun updateToken(@Body userApi: UserApi): String
-
     @GET("currencies")
     suspend fun getCurrencies(): List<CurrencyApi>
 }

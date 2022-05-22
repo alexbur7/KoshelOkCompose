@@ -9,15 +9,9 @@ import ru.alexbur.smartwallet.data.db.source.DetailWalletSourceImpl
 import ru.alexbur.smartwallet.data.db.source.WalletSource
 import ru.alexbur.smartwallet.data.db.source.WalletSourceImpl
 import ru.alexbur.smartwallet.data.error_handler.ErrorHandlerImpl
-import ru.alexbur.smartwallet.data.repository.DeleteTransactionRepositoryImpl
-import ru.alexbur.smartwallet.data.repository.DetailWalletRepositoryImpl
-import ru.alexbur.smartwallet.data.repository.LoadCategoriesRepositoryImpl
-import ru.alexbur.smartwallet.data.repository.SavingDataManagerImpl
+import ru.alexbur.smartwallet.data.repository.*
 import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
-import ru.alexbur.smartwallet.domain.repositories.DeleteTransactionRepository
-import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
-import ru.alexbur.smartwallet.domain.repositories.LoadCategoriesRepository
-import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
+import ru.alexbur.smartwallet.domain.repositories.*
 import javax.inject.Singleton
 
 @Module
@@ -45,6 +39,10 @@ interface SingletonBinds {
     @Binds
     fun bindLoadCategoriesRepository(loadCategoriesRepositoryImpl: LoadCategoriesRepositoryImpl)
             : LoadCategoriesRepository
+
+    @Binds
+    fun bindRegistrationRepository(registrationRepositoryImpl: RegistrationRepositoryImpl)
+            : RegistrationRepository
 
     @Binds
     fun bindErrorHandler(errorHandlerImpl: ErrorHandlerImpl): ErrorHandler

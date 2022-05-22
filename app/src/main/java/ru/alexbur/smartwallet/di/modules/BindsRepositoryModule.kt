@@ -27,10 +27,6 @@ interface BindsRepositoryModule {
             : CreateWalletRepository
 
     @Binds
-    fun bindRegistrationRepository(registrationRepositoryImpl: RegistrationRepositoryImpl)
-            : RegistrationRepository
-
-    @Binds
     fun bindCreateCategoryRepository(createCategoryRepositoryImpl: CreateCategoryRepositoryImpl)
             : CreateCategoryRepository
 

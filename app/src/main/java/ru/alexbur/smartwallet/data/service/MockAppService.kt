@@ -5,7 +5,7 @@ import ru.alexbur.smartwallet.data.service.api.*
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 
-class MockAppService : AppService {
+class MockAppService : AppService, AuthService {
 
     override suspend fun getWallets(): List<WalletApi> {
         delay(3000L)
