@@ -6,8 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.enums.TypeOperation
-import ru.alexbur.smartwallet.ui.utils.CustomRadioButton
+import ru.alexbur.smartwallet.ui.utils.TextWithEndImage
 
 @Composable
 fun CategoryItem(
@@ -37,6 +36,7 @@ fun CategoryItem(
         .padding(vertical = 12.dp)) {
         Image(
             modifier = Modifier
+                .padding(start = 16.dp)
                 .align(Alignment.CenterVertically)
                 .size(24.dp),
             painter = painterResource(id = categoryEntity.iconId),
@@ -44,27 +44,22 @@ fun CategoryItem(
             contentScale = ContentScale.None
         )
 
-        Text(
+        TextWithEndImage(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .align(Alignment.CenterVertically), text = categoryEntity.operation,
-            style = TextStyle(color = Color.White, fontSize = 16.sp)
+                .align(Alignment.CenterVertically),
+            text = categoryEntity.operation,
+            textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+            imageId = if (isSelect) R.drawable.choose_icon else null
         )
-
-        CustomRadioButton(
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(end = 16.dp), isSelect = isSelect
-        ) {
-            onClick(categoryEntity)
-        }
     }
 }
 
 @Preview
 @Composable
 fun CategoryItemIsSelectPreview() {
+    var isSelect by remember { mutableStateOf(false) }
     CategoryItem(
         modifier = Modifier.fillMaxWidth(),
         categoryEntity = CategoryEntity(
@@ -73,6 +68,8 @@ fun CategoryItemIsSelectPreview() {
             "Супермаркет",
             R.drawable.supermarket
         ),
-        isSelect = true,
-        onClick = {})
+        isSelect = isSelect,
+        onClick = {
+            isSelect = !isSelect
+        })
 }

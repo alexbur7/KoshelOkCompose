@@ -87,7 +87,6 @@ fun ProfileScreen(
             },
             state = rememberCollapsingToolbarScaffoldState()
         ) {
-            //TODO подставить методы
             WalletsList(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -96,9 +95,14 @@ fun ProfileScreen(
                 clickItem = {
                     navController.navigate(DetailWalletScreenFactory.route + "/$it")
                 },
-                editItem = {}
-            ) {
-            }
+                editItem = {
+                    mainViewModel.obtainEvent(ProfileViewModel.Event.EditWallet(it))
+                    // TODO надо нижней панели сказать, чтобы переключилась, можно через флоу в менеджере
+                },
+                deleteItem = {
+                    // TODO показать диалог с подтверждением о удалении
+                }
+            )
         }
 
         SnackbarHost(hostState = snackBarHostState) {
