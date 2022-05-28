@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class IconConverter @Inject constructor() {
 
-    fun convertNumberToDrawableId(number: Int): Int {
+    fun convertNumberToDrawableId(number: Int?): Int {
         return when (number) {
             CAPITALIZATION -> R.drawable.capitalization
             FLY -> R.drawable.fly

@@ -13,9 +13,9 @@ class TransactionsApiToTransactionsDbMapper @Inject constructor(
             id = transaction.id,
             money = transaction.money,
             idCategory = transaction.category.id ?: 0,
-            type = transaction.category.type,
-            operation = transaction.category.operation,
-            idIcon = transaction.category.idIcon,
+            type = transaction.category.type ?: true,
+            operation = transaction.category.operation.orEmpty(),
+            idIcon = transaction.category.idIcon ?: 0,
             currency = currencyMapper(transaction.currency),
             time = transaction.time,
             walletId = walletId

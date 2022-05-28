@@ -5,12 +5,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CurrencyApi(
-    val currencyId: Long,
+    @SerialName("currency_id")
+    val currencyId: Long? = null,
     @SerialName("name")
     val name: String,
+    @SerialName("value")
     val course: String,
-    val fullName: String,
-    val fullListName: String,
-    val icon: String,
+    @SerialName("full_name")
+    val fullName: String? = null,
+    @SerialName("full_list_name")
+    val fullListName: String? = null,
+    val icon: String? = null,
+    @SerialName("is_up")
     val isUp: Boolean
 )

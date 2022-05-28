@@ -24,7 +24,7 @@ interface AppService {
     @DELETE("wallets/{walletId}")
     suspend fun deleteWallet(@Path("walletId") walletId: Long): ResponseApi<Boolean>
 
-    @GET("mainscreenen")
+    @GET("mainscreen")
     suspend fun getDataForMainScreen(): ResponseApi<MainScreenDataApi>
 
     @POST("transactions")

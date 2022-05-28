@@ -18,7 +18,7 @@ class MockAppService : AppService, AuthService {
                     id = 1,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -27,7 +27,7 @@ class MockAppService : AppService, AuthService {
                     id = 2,
                     money = "251215",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -36,7 +36,7 @@ class MockAppService : AppService, AuthService {
                     id = 3,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -45,7 +45,7 @@ class MockAppService : AppService, AuthService {
                     id = 4,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -54,7 +54,7 @@ class MockAppService : AppService, AuthService {
                     id = 3,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -63,7 +63,7 @@ class MockAppService : AppService, AuthService {
                     id = 4,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -72,7 +72,7 @@ class MockAppService : AppService, AuthService {
                     id = 3,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -81,7 +81,7 @@ class MockAppService : AppService, AuthService {
                     id = 4,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -90,7 +90,7 @@ class MockAppService : AppService, AuthService {
                     id = 3,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -99,7 +99,7 @@ class MockAppService : AppService, AuthService {
                     id = 4,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -108,7 +108,7 @@ class MockAppService : AppService, AuthService {
                     id = 3,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -117,7 +117,7 @@ class MockAppService : AppService, AuthService {
                     id = 4,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -126,7 +126,7 @@ class MockAppService : AppService, AuthService {
                     id = 3,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -135,7 +135,7 @@ class MockAppService : AppService, AuthService {
                     id = 4,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -144,7 +144,7 @@ class MockAppService : AppService, AuthService {
                     id = 3,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -153,7 +153,7 @@ class MockAppService : AppService, AuthService {
                     id = 4,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -162,7 +162,7 @@ class MockAppService : AppService, AuthService {
                     id = 3,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -171,7 +171,7 @@ class MockAppService : AppService, AuthService {
                     id = 4,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -180,7 +180,7 @@ class MockAppService : AppService, AuthService {
                     id = 3,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -189,7 +189,7 @@ class MockAppService : AppService, AuthService {
                     id = 4,
                     money = "2512",
                     category = CategoryApi(
-                        0, 0, "gwegew", 1
+                        0, true, "gwegew", 1
                     ),
                     currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                     time = 2125156662
@@ -243,11 +243,7 @@ class MockAppService : AppService, AuthService {
                     incomeMoney = "1251959",
                     consumptionMoney = "21451"
                 ),
-                exchangeRatesApi = ExchangeRatesApi(
-                    firstCurrency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
-                    secondCurrency = CurrencyApi(1, "EUR", "65.4", "Евро", "Евро EUR", "!", false),
-                    thirdCurrency = CurrencyApi(2, "FRA", "22.4", "Евро", "Евро EUR", "!", false),
-                ),
+                exchangeRatesApi = listOf(),
                 wallets = listOf(
                     WalletApi(
                         id = 15,
@@ -540,7 +536,7 @@ class MockAppService : AppService, AuthService {
             TransactionApi(
                 id = 65,
                 money = "19512",
-                category = CategoryApi(0, 0, "fqwgeg", 5),
+                category = CategoryApi(0, true, "fqwgeg", 5),
                 currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                 time = 153531599153
             )
@@ -556,7 +552,7 @@ class MockAppService : AppService, AuthService {
             TransactionApi(
                 id = 72,
                 money = "1952112",
-                category = CategoryApi(0, 0, "fqwgeg", 5),
+                category = CategoryApi(0, true, "fqwgeg", 5),
                 currency = CurrencyApi(0, "USD", "62.4", "Евро", "Евро EUR", "!", false),
                 time = 153531599246
             )
@@ -574,61 +570,61 @@ class MockAppService : AppService, AuthService {
             listOf(
                 CategoryApi(
                     0,
-                    type = 0,
+                    type = false,
                     operation = "Супермаркет",
                     idIcon = 1
                 ),
                 CategoryApi(
                     1,
-                    type = 1,
+                    type = true,
                     operation = "Супермаркет2",
                     idIcon = 3
                 ),
                 CategoryApi(
                     2,
-                    type = 1,
+                    type = true,
                     operation = "Супермаркет3",
                     idIcon = 2
                 ),
                 CategoryApi(
                     3,
-                    type = 0,
+                    type = true,
                     operation = "Супермаркет4",
                     idIcon = 4
                 ),
                 CategoryApi(
                     4,
-                    type = 1,
+                    type = true,
                     operation = "Супермаркет4",
                     idIcon = 4
                 ),
                 CategoryApi(
                     5,
-                    type = 1,
+                    type = false,
                     operation = "Супермаркет5",
                     idIcon = 19
                 ),
                 CategoryApi(
                     6,
-                    type = 0,
+                    type = false,
                     operation = "Супермаркет6",
                     idIcon = 4
                 ),
                 CategoryApi(
                     7,
-                    type = 0,
+                    type = true,
                     operation = "Супермаркет7",
                     idIcon = 12
                 ),
                 CategoryApi(
                     8,
-                    type = 0,
+                    type = false,
                     operation = "Супермаркет 8",
                     idIcon = 6
                 ),
                 CategoryApi(
                     9,
-                    type = 1,
+                    type = true,
                     operation = "Супермаркет10",
                     idIcon = 8
                 ),
@@ -638,7 +634,7 @@ class MockAppService : AppService, AuthService {
 
     override suspend fun createCategory(categoryApi: CategoryApi): ResponseApi<CategoryApi> {
         delay(1000L)
-        return ResponseApi(CategoryApi(19, 0, "GJbafkwjng", 2))
+        return ResponseApi(CategoryApi(19, true, "GJbafkwjng", 2))
     }
 
     override suspend fun updateToken(userApi: UserApi): ResponseApi<String> {

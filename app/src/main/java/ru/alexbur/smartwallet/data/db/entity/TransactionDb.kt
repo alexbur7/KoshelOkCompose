@@ -10,7 +10,7 @@ data class TransactionDb(
     val id: Long = 0,
     val money: String,
     val idCategory: Long,
-    val type: Int,
+    val type: Boolean,
     val operation: String,
     val idIcon: Int,
     @Embedded

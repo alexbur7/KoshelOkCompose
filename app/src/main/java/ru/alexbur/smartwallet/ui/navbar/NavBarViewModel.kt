@@ -72,7 +72,7 @@ class NavBarViewModel @Inject constructor(
         editTransaction(transaction)
     }
 
-    private fun createWallet() = viewModelScope.launch {
+    private suspend fun createWallet() {
         _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
         walletRepository.createWallet(savingDataManager.createWalletFlow.value)
             .onSuccess {

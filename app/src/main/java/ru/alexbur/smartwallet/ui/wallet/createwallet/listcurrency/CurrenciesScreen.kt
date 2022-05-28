@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -31,18 +30,17 @@ fun CurrenciesScreen(
 
     val currencies = viewModel.currencies.collectAsState()
 
-    var currentCurrency by rememberSaveable {
+    var currentCurrency by remember {
         mutableStateOf(
             when (currencyScreenType) {
-                CurrencyScreenType.WALLET_SCREEN -> viewModel.createWalletFlow.value?.currency
+                CurrencyScreenType.WALLET_SCREEN -> viewModel.createWalletFlow.value.currency
                 CurrencyScreenType.TRANSACTION_SCREEN -> viewModel.createTransactionEntity.value?.currency
             } ?: CurrencyEntity.default
         )
     }
 
     Box(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(BackgroundColor)
     ) {

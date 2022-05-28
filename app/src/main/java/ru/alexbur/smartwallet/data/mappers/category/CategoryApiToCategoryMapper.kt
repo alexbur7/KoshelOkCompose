@@ -15,7 +15,7 @@ class CategoryApiToCategoryMapper @Inject constructor(
         CategoryEntity(
             id = categoryApi.result.id ?: 0,
             type = intToTypeCategoryMapper(categoryApi.result.type),
-            operation = categoryApi.result.operation,
+            operation = categoryApi.result.operation.orEmpty(),
             iconId = iconConverter.convertNumberToDrawableId(categoryApi.result.idIcon)
         )
 }

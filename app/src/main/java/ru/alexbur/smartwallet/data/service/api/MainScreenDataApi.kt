@@ -8,7 +8,7 @@ data class MainScreenDataApi(
     @SerialName("balance")
     val balance: BalanceApi,
     @SerialName("currencyDto")
-    val exchangeRatesApi: ExchangeRatesApi,
+    val exchangeRatesApi: List<CurrencyApi>,
     @SerialName("wallets")
     val wallets: List<WalletApi>
 )

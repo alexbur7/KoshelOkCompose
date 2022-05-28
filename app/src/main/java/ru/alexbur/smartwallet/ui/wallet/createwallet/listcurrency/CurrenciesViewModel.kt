@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
@@ -22,7 +23,7 @@ class CurrenciesViewModel @Inject constructor(
     private val savingDataManager: SavingDataManager
 ) : BaseViewModel<CurrenciesViewModel.Event>() {
 
-    val createWalletFlow: StateFlow<CreateWalletEntity?>
+    val createWalletFlow: StateFlow<CreateWalletEntity>
         get() = savingDataManager.createWalletFlow.asStateFlow()
 
     val createTransactionEntity: StateFlow<TransactionEntity?>
@@ -47,17 +48,14 @@ class CurrenciesViewModel @Inject constructor(
                     CurrencyScreenType.WALLET_SCREEN -> chooseWalletCurrency(event.currency)
                     CurrencyScreenType.TRANSACTION_SCREEN -> chooseTransactionCurrency(event.currency)
                 }
-                chooseWalletCurrency(event.currency)
             }
         }
     }
 
     private fun chooseWalletCurrency(currency: CurrencyEntity) = viewModelScope.launch {
-        savingDataManager.createWalletFlow.emit(
-            savingDataManager.createWalletFlow.value.copy(
-                currency = currency
-            )
-        )
+        savingDataManager.createWalletFlow.update {
+            it.copy(currency = currency)
+        }
     }
 
     private fun chooseTransactionCurrency(currency: CurrencyEntity) = viewModelScope.launch {

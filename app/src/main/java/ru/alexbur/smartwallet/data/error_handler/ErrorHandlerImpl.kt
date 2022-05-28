@@ -12,7 +12,7 @@ class ErrorHandlerImpl @Inject constructor(
     @ApplicationContext
     private val context: Context
 ) : ErrorHandler {
-
+ 
     override fun handleError(error: Throwable): String {
         return when (error) {
             is HttpException -> {
@@ -30,6 +30,7 @@ class ErrorHandlerImpl @Inject constructor(
             // TODO проставить актуальные коды ошибок + текста
             400 -> context.getString(R.string.unknown_error)
             401 -> context.getString(R.string.auth_error)
+            406 -> context.getString(R.string.validaton_error)
             else -> error.message()
         }
     }

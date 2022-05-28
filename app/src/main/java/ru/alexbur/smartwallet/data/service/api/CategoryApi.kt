@@ -5,12 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CategoryApi(
-    @SerialName("categoryId")
-    val id: Long?,
-    @SerialName("value")
-    val type: Int,
+    @SerialName("category_id")
+    val id: Long? = null,
+    @SerialName("category_type")
+    val type: Boolean? = null,
     @SerialName("name")
-    val operation: String,
-    @SerialName("icon")
-    val idIcon: Int
+    val operation: String? = null,
+    @SerialName("icon_id")
+    val idIcon: Int? = null
 )

@@ -13,9 +13,9 @@ data class CurrencyEntity(
         val default = CurrencyEntity(
             id = 1,
             name = "RUB",
-            course = "1",
-            fullListName = "",
-            fullName = "",
+            course = "1.0",
+            fullListName = "Рубль (RUB)",
+            fullName = "Рубль",
             icon = "₽",
             isUp = false
         )

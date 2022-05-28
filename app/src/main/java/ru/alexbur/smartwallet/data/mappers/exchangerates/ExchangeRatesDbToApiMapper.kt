@@ -2,15 +2,14 @@ package ru.alexbur.smartwallet.data.mappers.exchangerates
 
 import ru.alexbur.smartwallet.data.db.entity.ExchangeRatesDb
 import ru.alexbur.smartwallet.data.service.api.CurrencyApi
-import ru.alexbur.smartwallet.data.service.api.ExchangeRatesApi
 import javax.inject.Inject
 
 class ExchangeRatesDbToApiMapper @Inject constructor(
-) : (ExchangeRatesDb) -> ExchangeRatesApi {
+) : (ExchangeRatesDb) -> List<CurrencyApi> {
 
-    override fun invoke(exchangeRates: ExchangeRatesDb): ExchangeRatesApi {
-        return ExchangeRatesApi(
-            firstCurrency = CurrencyApi(
+    override fun invoke(exchangeRates: ExchangeRatesDb): List<CurrencyApi> {
+        return listOf(
+            CurrencyApi(
                 currencyId = 0,
                 name = exchangeRates.firstCurrency,
                 course = exchangeRates.firstCourse,
@@ -19,7 +18,7 @@ class ExchangeRatesDbToApiMapper @Inject constructor(
                 icon = "",
                 isUp = exchangeRates.firstIsUp
             ),
-            secondCurrency = CurrencyApi(
+            CurrencyApi(
                 currencyId = 1,
                 name = exchangeRates.secondCurrency,
                 course = exchangeRates.secondCourse,
@@ -28,7 +27,7 @@ class ExchangeRatesDbToApiMapper @Inject constructor(
                 icon = "",
                 isUp = exchangeRates.secondIsUp
             ),
-            thirdCurrency = CurrencyApi(
+            CurrencyApi(
                 currencyId = 2,
                 name = exchangeRates.thirdCurrency,
                 course = exchangeRates.thirdCourse,
@@ -36,7 +35,7 @@ class ExchangeRatesDbToApiMapper @Inject constructor(
                 fullListName = "",
                 icon = "",
                 isUp = exchangeRates.thirdIsUp
-            ),
+            )
         )
     }
 }

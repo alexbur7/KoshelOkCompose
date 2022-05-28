@@ -82,7 +82,7 @@
     <string name="title_category">Название категории</string>
     <string name="category1">Категория1</string>
     <string name="unknown_error">Что-то пошло не так</string>
-    <string name="internet_error">Нет соединения с интернетом</string>
+    <string name="internet_error">Нет связи с сервером</string>
     <string name="server_error">Ошибка с сервером</string>
     <string name="spending_limit">Лимит на траты</string>
     <string name="save">Сохранить</string>
@@ -111,4 +111,5 @@
     <string name="confrim">Подтвердить</string>
     <string name="cancelable">Отменить</string>
     <string name="delete_title">Уверены что хотите удалить запись?</string>
+    <string name="validaton_error">Проверьте правильность заполненных полей</string>
 </resources>

@@ -13,9 +13,9 @@ class CurrencyApiToEntityMapper @Inject constructor() :
             id = currencyApi.result.currencyId,
             name = currencyApi.result.name,
             course = currencyApi.result.course,
-            fullName = currencyApi.result.fullName,
-            fullListName = currencyApi.result.fullListName,
-            icon = currencyApi.result.icon,
+            fullName = currencyApi.result.fullName.orEmpty(),
+            fullListName = currencyApi.result.fullListName.orEmpty(),
+            icon = currencyApi.result.icon.orEmpty(),
             isUp = currencyApi.result.isUp
         )
 }

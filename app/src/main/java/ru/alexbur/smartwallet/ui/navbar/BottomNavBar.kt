@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.ui.filter.transactions.FilterTransactionsScreenFactory
+import ru.alexbur.smartwallet.ui.filter.wallets.FilterWalletsScreenFactory
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
@@ -102,9 +103,10 @@ fun BottomNavBar(
                 modifier = Modifier,
                 selected = isSelected,
                 onClick = {
+                    val isNestedRoute = tab.nestedRoute.find { route?.contains(it) == true } == null
                     if (tab.route != route && tab.nestedRoute.find { route?.contains(it) == true } == null) {
                         val newRoute = if (tab == NavItem.NavBarItems.NewItem) {
-                            if (route == ProfileScreenFactory.route) tab.route
+                            if (route == ProfileScreenFactory.route || route == FilterWalletsScreenFactory.route) tab.route
                             else {
                                 "${CreateTransactionScreenFactory.route}/${walletIdState.value}"
                             }
@@ -124,7 +126,7 @@ fun BottomNavBar(
                                 restoreState = true
                             }
                         }
-                    } else if (tab.nestedRoute.find { route?.contains(it) == true } != null && tab == NavItem.NavBarItems.NewItem) {
+                    } else if (isNestedRoute && tab == NavItem.NavBarItems.NewItem) {
                         when {
                             route?.contains(CreateWalletScreenFactory.route) == true -> {
                                 viewModel.obtainEvent(NavBarViewModel.Event.CreateWalletStarted)

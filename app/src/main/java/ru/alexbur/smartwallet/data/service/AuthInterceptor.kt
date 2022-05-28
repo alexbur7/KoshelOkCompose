@@ -7,6 +7,7 @@ import okhttp3.Response
 import ru.alexbur.smartwallet.data.utils.AccountDataStore
 import ru.alexbur.smartwallet.domain.entities.onboarding.UserEntity
 import ru.alexbur.smartwallet.domain.repositories.RegistrationRepository
+import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
@@ -28,16 +29,16 @@ class AuthInterceptor @Inject constructor(
             }
             token
         }
-
-        val response = chain.proceed(builder.addHeader("Authorization", "Bearer $token").build())
-        if (response.code != UNAUTHORIZED_ERROR_CODE) return response
+        val request = builder.addHeader("Authorization", "Bearer $token").build()
+        val response = chain.proceed(request)
+        if (response.code != HttpURLConnection.HTTP_UNAUTHORIZED) return response
 
         token = runBlocking {
             updateToken()
             token
         }
-
-        return chain.proceed(builder.addHeader("Authorization", "Bearer $token").build())
+        val newRequest = builder.addHeader("Authorization", "Bearer $token").build()
+        return chain.proceed(newRequest)
     }
 
     private suspend fun updateToken() {
@@ -47,9 +48,5 @@ class AuthInterceptor @Inject constructor(
             accountDataStore.updateToken(newToken)
             token = newToken
         }
-    }
-
-    private companion object {
-        const val UNAUTHORIZED_ERROR_CODE = 401
     }
 }
