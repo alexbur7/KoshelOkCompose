@@ -107,6 +107,7 @@ class DetailWalletViewModel @AssistedInject constructor(
         }
 
     private fun startNetworkLoading(walletId: Long) = viewModelScope.launch {
+        savingDataManager.walletIdFlow.emit(walletId)
         val transactions =
             detailWalletRepository.getServerTransactionsData(walletId = walletId).getOrNull()
         detailWalletRepository.getServerWalletsData()

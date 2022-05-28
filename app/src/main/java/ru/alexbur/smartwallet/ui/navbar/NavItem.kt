@@ -32,7 +32,7 @@ sealed class NavItem(val route: String) {
             R.drawable.profile_icon,
             R.drawable.profile_choose_icon,
             ProfileScreenFactory.route,
-            listOf(DetailWalletScreenFactory.route)
+            listOf(ProfileScreenFactory.route, DetailWalletScreenFactory.route)
         ),
 
         NewItem(
@@ -40,6 +40,7 @@ sealed class NavItem(val route: String) {
             R.drawable.new_wallet_confirm_icon,
             CreateWalletScreenFactory.route,
             listOf(
+                CreateWalletScreenFactory.route,
                 CreateTransactionScreenFactory.route,
                 CurrenciesScreenFactory.route,
                 CategoriesScreenFactory.route,
@@ -52,6 +53,7 @@ sealed class NavItem(val route: String) {
             R.drawable.search_choose_icon,
             FilterWalletsScreenFactory.route,
             listOf(
+                FilterWalletsScreenFactory.route,
                 FilterTransactionsScreenFactory.route
             )
         )

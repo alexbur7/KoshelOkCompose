@@ -103,7 +103,7 @@ fun BottomNavBar(
                 modifier = Modifier,
                 selected = isSelected,
                 onClick = {
-                    val isNestedRoute = tab.nestedRoute.find { route?.contains(it) == true } == null
+                    val isNestedRoute = tab.nestedRoute.find { route?.contains(it) == true } != null
                     if (tab.route != route && tab.nestedRoute.find { route?.contains(it) == true } == null) {
                         val newRoute = if (tab == NavItem.NavBarItems.NewItem) {
                             if (route == ProfileScreenFactory.route || route == FilterWalletsScreenFactory.route) tab.route
