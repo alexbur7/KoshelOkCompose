@@ -19,7 +19,7 @@ class CreateWalletRepositoryImpl @Inject constructor(
         createWallet: CreateWalletEntity
     ): Result<WalletEntity> {
         return runCatching { appService.createWallet(mapperWallet(createWallet)) }.onSuccess { wallet ->
-            walletSource.insertWallet(wallet)
+            walletSource.insertWallet(wallet.result)
         }.map(walletEntityMapper)
     }
 
@@ -29,7 +29,7 @@ class CreateWalletRepositoryImpl @Inject constructor(
     ): Result<WalletEntity> {
         return runCatching { appService.editWallet(id, mapperWallet(walletEntity)) }
             .onSuccess { wallet ->
-                walletSource.insertWallet(wallet)
+                walletSource.insertWallet(wallet.result)
             }.map(
                 walletEntityMapper
             )

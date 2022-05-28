@@ -11,9 +11,6 @@ import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.components.ActivityRetainedComponent
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.components.SingletonComponent
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.data.extentions.filter
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
@@ -44,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 Surface {
                     NavHost(
                         navController = navController,
-                        startDestination = NavItem.MainScreen.route//if (account == null) NavItem.Authorization.route else NavItem.MainScreen.route
+                        startDestination = if (account == null) NavItem.Authorization.route else NavItem.MainScreen.route
                     ) {
                         mutableSetOf<NavigationFactory>().apply {
                             addAll(

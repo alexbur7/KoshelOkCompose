@@ -62,8 +62,6 @@ class AuthorizationViewModel @Inject constructor(
             accountDataStore.updateName(displayName)
             obtainEvent(Event.RegistrationSucceed(token = token))
         }.onFailure {
-            accountDataStore.updateEmail(email)
-            accountDataStore.updateName(displayName)
             obtainEvent(Event.RegistrationFailed(errorHandler.handleError(it)))
         }
     }

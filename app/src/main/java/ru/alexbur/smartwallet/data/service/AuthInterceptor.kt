@@ -31,7 +31,7 @@ class AuthInterceptor @Inject constructor(
 
         val response = chain.proceed(builder.addHeader("Authorization", "Bearer $token").build())
         if (response.code != UNAUTHORIZED_ERROR_CODE) return response
-        //GlobalScope.async {  }
+
         token = runBlocking {
             updateToken()
             token

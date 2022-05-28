@@ -1,6 +1,5 @@
 package ru.alexbur.smartwallet.data.repository
 
-import ru.alexbur.smartwallet.data.extentions.resultRequest
 import ru.alexbur.smartwallet.data.mappers.category.CategoryApiToCategoryMapper
 import ru.alexbur.smartwallet.data.mappers.category.CategoryToCategoryApiMapper
 import ru.alexbur.smartwallet.data.service.AppService

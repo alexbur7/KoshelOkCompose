@@ -2,27 +2,28 @@ package ru.alexbur.smartwallet.data.mappers.wallets
 
 import ru.alexbur.smartwallet.data.extentions.defaultMoney
 import ru.alexbur.smartwallet.data.mappers.currency.CurrencyApiToEntityMapper
+import ru.alexbur.smartwallet.data.service.api.ResponseApi
 import ru.alexbur.smartwallet.data.service.api.WalletApi
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import javax.inject.Inject
 
 class WalletApiToWalletEntityMapper @Inject constructor(
     private val currencyMapper: CurrencyApiToEntityMapper
-) : (WalletApi) -> WalletEntity {
+) : (ResponseApi<WalletApi>) -> WalletEntity {
 
-    override operator fun invoke(walletApi: WalletApi) =
+    override operator fun invoke(responseApi: ResponseApi<WalletApi>) =
         WalletEntity(
-            id = walletApi.id,
-            name = walletApi.name,
-            amountMoney = walletApi.amountMoney.defaultMoney(),
-            incomeMoney = walletApi.income.defaultMoney(),
-            consumptionMoney = walletApi.consumption.defaultMoney(),
-            currency = currencyMapper(walletApi.currency),
-            isHide = walletApi.isHide,
-            limit = walletApi.limit,
+            id = responseApi.result.id,
+            name = responseApi.result.name,
+            amountMoney = responseApi.result.amountMoney.defaultMoney(),
+            incomeMoney = responseApi.result.income.defaultMoney(),
+            consumptionMoney = responseApi.result.consumption.defaultMoney(),
+            currency = currencyMapper(ResponseApi(responseApi.result.currency)),
+            isHide = responseApi.result.isHide,
+            limit = responseApi.result.limit,
             partSpending = calculatePartSpending(
-                limit = walletApi.limit,
-                consumption = walletApi.consumption.defaultMoney()
+                limit = responseApi.result.limit,
+                consumption = responseApi.result.consumption.defaultMoney()
             )
         )
 

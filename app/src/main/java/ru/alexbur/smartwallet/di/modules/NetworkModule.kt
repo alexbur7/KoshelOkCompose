@@ -21,7 +21,7 @@ import ru.alexbur.smartwallet.di.AuthClient
 import ru.alexbur.smartwallet.di.AuthRetrofit
 import javax.inject.Singleton
 
-private const val BASE_URL = "http://34.88.54.200:9090/"
+private const val BASE_URL = "http://194.67.119.153:8000/"
 
 @Module
 @OptIn(ExperimentalSerializationApi::class)

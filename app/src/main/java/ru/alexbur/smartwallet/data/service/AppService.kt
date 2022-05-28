@@ -6,46 +6,46 @@ import ru.alexbur.smartwallet.data.service.api.*
 interface AppService {
 
     @GET("wallets")
-    suspend fun getWallets(): List<WalletApi>
+    suspend fun getWallets(): ResponseApi<List<WalletApi>>
 
-    @GET("transactions/{walletId}")
-    suspend fun getTransaction(@Path("walletId") walletId: Long): List<TransactionApi>
+    @GET("transactions/{Id}")
+    suspend fun getTransaction(@Path("Id") walletId: Long): ResponseApi<List<TransactionApi>>
 
     @POST("wallets")
-    suspend fun createWallet(@Body walletApi: CreateWalletApi): WalletApi
+    suspend fun createWallet(@Body walletApi: CreateWalletApi): ResponseApi<WalletApi>
 
     @PUT("wallets/{walletId}")
     suspend fun editWallet(
         @Path("walletId")
         id: Long,
         @Body walletApi: CreateWalletApi
-    ): WalletApi
+    ): ResponseApi<WalletApi>
 
     @DELETE("wallets/{walletId}")
-    suspend fun deleteWallet(@Path("walletId") walletId: Long): Boolean
+    suspend fun deleteWallet(@Path("walletId") walletId: Long): ResponseApi<Boolean>
 
-    @GET("wallets/person/all")
-    suspend fun getDataForMainScreen(): MainScreenDataApi
+    @GET("mainscreenen")
+    suspend fun getDataForMainScreen(): ResponseApi<MainScreenDataApi>
 
     @POST("transactions")
-    suspend fun createTransaction(@Body transactionApi: CreateTransactionApi): TransactionApi
+    suspend fun createTransaction(@Body transactionApi: CreateTransactionApi): ResponseApi<TransactionApi>
 
     @PUT("transactions/{transactionId}")
     suspend fun editTransaction(
         @Path("transactionId")
         id: Long,
         @Body transactionApi: CreateTransactionApi
-    ): TransactionApi
+    ): ResponseApi<TransactionApi>
 
     @DELETE("transactions/{transactionId}")
-    suspend fun deleteTransaction(@Path("transactionId") id: Long): Boolean
+    suspend fun deleteTransaction(@Path("transactionId") id: Long): ResponseApi<Boolean>
 
-    @GET("categories/person")
-    suspend fun getCategories(): List<CategoryApi>
+    @GET("categories")
+    suspend fun getCategories(): ResponseApi<List<CategoryApi>>
 
     @POST("categories")
-    suspend fun createCategory(@Body categoryApi: CategoryApi): CategoryApi
+    suspend fun createCategory(@Body categoryApi: CategoryApi): ResponseApi<CategoryApi>
 
     @GET("currencies")
-    suspend fun getCurrencies(): List<CurrencyApi>
+    suspend fun getCurrencies(): ResponseApi<List<CurrencyApi>>
 }
