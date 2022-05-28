@@ -21,11 +21,12 @@ fun CurrencyItem(
     isSelect: Boolean,
     onClick: (CurrencyEntity) -> Unit
 ) {
-    TextWithEndImage(modifier = modifier
-        .clickable {
-            onClick(currency)
-        }
-        .padding(16.dp),
+    TextWithEndImage(
+        modifier = modifier
+            .clickable {
+                onClick(currency)
+            }
+            .padding(16.dp),
         text = currency.fullListName,
         textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
         imageId = if (isSelect) R.drawable.choose_icon else null

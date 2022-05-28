@@ -53,12 +53,13 @@ fun CurrenciesScreen(
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(24.dp)
+                .padding(vertical = 24.dp)
         ) {
             ChooseDataToolbar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(),
+                    .wrapContentHeight()
+                    .padding(horizontal = 24.dp),
                 close = {
                     navController.popBackStack()
                 },
@@ -78,7 +79,7 @@ fun CurrenciesScreen(
                     .wrapContentHeight()
                     .padding(top = 8.dp),
             ) {
-                val currentIndex = currencies.value.indexOf(currentCurrency)
+                val currentIndex = currencies.value.indexOfFirst { it.id == currentCurrency.id }
                 items(
                     currencies.value.size
                 ) { position ->
