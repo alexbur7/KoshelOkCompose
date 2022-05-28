@@ -1,5 +1,6 @@
 package ru.alexbur.smartwallet.data.mappers.transactions
 
+import ru.alexbur.smartwallet.data.extentions.defaultMoney
 import ru.alexbur.smartwallet.data.extentions.getFormattedDate
 import ru.alexbur.smartwallet.data.extentions.getTime
 import ru.alexbur.smartwallet.data.mappers.category.CategoryApiToCategoryMapper
@@ -16,9 +17,9 @@ class TransactionApiToDetailWalletTransactionMapper @Inject constructor(
 
     override operator fun invoke(transaction: ResponseApi<TransactionApi>) =
         DetailWalletItem.Transaction(
-            id = transaction.result.id,
+            id = transaction.result.id ?: 0,
             category = mapperCategory(ResponseApi(transaction.result.category)),
-            money = transaction.result.money,
+            money = transaction.result.money.defaultMoney(),
             time = transaction.result.time.getTime(),
             day = transaction.result.time.getFormattedDate(),
             currency = mapperCurrency(ResponseApi(transaction.result.currency))

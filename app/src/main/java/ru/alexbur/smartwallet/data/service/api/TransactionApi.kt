@@ -6,10 +6,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TransactionApi(
     @SerialName("transaction_id")
-    val id: Long,
+    val id: Long? = null,
     @SerialName("value")
-    val money: String,
+    val money: String? = null,
     val category: CategoryApi,
     val currency: CurrencyApi,
-    val time: Long
+    @SerialName("transaction_time")
+    val time: Long = System.currentTimeMillis()
 )

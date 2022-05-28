@@ -55,7 +55,7 @@ fun DetailWalletScreen(
     val loadState = viewModel.loadStateData.collectAsState()
     val collapsingState = rememberCollapsingToolbarScaffoldState()
     val snackBarHostState = SnackbarHostState()
-    var isFirstLaunch by remember {
+    var isFirstScrollPage by remember {
         mutableStateOf(true)
     }
     var isShowDeleteDialog by remember {
@@ -65,8 +65,8 @@ fun DetailWalletScreen(
         mutableStateOf<Long?>(null)
     }
 
-    LaunchedEffect(key1 = pagerState.currentPage, errorMessage.value) {
-        if (!isFirstLaunch) {
+    LaunchedEffect(key1 = pagerState.currentPage, errorMessage.value, walletsState) {
+        if (!isFirstScrollPage) {
             viewModel.obtainEvent(
                 DetailWalletViewModel.Event.OnLoadingTransactionStarted(
                     walletsState[pagerState.currentPage].id
@@ -78,7 +78,10 @@ fun DetailWalletScreen(
                 message = errorMessage.value
             )
         }
-        isFirstLaunch = false
+        if (walletsState.isNotEmpty() && viewModel.positionWallet >= 0 && isFirstScrollPage){
+            pagerState.scrollToPage(viewModel.positionWallet)
+            isFirstScrollPage = false
+        }
     }
 
     Box(
