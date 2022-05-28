@@ -54,7 +54,7 @@ class CurrenciesViewModel @Inject constructor(
 
     private fun chooseWalletCurrency(currency: CurrencyEntity) = viewModelScope.launch {
         savingDataManager.createWalletFlow.emit(
-            savingDataManager.createWalletFlow.value?.copy(
+            savingDataManager.createWalletFlow.value.copy(
                 currency = currency
             )
         )

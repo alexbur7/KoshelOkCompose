@@ -5,8 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
-import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
+import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
@@ -20,8 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NavBarViewModel @Inject constructor(
-    private val createWalletRepository: CreateWalletRepository,
-    private val createTransactionRepository: CreateTransactionRepository,
+    private val walletRepository: CreateWalletRepository,
+    private val transactionRepository: CreateTransactionRepository,
     private val createCategoryRepository: CreateCategoryRepository,
     private val savingDataManager: SavingDataManager,
     private val errorHandler: ErrorHandler
@@ -40,10 +39,10 @@ class NavBarViewModel @Inject constructor(
     override fun obtainEvent(event: Event) {
         when (event) {
             is Event.CreateWalletStarted -> {
-                createWallet()
+                operationWithWallet()
             }
             is Event.CreateTransactionStarted -> {
-                createTransaction()
+                operationWithTransaction()
             }
             is Event.CreateCategoryStarted -> {
                 createCategory()
@@ -51,24 +50,33 @@ class NavBarViewModel @Inject constructor(
             is Event.CreateDataFailed -> {
                 failedCreateItem(error = event.error)
             }
-            is Event.CreateWalletSucceed -> {
-                succeedCreateWallet(wallet = event.wallet)
-            }
-            is Event.CreateTransactionSucceed -> {
-                succeedCreateTransaction(event.transaction)
-            }
-            is Event.CreateCategorySucceed -> {
-                succeedCreateCategory(event.category)
+            is Event.SucceedOperation -> {
+                succeedOperation()
             }
         }
     }
 
+    private fun operationWithWallet() = viewModelScope.launch {
+        val wallet = savingDataManager.editWalletFlow.value ?: run {
+            createWallet()
+            return@launch
+        }
+        editWallet(wallet)
+    }
+
+    private fun operationWithTransaction() = viewModelScope.launch {
+        val transaction = savingDataManager.editTransactionFLow.value ?: run {
+            createTransaction()
+            return@launch
+        }
+        editTransaction(transaction)
+    }
+
     private fun createWallet() = viewModelScope.launch {
-        val createWallet = savingDataManager.createWalletFlow.value ?: return@launch
         _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
-        createWalletRepository.createWallet(createWallet)
+        walletRepository.createWallet(savingDataManager.createWalletFlow.value)
             .onSuccess {
-                obtainEvent(Event.CreateWalletSucceed(it))
+                obtainEvent(Event.SucceedOperation)
             }.onFailure {
                 obtainEvent(Event.CreateDataFailed(errorHandler.handleError(it)))
             }
@@ -77,9 +85,9 @@ class NavBarViewModel @Inject constructor(
     private fun createTransaction() = viewModelScope.launch {
         val transaction = savingDataManager.createTransactionFlow.value ?: return@launch
         _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
-        createTransactionRepository.createTransaction(transactionEntity = transaction)
+        transactionRepository.createTransaction(transactionEntity = transaction)
             .onSuccess {
-                obtainEvent(Event.CreateTransactionSucceed(it))
+                obtainEvent(Event.SucceedOperation)
             }.onFailure {
                 obtainEvent(Event.CreateDataFailed(errorHandler.handleError(it)))
             }
@@ -89,7 +97,27 @@ class NavBarViewModel @Inject constructor(
         _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
         createCategoryRepository.createCategory(savingDataManager.createCategoryFlow.value)
             .onSuccess {
-                obtainEvent(Event.CreateCategorySucceed(it))
+                obtainEvent(Event.SucceedOperation)
+            }.onFailure {
+                obtainEvent(Event.CreateDataFailed(errorHandler.handleError(it)))
+            }
+    }
+
+    private suspend fun editWallet(wallet: WalletEntity) {
+        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+        walletRepository.editWallet(wallet)
+            .onSuccess {
+                obtainEvent(Event.SucceedOperation)
+            }.onFailure {
+                obtainEvent(Event.CreateDataFailed(errorHandler.handleError(it)))
+            }
+    }
+
+    private suspend fun editTransaction(transaction: TransactionEntity) {
+        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+        transactionRepository.editTransaction(transaction)
+            .onSuccess {
+                obtainEvent(Event.SucceedOperation)
             }.onFailure {
                 obtainEvent(Event.CreateDataFailed(errorHandler.handleError(it)))
             }
@@ -100,23 +128,8 @@ class NavBarViewModel @Inject constructor(
         _loadStateData.emit(LoadingState.LOAD_FAILED)
     }
 
-    private fun succeedCreateWallet(wallet: WalletEntity) = viewModelScope.launch {
-        savingDataManager.walletIdFlow.emit(wallet.id)
-        savingDataManager.createWalletFlow.emit(null)
+    private fun succeedOperation() = viewModelScope.launch {
         _loadStateData.emit(LoadingState.LOAD_SUCCEED)
-    }
-
-    private fun succeedCreateTransaction(transaction: DetailWalletItem.Transaction) =
-        viewModelScope.launch {
-            savingDataManager.transactionFlow.emit(transaction)
-            savingDataManager.createTransactionFlow.emit(null)
-            _loadStateData.emit(LoadingState.LOAD_SUCCEED)
-        }
-
-    private fun succeedCreateCategory(category: CategoryEntity) = viewModelScope.launch {
-        savingDataManager.categoriesFlow.emit(savingDataManager.categoriesFlow.value + category)
-        _loadStateData.emit(LoadingState.LOAD_SUCCEED)
-        savingDataManager.createCategoryFlow.emit(CategoryEntity.defaultCategory)
     }
 
     sealed class Event : BaseEvent() {
@@ -124,8 +137,6 @@ class NavBarViewModel @Inject constructor(
         object CreateTransactionStarted : Event()
         object CreateCategoryStarted : Event()
         class CreateDataFailed(val error: String) : Event()
-        class CreateWalletSucceed(val wallet: WalletEntity) : Event()
-        class CreateTransactionSucceed(val transaction: DetailWalletItem.Transaction) : Event()
-        class CreateCategorySucceed(val category: CategoryEntity) : Event()
+        object SucceedOperation : Event()
     }
 }

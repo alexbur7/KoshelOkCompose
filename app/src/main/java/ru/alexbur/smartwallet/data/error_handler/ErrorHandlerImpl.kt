@@ -27,6 +27,8 @@ class ErrorHandlerImpl @Inject constructor(
 
     private fun handleHttpError(error: HttpException): String {
         return when (error.code()) {
+            // TODO проставить актуальные коды ошибок + текста
+            400 -> context.getString(R.string.unknown_error)
             401 -> context.getString(R.string.auth_error)
             else -> error.message()
         }

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -51,7 +52,6 @@ fun AuthorizationScreen(
     navController: NavHostController,
     viewModel: AuthorizationViewModel = hiltViewModel()
 ) {
-
     val authResultLauncher =
         rememberLauncherForActivityResult(contract = AuthResultContract()) { task ->
             try {
@@ -87,6 +87,7 @@ fun AuthorizationScreen(
         mutableStateOf(ButtonState.ENABLED)
     }
     val snackBarHostState = SnackbarHostState()
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = state.value, key2 = buttonState) {
         when (state.value) {
@@ -103,6 +104,7 @@ fun AuthorizationScreen(
         }
 
         if (buttonState == ButtonState.ENABLED && state.value == LoadingState.LOAD_FAILED) {
+            GoogleSignIn.getClient(context, GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
             snackBarHostState.showSnackbar(
                 errorState.value,
                 duration = SnackbarDuration.Short

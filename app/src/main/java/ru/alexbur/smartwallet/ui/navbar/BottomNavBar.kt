@@ -53,13 +53,16 @@ fun BottomNavBar(
     LaunchedEffect(key1 = loadState.value) {
         when (loadState.value) {
             LoadingState.LOAD_FAILED -> {
+                // TODO завершить прогресс
                 snackBarHostState.showSnackbar(
                     errorState.value
                 )
             }
             LoadingState.LOAD_IN_PROGRESS -> {
+                // TODO поставить прогресс
             }
             LoadingState.LOAD_SUCCEED -> {
+                // TODO завершить прогресс
                 if (route?.contains(CreateCategoryScreenFactory.route) == true) {
                     navController.popBackStack()
                 } else {
