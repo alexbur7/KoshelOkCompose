@@ -28,20 +28,21 @@ class CreateTransactionViewModel @Inject constructor(
     val categoriesFlow: StateFlow<List<CategoryEntity>>
         get() = savingDataManager.categoriesFlow.asStateFlow()
 
-    val loadStateFlow: StateFlow<LoadingState>
-        get() = _loadStateFlow.asStateFlow()
-
     val errorMessage: SharedFlow<String> = savingDataManager.snackBarMessageFlow.asSharedFlow()
-
-    private val _loadStateFlow = MutableStateFlow(LoadingState.LOAD_DEFAULT)
+    val isVisibleProgressBarFlow: Flow<Boolean> =
+        savingDataManager.loadingStateFlow.map {
+            it == LoadingState.LOAD_IN_PROGRESS
+        }
 
     init {
         viewModelScope.launch {
+            savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_IN_PROGRESS)
             loadCategoriesRepository.getCategories().onSuccess {
                 savingDataManager.categoriesFlow.emit(it)
+                savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_SUCCEED)
             }.onFailure {
+                savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_FAILED)
                 savingDataManager.snackBarMessageFlow.emit(errorHandler.handleError(it))
-                _loadStateFlow.emit(LoadingState.LOAD_FAILED)
             }
         }
     }

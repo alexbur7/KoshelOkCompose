@@ -7,6 +7,7 @@ import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
+import ru.alexbur.smartwallet.domain.enums.LoadingState
 
 interface SavingDataManager {
     val createWalletFlow: MutableStateFlow<CreateWalletEntity>
@@ -28,4 +29,6 @@ interface SavingDataManager {
     val createCategoryFlow: MutableStateFlow<CategoryEntity>
 
     val snackBarMessageFlow: MutableSharedFlow<String>
+
+    val loadingStateFlow: MutableSharedFlow<LoadingState>
 }

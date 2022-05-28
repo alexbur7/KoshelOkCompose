@@ -2,8 +2,10 @@ package ru.alexbur.smartwallet.ui.navbar
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
@@ -26,12 +28,12 @@ class NavBarViewModel @Inject constructor(
     private val errorHandler: ErrorHandler
 ) : BaseViewModel<NavBarViewModel.Event>() {
 
-    val loadingState: Flow<LoadingState>
-        get() = _loadStateData.asStateFlow().onEach { delay(300) }
+    val loadingState: StateFlow<LoadingState>
+        get() = _loadingState.asStateFlow()
     val walletIdData: StateFlow<Long>
         get() = savingDataManager.walletIdFlow
 
-    private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
+    val _loadingState = MutableStateFlow(LoadingState.LOAD_DEFAULT)
 
     override fun obtainEvent(event: Event) {
         when (event) {
@@ -70,7 +72,8 @@ class NavBarViewModel @Inject constructor(
     }
 
     private suspend fun createWallet() {
-        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+        savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_IN_PROGRESS)
+        _loadingState.emit(LoadingState.LOAD_IN_PROGRESS)
         walletRepository.createWallet(savingDataManager.createWalletFlow.value)
             .onSuccess {
                 obtainEvent(Event.SucceedOperation)
@@ -81,7 +84,8 @@ class NavBarViewModel @Inject constructor(
 
     private fun createTransaction() = viewModelScope.launch {
         val transaction = savingDataManager.createTransactionFlow.value ?: return@launch
-        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+        savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_IN_PROGRESS)
+        _loadingState.emit(LoadingState.LOAD_IN_PROGRESS)
         transactionRepository.createTransaction(transactionEntity = transaction)
             .onSuccess {
                 obtainEvent(Event.SucceedOperation)
@@ -91,7 +95,8 @@ class NavBarViewModel @Inject constructor(
     }
 
     private fun createCategory() = viewModelScope.launch {
-        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+        savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_IN_PROGRESS)
+        _loadingState.emit(LoadingState.LOAD_IN_PROGRESS)
         createCategoryRepository.createCategory(savingDataManager.createCategoryFlow.value)
             .onSuccess {
                 obtainEvent(Event.SucceedOperation)
@@ -101,7 +106,8 @@ class NavBarViewModel @Inject constructor(
     }
 
     private suspend fun editWallet(wallet: WalletEntity) {
-        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+        savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_IN_PROGRESS)
+        _loadingState.emit(LoadingState.LOAD_IN_PROGRESS)
         walletRepository.editWallet(wallet)
             .onSuccess {
                 obtainEvent(Event.SucceedOperation)
@@ -111,7 +117,8 @@ class NavBarViewModel @Inject constructor(
     }
 
     private suspend fun editTransaction(transaction: TransactionEntity) {
-        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+        savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_IN_PROGRESS)
+        _loadingState.emit(LoadingState.LOAD_IN_PROGRESS)
         transactionRepository.editTransaction(transaction)
             .onSuccess {
                 obtainEvent(Event.SucceedOperation)
@@ -122,11 +129,13 @@ class NavBarViewModel @Inject constructor(
 
     private fun failedCreateItem(error: String) = viewModelScope.launch {
         savingDataManager.snackBarMessageFlow.emit(error)
-        _loadStateData.emit(LoadingState.LOAD_FAILED)
+        savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_FAILED)
+        _loadingState.emit(LoadingState.LOAD_FAILED)
     }
 
     private fun succeedOperation() = viewModelScope.launch {
-        _loadStateData.emit(LoadingState.LOAD_SUCCEED)
+        savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_SUCCEED)
+        _loadingState.emit(LoadingState.LOAD_SUCCEED)
         savingDataManager.snackBarMessageFlow.emit(errorHandler.succeedOperation())
     }
 

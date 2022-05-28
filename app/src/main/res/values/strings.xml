@@ -98,11 +98,8 @@
     <string name="hello">Привет, %1$s</string>
     <string name="main_text_welcome">Добро пожаловать!</string>
     <string name="limit_wallet">Лимит</string>
-    <string name="eur_list">Евро (EUR)</string>
-    <string name="usd_list">Доллар США (USD)</string>
-    <string name="chf_list">Швейцарсие франки (CHF)</string>
     <string name="close_description">Закрыть экран</string>
-    <string name="operation_title">Операция</string>
+    <string name="operation_title">Новая операция</string>
     <string name="operations">Операции</string>
     <string name="category_image_description">Иконка для категории</string>
     <string name="new_category">Новая категория</string>

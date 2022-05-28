@@ -47,14 +47,7 @@ fun BottomNavBar(
 
     LaunchedEffect(key1 = loadState.value) {
         when (loadState.value) {
-            LoadingState.LOAD_FAILED -> {
-                // TODO завершить прогресс
-            }
-            LoadingState.LOAD_IN_PROGRESS -> {
-                // TODO поставить прогресс
-            }
             LoadingState.LOAD_SUCCEED -> {
-                // TODO завершить прогресс
                 if (route?.contains(CreateCategoryScreenFactory.route) == true) {
                     navController.popBackStack()
                 } else {
@@ -66,7 +59,7 @@ fun BottomNavBar(
                     navController.navigate("${DetailWalletScreenFactory.route}/${walletIdState.value}")
                 }
             }
-            LoadingState.LOAD_DEFAULT -> {}
+            else -> Unit
         }
     }
 
@@ -102,7 +95,7 @@ fun BottomNavBar(
                                 "${CreateTransactionScreenFactory.route}/${walletIdState.value}"
                             }
                         } else if (tab == NavItem.NavBarItems.Search) {
-                            if (route == ProfileScreenFactory.route) tab.route
+                            if (route == ProfileScreenFactory.route || route == CreateWalletScreenFactory.route) tab.route
                             else {
                                 FilterTransactionsScreenFactory.route
                             }

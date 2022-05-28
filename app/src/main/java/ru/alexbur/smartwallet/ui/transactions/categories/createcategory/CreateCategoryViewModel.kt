@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.data.utils.IconConverter
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.utils.IconEntity
+import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
@@ -27,22 +28,24 @@ class CreateCategoryViewModel @Inject constructor(
         get() = _listIconModel.asStateFlow()
 
     val snackBarMessage: SharedFlow<String> = savingDataManager.snackBarMessageFlow.asSharedFlow()
+    val isVisibleProgressBar: Flow<Boolean> =
+        savingDataManager.loadingStateFlow.map { it == LoadingState.LOAD_IN_PROGRESS }
 
     private val _listIconModel = MutableStateFlow<List<IconEntity>>(emptyList())
 
     init {
         viewModelScope.launch {
-            val listIcon = mutableListOf<IconEntity>()
-            for (iconId in 0..COUNT_ICONS) {
-                listIcon.add(
-                    IconEntity(
-                        iconId,
-                        IconConverter().convertNumberToDrawableId(iconId),
-                        false
+            _listIconModel.emit(buildList {
+                repeat(IconConverter.COUNT_IMAGE) { iconId ->
+                    add(
+                        IconEntity(
+                            iconId,
+                            IconConverter().convertNumberToDrawableId(iconId),
+                            false
+                        )
                     )
-                )
-            }
-            _listIconModel.emit(listIcon)
+                }
+            })
         }
     }
 
@@ -61,36 +64,26 @@ class CreateCategoryViewModel @Inject constructor(
     }
 
     private fun updateNameCategory(name: String) = viewModelScope.launch {
-        savingDataManager.createCategoryFlow.emit(
-            savingDataManager.createCategoryFlow.value.copy(
-                operation = name
-            )
-        )
+        savingDataManager.createCategoryFlow.update {
+            it.copy(operation = name)
+        }
     }
 
     private fun updateTypeOperation(typeOperation: TypeOperation) = viewModelScope.launch {
-        savingDataManager.createCategoryFlow.emit(
-            savingDataManager.createCategoryFlow.value.copy(
-                type = typeOperation
-            )
-        )
+        savingDataManager.createCategoryFlow.update {
+            it.copy(type = typeOperation)
+        }
     }
 
     private fun updateIconCategory(idIcon: Int) = viewModelScope.launch {
-        savingDataManager.createCategoryFlow.emit(
-            savingDataManager.createCategoryFlow.value.copy(
-                iconId = idIcon
-            )
-        )
+        savingDataManager.createCategoryFlow.update {
+            it.copy(iconId = idIcon)
+        }
     }
 
     sealed class Event : BaseEvent() {
         class UpdateNameCategory(val name: String) : Event()
         class UpdateTypeOperation(val typeOperation: TypeOperation) : Event()
         class UpdateIconCategory(@DrawableRes val idIcon: Int) : Event()
-    }
-
-    companion object {
-        private const val COUNT_ICONS = 29
     }
 }

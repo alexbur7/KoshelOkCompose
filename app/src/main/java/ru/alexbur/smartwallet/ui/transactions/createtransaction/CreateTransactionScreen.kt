@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -24,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,14 +40,13 @@ import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
-import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
+import ru.alexbur.smartwallet.ui.utils.CircleProgressBar
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
-import ru.alexbur.smartwallet.ui.utils.TitleWithBackButtonToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
 import java.util.*
@@ -73,17 +74,15 @@ fun CreateTransactionScreen(
         date = System.currentTimeMillis()
     )
 
-    val loadState = viewModel.loadStateFlow.collectAsState()
     val errorMessage = viewModel.errorMessage.collectAsState("")
     val snackBarHostState = SnackbarHostState()
+    val isVisibleProgressBar = viewModel.isVisibleProgressBarFlow.collectAsState(initial = false)
 
-    LaunchedEffect(key1 = loadState.value, categoriesState.value) {
-        if (loadState.value == LoadingState.LOAD_FAILED) {
-            if (errorMessage.value.isNotBlank()) {
-                snackBarHostState.showSnackbar(
-                    message = errorMessage.value
-                )
-            }
+    LaunchedEffect(key1 = errorMessage.value, categoriesState.value) {
+        if (errorMessage.value.isNotBlank()) {
+            snackBarHostState.showSnackbar(
+                message = errorMessage.value
+            )
         }
         if (categoriesState.value.isNotEmpty() && createTransactionData.value == null) {
             viewModel.obtainEvent(
@@ -118,10 +117,17 @@ fun CreateTransactionScreen(
                 )
                 .padding(24.dp)
         ) {
-            TitleWithBackButtonToolbar(
-                modifier = Modifier.fillMaxWidth(),
-                titleText = stringResource(id = R.string.operation_title),
-                navController::popBackStack
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                text = stringResource(id = R.string.operation_title),
+                style = TextStyle(
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight(700)
+                ),
+                textAlign = TextAlign.Center
             )
 
             Text(
@@ -222,6 +228,11 @@ fun CreateTransactionScreen(
         SnackbarHost(hostState = snackBarHostState) {
             SmartWalletSnackBar(snackbarData = it)
         }
+
+        CircleProgressBar(
+            modifier = Modifier.align(Alignment.Center),
+            isVisible = isVisibleProgressBar.value
+        )
     }
 }
 

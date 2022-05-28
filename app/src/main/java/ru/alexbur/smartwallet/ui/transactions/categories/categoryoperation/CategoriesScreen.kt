@@ -74,7 +74,7 @@ fun CategoriesScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
+                    .padding(top = 8.dp),
                 state = state
             ) {
                 items(categoriesState.value.size) { position ->

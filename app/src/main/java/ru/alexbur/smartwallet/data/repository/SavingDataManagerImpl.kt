@@ -7,6 +7,7 @@ import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
+import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import javax.inject.Inject
 
@@ -35,4 +36,5 @@ class SavingDataManagerImpl @Inject constructor() : SavingDataManager {
         CategoryEntity.defaultCategory
     )
     override val snackBarMessageFlow: MutableSharedFlow<String> = MutableSharedFlow()
+    override val loadingStateFlow: MutableSharedFlow<LoadingState> = MutableSharedFlow()
 }

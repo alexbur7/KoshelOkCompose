@@ -32,7 +32,7 @@ class CreateTransactionRepositoryImpl @Inject constructor(
     override suspend fun createTransaction(transactionEntity: TransactionEntity): Result<DetailWalletItem.Transaction> {
         return runCatching {
             appService.createTransaction(mapper(transactionEntity))
-        }.map{
+        }.map {
             mapperTransaction(it)
         }.onSuccess {
             savingDataManager.transactionFlow.emit(it)

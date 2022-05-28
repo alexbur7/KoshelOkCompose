@@ -13,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,6 +34,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.TypeOperationChooser
+import ru.alexbur.smartwallet.ui.utils.CircleProgressBar
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.TitleWithBackButtonToolbar
@@ -49,6 +51,7 @@ fun CreateCategoryScreen(
     val iconsState = viewModel.listIconModel.collectAsState()
     val snackBarHostState = SnackbarHostState()
     val snackBarMessage = viewModel.snackBarMessage.collectAsState("")
+    val isVisibleProgressBar = viewModel.isVisibleProgressBar.collectAsState(initial = false)
 
     LaunchedEffect(key1 = snackBarMessage.value) {
         if (snackBarMessage.value.isNotBlank()) {
@@ -150,6 +153,11 @@ fun CreateCategoryScreen(
         SnackbarHost(hostState = snackBarHostState) {
             SmartWalletSnackBar(snackbarData = it)
         }
+
+        CircleProgressBar(
+            modifier = Modifier.align(Alignment.Center),
+            isVisible = isVisibleProgressBar.value
+        )
     }
 }
 

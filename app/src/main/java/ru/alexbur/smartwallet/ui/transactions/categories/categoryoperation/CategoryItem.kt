@@ -33,7 +33,7 @@ fun CategoryItem(
         .clickable {
             onClick(categoryEntity)
         }
-        .padding(vertical = 12.dp)) {
+        .padding(12.dp)) {
         Image(
             modifier = Modifier
                 .padding(start = 16.dp)
