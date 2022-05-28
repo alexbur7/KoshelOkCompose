@@ -33,8 +33,8 @@ class DetailWalletViewModel @AssistedInject constructor(
         get() = _transitionsData.asStateFlow()
     val loadStateData: StateFlow<LoadingState>
         get() = _loadStateData.asStateFlow()
-    val errorMessage: StateFlow<String>
-        get() = _errorMessage.asStateFlow()
+    val errorMessage: SharedFlow<String>
+        get() = _errorMessage.asSharedFlow()
 
     val positionWallet: Int
         get() = walletsData.value.indexOfFirst { it.id == walletId }
@@ -43,7 +43,7 @@ class DetailWalletViewModel @AssistedInject constructor(
     private val _transitionsData =
         MutableStateFlow(DetailWalletItem.shimmerData)
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
-    private val _errorMessage = MutableStateFlow("")
+    private val _errorMessage = MutableSharedFlow<String>()
 
     init {
         viewModelScope.launch {

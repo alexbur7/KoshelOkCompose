@@ -4,8 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +32,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
+import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
 import javax.inject.Inject
@@ -40,6 +44,16 @@ fun CreateWalletScreen(
 ) {
 
     val createWalletData = viewModel.createWalletFlow.collectAsState()
+    val snackBarHostState = SnackbarHostState()
+    val errorMessage = viewModel.errorMessageFlow.collectAsState("")
+
+    LaunchedEffect(key1 = errorMessage.value) {
+        if (errorMessage.value.isNotBlank()) {
+            snackBarHostState.showSnackbar(
+                message = errorMessage.value
+            )
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -110,6 +124,10 @@ fun CreateWalletScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 maxLength = 10
             )
+        }
+
+        SnackbarHost(hostState = snackBarHostState) {
+            SmartWalletSnackBar(snackbarData = it)
         }
     }
 }

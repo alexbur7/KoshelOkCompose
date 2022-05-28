@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,7 +27,6 @@ import ru.alexbur.smartwallet.ui.filter.wallets.FilterWalletsScreenFactory
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
-import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
 import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
@@ -46,18 +43,12 @@ fun BottomNavBar(
     val route = navControllerBackStackEntry?.destination?.route
 
     val loadState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
-    val errorState = viewModel.errorState.collectAsState()
     val walletIdState = viewModel.walletIdData.collectAsState()
-
-    val snackBarHostState = SnackbarHostState()
 
     LaunchedEffect(key1 = loadState.value) {
         when (loadState.value) {
             LoadingState.LOAD_FAILED -> {
                 // TODO завершить прогресс
-                snackBarHostState.showSnackbar(
-                    errorState.value
-                )
             }
             LoadingState.LOAD_IN_PROGRESS -> {
                 // TODO поставить прогресс
@@ -148,10 +139,6 @@ fun BottomNavBar(
                 }
             )
         }
-    }
-
-    SnackbarHost(hostState = snackBarHostState) {
-        SmartWalletSnackBar(snackbarData = it)
     }
 }
 

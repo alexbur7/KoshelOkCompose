@@ -51,7 +51,7 @@ fun DetailWalletScreen(
     val pagerState =
         rememberPagerState(initialPage = if (viewModel.positionWallet >= 0) viewModel.positionWallet else 0)
     val state = rememberLazyListState()
-    val errorMessage = viewModel.errorMessage.collectAsState()
+    val errorMessage = viewModel.errorMessage.collectAsState("")
     val loadState = viewModel.loadStateData.collectAsState()
     val collapsingState = rememberCollapsingToolbarScaffoldState()
     val snackBarHostState = SnackbarHostState()

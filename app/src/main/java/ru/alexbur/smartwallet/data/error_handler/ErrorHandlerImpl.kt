@@ -25,6 +25,10 @@ class ErrorHandlerImpl @Inject constructor(
         }
     }
 
+    override fun succeedOperation(): String {
+        return context.getString(R.string.succeed_operation)
+    }
+
     private fun handleHttpError(error: HttpException): String {
         return when (error.code()) {
             // TODO проставить актуальные коды ошибок + текста

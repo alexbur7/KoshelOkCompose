@@ -3,9 +3,7 @@ package ru.alexbur.smartwallet.ui.transactions.categories.createcategory
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.data.utils.IconConverter
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
@@ -27,6 +25,8 @@ class CreateCategoryViewModel @Inject constructor(
 
     val listIconModel: StateFlow<List<IconEntity>>
         get() = _listIconModel.asStateFlow()
+
+    val snackBarMessage: SharedFlow<String> = savingDataManager.snackBarMessageFlow.asSharedFlow()
 
     private val _listIconModel = MutableStateFlow<List<IconEntity>>(emptyList())
 

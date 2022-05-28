@@ -1,5 +1,6 @@
 package ru.alexbur.smartwallet.domain.repositories
 
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
@@ -25,4 +26,6 @@ interface SavingDataManager {
     val categoriesFlow: MutableStateFlow<List<CategoryEntity>>
 
     val createCategoryFlow: MutableStateFlow<CategoryEntity>
+
+    val snackBarMessageFlow: MutableSharedFlow<String>
 }

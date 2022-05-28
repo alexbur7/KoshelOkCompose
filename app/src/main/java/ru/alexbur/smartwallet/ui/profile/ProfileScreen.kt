@@ -41,7 +41,7 @@ fun ProfileScreen(
         mainViewModel.nameFlow.collectAsState(initial = stringResource(id = R.string.unknown))
     val mainData = mainViewModel.mainScreenData.collectAsState()
     val scrollState = rememberLazyListState()
-    val errorMessage = mainViewModel.errorMessage.collectAsState()
+    val errorMessage = mainViewModel.errorMessage.collectAsState("")
     val snackBarHostState = SnackbarHostState()
     var isShowDeleteDialog by remember {
         mutableStateOf(false)

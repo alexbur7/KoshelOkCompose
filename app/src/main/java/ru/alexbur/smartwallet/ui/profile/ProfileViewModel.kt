@@ -29,13 +29,13 @@ class ProfileViewModel @Inject constructor(
         get() = _loadStateData.asStateFlow().onEach { delay(100L) }
     val mainScreenData: StateFlow<MainScreenDataEntity>
         get() = _mainScreenData.asStateFlow()
-    val errorMessage: StateFlow<String>
-        get() = _errorMessage.asStateFlow()
+    val errorMessage: SharedFlow<String>
+        get() = _errorMessage.asSharedFlow()
     val nameFlow = mainScreenRepository.nameFlow
 
     private val _mainScreenData = MutableStateFlow(MainScreenDataEntity.shimmerData)
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
-    private val _errorMessage = MutableStateFlow("")
+    private val _errorMessage = MutableSharedFlow<String>()
 
     init {
         obtainEvent(Event.OnLoadingStarted)

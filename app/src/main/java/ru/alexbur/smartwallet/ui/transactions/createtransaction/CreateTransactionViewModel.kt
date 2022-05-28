@@ -2,10 +2,7 @@ package ru.alexbur.smartwallet.ui.transactions.createtransaction
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
@@ -34,8 +31,7 @@ class CreateTransactionViewModel @Inject constructor(
     val loadStateFlow: StateFlow<LoadingState>
         get() = _loadStateFlow.asStateFlow()
 
-    private val _errorMessage = MutableStateFlow("")
-    val errorMessage: StateFlow<String> = _errorMessage.asStateFlow()
+    val errorMessage: SharedFlow<String> = savingDataManager.snackBarMessageFlow.asSharedFlow()
 
     private val _loadStateFlow = MutableStateFlow(LoadingState.LOAD_DEFAULT)
 
@@ -44,7 +40,7 @@ class CreateTransactionViewModel @Inject constructor(
             loadCategoriesRepository.getCategories().onSuccess {
                 savingDataManager.categoriesFlow.emit(it)
             }.onFailure {
-                _errorMessage.emit(errorHandler.handleError(it))
+                savingDataManager.snackBarMessageFlow.emit(errorHandler.handleError(it))
                 _loadStateFlow.emit(LoadingState.LOAD_FAILED)
             }
         }

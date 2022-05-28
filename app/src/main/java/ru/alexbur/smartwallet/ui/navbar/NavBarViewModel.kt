@@ -28,13 +28,10 @@ class NavBarViewModel @Inject constructor(
 
     val loadingState: Flow<LoadingState>
         get() = _loadStateData.asStateFlow().onEach { delay(300) }
-    val errorState: StateFlow<String>
-        get() = _errorData.asStateFlow()
     val walletIdData: StateFlow<Long>
         get() = savingDataManager.walletIdFlow
 
     private val _loadStateData = MutableStateFlow(LoadingState.LOAD_IN_PROGRESS)
-    private val _errorData = MutableStateFlow("")
 
     override fun obtainEvent(event: Event) {
         when (event) {
@@ -124,12 +121,13 @@ class NavBarViewModel @Inject constructor(
     }
 
     private fun failedCreateItem(error: String) = viewModelScope.launch {
-        _errorData.emit(error)
+        savingDataManager.snackBarMessageFlow.emit(error)
         _loadStateData.emit(LoadingState.LOAD_FAILED)
     }
 
     private fun succeedOperation() = viewModelScope.launch {
         _loadStateData.emit(LoadingState.LOAD_SUCCEED)
+        savingDataManager.snackBarMessageFlow.emit(errorHandler.succeedOperation())
     }
 
     sealed class Event : BaseEvent() {

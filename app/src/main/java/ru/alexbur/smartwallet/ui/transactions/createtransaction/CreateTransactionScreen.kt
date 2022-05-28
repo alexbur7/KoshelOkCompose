@@ -74,7 +74,7 @@ fun CreateTransactionScreen(
     )
 
     val loadState = viewModel.loadStateFlow.collectAsState()
-    val errorMessage = viewModel.errorMessage.collectAsState()
+    val errorMessage = viewModel.errorMessage.collectAsState("")
     val snackBarHostState = SnackbarHostState()
 
     LaunchedEffect(key1 = loadState.value, categoriesState.value) {

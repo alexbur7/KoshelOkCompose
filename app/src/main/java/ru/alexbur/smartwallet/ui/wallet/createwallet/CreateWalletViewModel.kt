@@ -2,7 +2,9 @@ package ru.alexbur.smartwallet.ui.wallet.createwallet
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
@@ -18,6 +20,8 @@ class CreateWalletViewModel @Inject constructor(
 
     val createWalletFlow: StateFlow<CreateWalletEntity>
         get() = savingDataManager.createWalletFlow.asStateFlow()
+
+    val errorMessageFlow: SharedFlow<String> = savingDataManager.snackBarMessageFlow.asSharedFlow()
 
     override fun obtainEvent(event: Event) {
         when (event) {

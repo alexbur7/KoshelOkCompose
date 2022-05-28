@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +34,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.TypeOperationChooser
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
+import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.TitleWithBackButtonToolbar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.SelectedRadioButtonColor
@@ -43,6 +47,16 @@ fun CreateCategoryScreen(
 ) {
     val createCategoryState = viewModel.createCategoryFlow.collectAsState()
     val iconsState = viewModel.listIconModel.collectAsState()
+    val snackBarHostState = SnackbarHostState()
+    val snackBarMessage = viewModel.snackBarMessage.collectAsState("")
+
+    LaunchedEffect(key1 = snackBarMessage.value) {
+        if (snackBarMessage.value.isNotBlank()) {
+            snackBarHostState.showSnackbar(
+                message = snackBarMessage.value
+            )
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -131,6 +145,10 @@ fun CreateCategoryScreen(
                     )
                 }
             }
+        }
+
+        SnackbarHost(hostState = snackBarHostState) {
+            SmartWalletSnackBar(snackbarData = it)
         }
     }
 }
