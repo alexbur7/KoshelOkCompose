@@ -10,7 +10,7 @@ data class CurrencyApi(
     @SerialName("name")
     val name: String,
     @SerialName("value")
-    val course: String,
+    val course: String? = null,
     @SerialName("full_name")
     val fullName: String? = null,
     @SerialName("full_list_name")

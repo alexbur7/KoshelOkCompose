@@ -25,8 +25,8 @@ class ProfileViewModel @Inject constructor(
     private val errorHandler: ErrorHandler
 ) : BaseViewModel<ProfileViewModel.Event>() {
 
-    val loadStateData: Flow<LoadingState>
-        get() = _loadStateData.asStateFlow().onEach { delay(100L) }
+    val loadStateData: StateFlow<LoadingState>
+        get() = _loadStateData.asStateFlow()
     val mainScreenData: StateFlow<MainScreenDataEntity>
         get() = _mainScreenData.asStateFlow()
     val errorMessage: SharedFlow<String>
@@ -86,6 +86,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun startNetworkLoading() = viewModelScope.launch {
+        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
         mainScreenRepository.getServerMainScreenData().onSuccess {
             obtainEvent(Event.OnLoadingNetworkSucceed(it))
         }.onFailure {

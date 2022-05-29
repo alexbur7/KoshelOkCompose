@@ -1,31 +1,26 @@
 package ru.alexbur.smartwallet.ui.profile
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import me.onebone.toolbar.CollapsingToolbarScaffold
-import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
-import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
+import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
-import ru.alexbur.smartwallet.ui.profile.toolbar.MainCollapsingToolbar
 import ru.alexbur.smartwallet.ui.utils.ConfirmAlertDialog
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
@@ -41,6 +36,7 @@ fun ProfileScreen(
         mainViewModel.nameFlow.collectAsState(initial = stringResource(id = R.string.unknown))
     val mainData = mainViewModel.mainScreenData.collectAsState()
     val scrollState = rememberLazyListState()
+    val loadState = mainViewModel.loadStateData.collectAsState()
     val errorMessage = mainViewModel.errorMessage.collectAsState("")
     val snackBarHostState = SnackbarHostState()
     var isShowDeleteDialog by remember {
@@ -49,6 +45,7 @@ fun ProfileScreen(
     var deleteWalletId by remember {
         mutableStateOf<Long?>(null)
     }
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
 
     LaunchedEffect(key1 = errorMessage.value) {
         if (errorMessage.value.isNotBlank()) {
@@ -57,59 +54,36 @@ fun ProfileScreen(
             )
         }
     }
+    LaunchedEffect(key1 = loadState.value) {
+        when (loadState.value) {
+            LoadingState.LOAD_SUCCEED, LoadingState.LOAD_FAILED -> swipeRefreshState.isRefreshing =
+                false
+            else -> Unit
+        }
+    }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = BottomNavigationHeight)
-            .background(BackgroundColor)
-    ) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painterResource(id = R.drawable.main_background_image),
-            contentDescription = "Background image",
-            contentScale = ContentScale.FillWidth
-        )
-        CollapsingToolbarScaffold(
+    SwipeRefresh(state = swipeRefreshState, onRefresh = {
+        mainViewModel.obtainEvent(ProfileViewModel.Event.OnLoadingNetworkStarted)
+    }) {
+        ProfileFullScreen(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, start = 24.dp, end = 24.dp),
-            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-            toolbar = {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(45.dp)
-                )
-                MainCollapsingToolbar(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                    isShimmer = mainData.value == MainScreenDataEntity.shimmerData,
-                    name = name.value,
-                    mainData = mainData.value,
-                )
+                .padding(bottom = BottomNavigationHeight)
+                .background(BackgroundColor),
+            mainData = mainData.value,
+            name = name.value,
+            clickItem = {
+                navController.navigate(DetailWalletScreenFactory.route + "/$it")
             },
-            state = rememberCollapsingToolbarScaffoldState()
-        ) {
-            WalletsList(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                state = scrollState,
-                wallets = mainData.value.wallets,
-                clickItem = {
-                    navController.navigate(DetailWalletScreenFactory.route + "/$it")
-                },
-                editItem = {
-                    mainViewModel.obtainEvent(ProfileViewModel.Event.EditWallet(it))
-                    // TODO надо нижней панели сказать, чтобы переключилась, можно через флоу в менеджере
-                },
-                deleteItem = {
-                    deleteWalletId = it
-                    isShowDeleteDialog = true
-                }
-            )
-        }
+            editItem = {
+                mainViewModel.obtainEvent(ProfileViewModel.Event.EditWallet(it))
+                // TODO надо нижней панели сказать, чтобы переключилась, можно через флоу в менеджере
+            },
+            deleteItem = {
+                deleteWalletId = it
+                isShowDeleteDialog = true
+            }
+        )
 
         if (isShowDeleteDialog) {
             ConfirmAlertDialog(

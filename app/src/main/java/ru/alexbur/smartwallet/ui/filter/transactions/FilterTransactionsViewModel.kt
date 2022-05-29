@@ -2,14 +2,14 @@ package ru.alexbur.smartwallet.ui.filter.transactions
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
+import ru.alexbur.smartwallet.domain.repositories.DeleteTransactionRepository
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
@@ -19,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FilterTransactionsViewModel @Inject constructor(
     private val detailWalletRepository: DetailWalletRepository,
+    private val deleteTransactionRepository: DeleteTransactionRepository,
     private val savingDataManager: SavingDataManager,
     private val errorHandler: ErrorHandler
 ) : BaseViewModel<FilterTransactionsViewModel.Event>() {
@@ -101,17 +102,38 @@ class FilterTransactionsViewModel @Inject constructor(
 
 
     private fun filterTransactions(filter: String) = viewModelScope.launch {
-        _transitionsData.emit(allTransactions.filter { data ->
-            if (data is DetailWalletItem.Transaction) {
-                data.category.operation.contains(filter, ignoreCase = true)
-            } else {
-                true
+        withContext(Dispatchers.Default) {
+            val filtersNameList = allTransactions.filter { data ->
+                if (data is DetailWalletItem.Transaction) {
+                    data.category.operation.contains(filter, ignoreCase = true)
+                } else {
+                    true
+                }
             }
-        })
+            _transitionsData.emit(filtersNameList.filterIndexed { index, detailWalletItem ->
+                !(detailWalletItem is DetailWalletItem.Day && (index == filtersNameList.lastIndex
+                        || filtersNameList[index + 1] is DetailWalletItem.Day))
+            })
+        }
     }
 
     private fun deleteTransaction(id: Long) = viewModelScope.launch {
-        // TODO написать метод для удаления
+        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
+        deleteTransactionRepository.deleteTransaction(id).onSuccess {
+            _transitionsData.update {
+                it.filter { detailWalletItem ->
+                    if (detailWalletItem is DetailWalletItem.Transaction) {
+                        detailWalletItem.id != id
+                    } else {
+                        true
+                    }
+                }
+            }
+            _loadStateData.emit(LoadingState.LOAD_SUCCEED)
+        }.onFailure {
+            _errorMessage.emit(errorHandler.handleError(it))
+            _loadStateData.emit(LoadingState.LOAD_FAILED)
+        }
     }
 
     sealed class Event : BaseEvent() {

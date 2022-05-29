@@ -38,15 +38,19 @@ class CreateWalletViewModel @Inject constructor(
     }
 
     private fun updateNameWallet(name: String) = viewModelScope.launch {
-        savingDataManager.createWalletFlow.emit(savingDataManager.createWalletFlow.value.copy(name = name))
+        savingDataManager.createWalletFlow.update {
+            it.copy(name = name)
+        }
     }
 
-    private fun updateLimitWallet(limit: String?) = viewModelScope.launch {
-        savingDataManager.createWalletFlow.emit(savingDataManager.createWalletFlow.value.copy(limit = limit))
+    private fun updateLimitWallet(limit: String) = viewModelScope.launch {
+        savingDataManager.createWalletFlow.update {
+            it.copy(limit = limit.ifEmpty { null })
+        }
     }
 
     sealed class Event : BaseEvent() {
         class UpdateNameWallet(val name: String) : Event()
-        class UpdateLimitWallet(val limit: String?) : Event()
+        class UpdateLimitWallet(val limit: String) : Event()
     }
 }

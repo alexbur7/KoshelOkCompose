@@ -1,5 +1,6 @@
 package ru.alexbur.smartwallet.data.mappers.currency
 
+import ru.alexbur.smartwallet.data.extentions.defaultMoney
 import ru.alexbur.smartwallet.data.service.api.CurrencyApi
 import ru.alexbur.smartwallet.data.service.api.ResponseApi
 import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
@@ -12,7 +13,7 @@ class CurrencyApiToEntityMapper @Inject constructor() :
         CurrencyEntity(
             id = currencyApi.result.currencyId,
             name = currencyApi.result.name,
-            course = currencyApi.result.course,
+            course = currencyApi.result.course.defaultMoney(),
             fullName = currencyApi.result.fullName.orEmpty(),
             fullListName = currencyApi.result.fullListName.orEmpty(),
             icon = currencyApi.result.icon.orEmpty(),

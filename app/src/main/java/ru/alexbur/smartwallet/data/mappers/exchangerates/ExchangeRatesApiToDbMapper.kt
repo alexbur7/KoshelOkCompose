@@ -1,6 +1,7 @@
 package ru.alexbur.smartwallet.data.mappers.exchangerates
 
 import ru.alexbur.smartwallet.data.db.entity.ExchangeRatesDb
+import ru.alexbur.smartwallet.data.extentions.defaultMoney
 import ru.alexbur.smartwallet.data.service.api.CurrencyApi
 import ru.alexbur.smartwallet.data.service.api.ExchangeRatesApi
 import javax.inject.Inject
@@ -11,13 +12,13 @@ class ExchangeRatesApiToDbMapper @Inject constructor() :
         return ExchangeRatesDb(
             email = email,
             firstCurrency = exchangeRates[0].name,
-            firstCourse = exchangeRates[0].course,
+            firstCourse = exchangeRates[0].course.defaultMoney(),
             firstIsUp = exchangeRates[0].isUp,
             secondCurrency = exchangeRates[1].name,
-            secondCourse = exchangeRates[1].course,
+            secondCourse = exchangeRates[1].course.defaultMoney(),
             secondIsUp = exchangeRates[1].isUp,
             thirdCurrency = exchangeRates[2].name,
-            thirdCourse = exchangeRates[2].course,
+            thirdCourse = exchangeRates[2].course.defaultMoney(),
             thirdIsUp = exchangeRates[2].isUp,
         )
     }

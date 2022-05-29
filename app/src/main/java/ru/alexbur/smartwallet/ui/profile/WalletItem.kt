@@ -91,7 +91,12 @@ fun WalletItem(
                 .padding(horizontal = 21.dp)
         ) {
 
-            NameAndAmountText(walletEntity = walletEntity)
+            NameAndAmountText(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 18.dp),
+                walletEntity = walletEntity
+            )
 
             if (walletEntity.partSpending != null) {
                 ProgressIndicator(

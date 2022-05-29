@@ -166,6 +166,7 @@ class DetailWalletViewModel @AssistedInject constructor(
 
     private fun deleteTransaction(id: Long) =
         viewModelScope.launch {
+            // TODO поправить удаление транзакции
             _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
             deleteTransactionRepository.deleteTransaction(id).onSuccess {
                 _transitionsData.update {

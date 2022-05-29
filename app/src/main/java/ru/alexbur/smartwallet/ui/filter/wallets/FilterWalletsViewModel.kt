@@ -2,10 +2,12 @@ package ru.alexbur.smartwallet.ui.filter.wallets
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
@@ -97,9 +99,11 @@ class FilterWalletsViewModel @Inject constructor(
     }
 
     private fun filterWallets(filter: String) = viewModelScope.launch {
-        _walletsData.emit(
-            allWallets.filter { it.name.contains(filter, ignoreCase = true) }
-        )
+        withContext(Dispatchers.Default) {
+            _walletsData.emit(
+                allWallets.filter { it.name.contains(filter, ignoreCase = true) }
+            )
+        }
     }
 
     private fun deleteWallet(id: Long) = viewModelScope.launch {

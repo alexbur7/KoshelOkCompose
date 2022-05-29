@@ -1,7 +1,6 @@
 package ru.alexbur.smartwallet.ui.profile
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
@@ -18,15 +17,12 @@ import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 
 @Composable
 fun NameAndAmountText(
+    modifier: Modifier,
     walletEntity: WalletEntity
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                top = 19.dp,
-                bottom = if (walletEntity.partSpending == null) 19.dp else 5.dp
-            )
+        modifier = modifier
+            .padding(bottom = if (walletEntity.partSpending == null) 19.dp else 5.dp)
     ) {
         Text(
             text = walletEntity.name, modifier = Modifier
