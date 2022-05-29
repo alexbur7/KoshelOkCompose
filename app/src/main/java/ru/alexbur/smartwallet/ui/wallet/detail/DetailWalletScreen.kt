@@ -142,6 +142,7 @@ fun DetailWalletScreen(
                 state = state,
                 transactions = transactionState.value,
                 isShimmer = transactionState.value == DetailWalletItem.shimmerData,
+                textPaddingOffset = collapsingState.toolbarState.progress,
                 editItem = {
                     viewModel.obtainEvent(DetailWalletViewModel.Event.EditTransaction(it))
                 },
