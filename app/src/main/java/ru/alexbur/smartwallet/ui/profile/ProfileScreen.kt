@@ -3,7 +3,6 @@ package ru.alexbur.smartwallet.ui.profile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.*
@@ -46,10 +45,12 @@ fun ProfileScreen(
     }
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
 
+    // TODO после удаления закрыть свайп у итема
     LaunchedEffect(key1 = loadState.value) {
         when (loadState.value) {
-            LoadingState.LOAD_SUCCEED -> swipeRefreshState.isRefreshing =
-                false
+            LoadingState.LOAD_SUCCEED -> {
+                swipeRefreshState.isRefreshing = false
+            }
             LoadingState.LOAD_FAILED -> {
                 swipeRefreshState.isRefreshing =
                     false

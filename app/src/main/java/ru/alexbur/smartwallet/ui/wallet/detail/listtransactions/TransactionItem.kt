@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +44,15 @@ fun TransactionItem(
     val swipeState = rememberSwipeableState(0)
     val pixel = with(LocalDensity.current) { -110.dp.toPx() }
     val anchors = mapOf(0f to 0, pixel to 1)
+    var closeSwipe by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = closeSwipe) {
+        if (closeSwipe) {
+            swipeState.snapTo(0)
+            closeSwipe = false
+        }
+    }
+
     Box(
         modifier = modifier
             .swipeable(
@@ -149,9 +158,11 @@ fun TransactionItem(
                 entity = transaction,
                 edit = {
                     onEdit(it)
+                    closeSwipe = true
                 },
                 delete = {
                     onDelete(it.id)
+                    closeSwipe = true
                 }
             )
         }

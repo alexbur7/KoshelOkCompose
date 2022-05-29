@@ -45,10 +45,11 @@ fun WalletsList(
                 onClick = {
                     clickItem(it)
                 },
-                onEdit = { editItem(it) }
-            ) {
-                deleteItem(it)
-            }
+                onEdit = { editItem(it) },
+                onDelete = {
+                    deleteItem(it)
+                }
+            )
         }
     }
 }

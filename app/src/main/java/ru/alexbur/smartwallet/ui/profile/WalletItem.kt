@@ -10,7 +10,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.rememberSwipeableState
 import androidx.compose.material.swipeable
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +41,14 @@ fun WalletItem(
     val swipeState = rememberSwipeableState(0)
     val pixel = with(LocalDensity.current) { -110.dp.toPx() }
     val anchors = mapOf(0f to 0, pixel to 1)
+    var closeSwipe by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = closeSwipe) {
+        if (closeSwipe) {
+            swipeState.snapTo(0)
+            closeSwipe = false
+        }
+    }
     Box(
         modifier = modifier
             .swipeable(
@@ -115,9 +123,11 @@ fun WalletItem(
                 entity = walletEntity,
                 edit = {
                     onEdit(it)
+                    closeSwipe = true
                 },
                 delete = {
                     onDelete(it.id)
+                    closeSwipe = true
                 }
             )
         }
