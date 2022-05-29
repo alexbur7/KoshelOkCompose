@@ -48,7 +48,7 @@ fun BottomNavBar(
     val walletIdState = viewModel.walletIdData.collectAsState()
     val openEditScreen = viewModel.openEditScreen.collectAsState(null)
 
-    LaunchedEffect(key1 = loadState.value, openEditScreen.value) {
+    LaunchedEffect(key1 = loadState.value) {
         when (loadState.value) {
             LoadingState.LOAD_SUCCEED -> {
                 if (route?.contains(CreateCategoryScreenFactory.route) == true) {
@@ -64,7 +64,9 @@ fun BottomNavBar(
             }
             else -> Unit
         }
+    }
 
+    LaunchedEffect(key1 =openEditScreen.value){
         if (openEditScreen.value != null) {
             val newRoute =
                 if (openEditScreen.value == true) EditWalletScreenFactory.route

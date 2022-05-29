@@ -111,4 +111,6 @@
     <string name="validaton_error">Проверьте правильность заполненных полей</string>
     <string name="unknown_server_error">На сервере что-то пошло не так</string>
     <string name="succeed_operation">Операция выполнена успешно</string>
+    <string name="edit_wallet">Редактирование кошелька</string>
+    <string name="edit_operation_title">Редактирование операции</string>
 </resources>

@@ -78,7 +78,7 @@ fun EditWalletScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
-                text = stringResource(id = R.string.new_wallet),
+                text = stringResource(id = R.string.edit_wallet),
                 style = TextStyle(
                     color = Color.White,
                     fontSize = 20.sp,

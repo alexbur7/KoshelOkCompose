@@ -122,7 +122,7 @@ fun EditTransactionScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
-                text = stringResource(id = R.string.operation_title),
+                text = stringResource(id = R.string.edit_operation_title),
                 style = TextStyle(
                     color = Color.White,
                     fontSize = 20.sp,
