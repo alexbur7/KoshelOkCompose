@@ -9,7 +9,7 @@ import ru.alexbur.smartwallet.ui.main.MainNavHostScreenFactory
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
-import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.create.CreateTransactionScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.edit.EditTransactionScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.create.CreateWalletScreenFactory
 import ru.alexbur.smartwallet.ui.wallet.create.listcurrency.CurrenciesScreenFactory

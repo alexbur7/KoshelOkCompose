@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,7 +27,7 @@ import ru.alexbur.smartwallet.ui.filter.transactions.FilterTransactionsScreenFac
 import ru.alexbur.smartwallet.ui.filter.wallets.FilterWalletsScreenFactory
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
-import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.create.CreateTransactionScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.edit.EditTransactionScreenFactory
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
@@ -47,6 +48,7 @@ fun BottomNavBar(
     val loadState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
     val walletIdState = viewModel.walletIdData.collectAsState()
     val openEditScreen = viewModel.openEditScreen.collectAsState(null)
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(key1 = loadState.value) {
         when (loadState.value) {
@@ -150,6 +152,7 @@ fun BottomNavBar(
                         }
                         viewModel.obtainEvent(event)
                     }
+                    focusManager.clearFocus()
                 },
                 icon = {
                     Image(

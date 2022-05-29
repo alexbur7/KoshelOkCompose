@@ -14,6 +14,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -31,6 +32,8 @@ fun OutlinedButton(
     cornerRadius: Dp = 24.dp,
     onClick: () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     Column(modifier = modifier
         .drawWithContent {
             drawRoundRect(
@@ -57,6 +60,7 @@ fun OutlinedButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
+                    focusManager.clearFocus()
                     onClick()
                 }
                 .padding(12.dp),

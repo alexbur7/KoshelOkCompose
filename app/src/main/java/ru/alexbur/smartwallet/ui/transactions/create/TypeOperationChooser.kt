@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.transactions.createtransaction
+package ru.alexbur.smartwallet.ui.transactions.create
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -13,6 +13,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +36,7 @@ fun TypeOperationChooser(
     var isExpanded by rememberSaveable {
         mutableStateOf(false)
     }
+    val focusManager = LocalFocusManager.current
 
     Column(modifier = modifier
         .drawWithContent {
@@ -61,6 +63,7 @@ fun TypeOperationChooser(
             .fillMaxWidth()
             .wrapContentHeight()
             .clickable {
+                focusManager.clearFocus()
                 isExpanded = !isExpanded
             }
             .padding(12.dp),
@@ -77,6 +80,7 @@ fun TypeOperationChooser(
                 TextWithEndImage(modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
+                        focusManager.clearFocus()
                         changeTypeOperation(TypeOperation.SELECT_INCOME)
                         isExpanded = !isExpanded
                     }

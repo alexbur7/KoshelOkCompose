@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.transactions.createtransaction
+package ru.alexbur.smartwallet.ui.transactions.create
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker

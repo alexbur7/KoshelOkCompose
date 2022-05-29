@@ -33,7 +33,7 @@ import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
-import ru.alexbur.smartwallet.ui.transactions.createtransaction.TypeOperationChooser
+import ru.alexbur.smartwallet.ui.transactions.create.TypeOperationChooser
 import ru.alexbur.smartwallet.ui.utils.CircleProgressBar
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar

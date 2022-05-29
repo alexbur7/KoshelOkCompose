@@ -1,6 +1,7 @@
 package ru.alexbur.smartwallet.ui
 
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
@@ -21,6 +22,7 @@ import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.Categ
 import ru.alexbur.smartwallet.ui.utils.theme.SmartWalletTheme
 import ru.alexbur.smartwallet.ui.wallet.detail.DetailWalletViewModel
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -59,6 +61,14 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val inputMethodManager= getSystemService(
+            INPUT_METHOD_SERVICE
+        ) as? InputMethodManager
+        inputMethodManager?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 
     @EntryPoint
