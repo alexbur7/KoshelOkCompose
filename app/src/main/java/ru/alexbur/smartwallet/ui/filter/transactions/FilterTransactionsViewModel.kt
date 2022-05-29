@@ -107,7 +107,7 @@ class FilterTransactionsViewModel @Inject constructor(
     private fun filterTransactions(filter: String) = viewModelScope.launch {
         _transitionsData.emit(allTransactions.filter { data ->
             if (data is DetailWalletItem.Transaction) {
-                data.category.operation.contains(filter)
+                data.category.operation.contains(filter, ignoreCase = true)
             } else {
                 true
             }

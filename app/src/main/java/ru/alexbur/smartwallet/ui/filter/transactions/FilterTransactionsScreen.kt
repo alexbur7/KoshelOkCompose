@@ -52,7 +52,7 @@ fun FilterTransactionsScreen(
             )
         }
     }
-
+    // TODO сделать загрузку данных не только в init блоке, потому что при переходе снова на эту вкладку данные не обновляются
     Box(
         modifier = Modifier
             .fillMaxSize()

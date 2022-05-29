@@ -33,7 +33,7 @@ class NavBarViewModel @Inject constructor(
     val walletIdData: StateFlow<Long>
         get() = savingDataManager.walletIdFlow
 
-    val _loadingState = MutableStateFlow(LoadingState.LOAD_DEFAULT)
+    private val _loadingState = MutableStateFlow(LoadingState.LOAD_DEFAULT)
 
     override fun obtainEvent(event: Event) {
         when (event) {

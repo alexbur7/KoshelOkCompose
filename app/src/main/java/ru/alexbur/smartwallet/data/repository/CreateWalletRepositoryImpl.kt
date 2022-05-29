@@ -27,6 +27,7 @@ class CreateWalletRepositoryImpl @Inject constructor(
         }.onSuccess { wallet ->
             walletSource.insertWallet(wallet.result)
         }.map(walletEntityMapper).onSuccess {
+            savingDataManager.walletIdFlow.emit(it.id)
             savingDataManager.walletFlow.emit(it)
             savingDataManager.createWalletFlow.emit(CreateWalletEntity.default)
         }
@@ -42,9 +43,8 @@ class CreateWalletRepositoryImpl @Inject constructor(
             )
         }.onSuccess { wallet ->
             walletSource.insertWallet(wallet.result)
-        }.map(
-            walletEntityMapper
-        ).onSuccess {
+        }.map(walletEntityMapper).onSuccess {
+            savingDataManager.walletIdFlow.emit(it.id)
             savingDataManager.walletFlow.emit(it)
             savingDataManager.editWalletFlow.emit(null)
             savingDataManager.createWalletFlow.emit(CreateWalletEntity.default)

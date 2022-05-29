@@ -96,7 +96,7 @@ class FilterWalletsViewModel @Inject constructor(
 
     private fun filterWallets(filter: String) = viewModelScope.launch {
         _walletsData.emit(
-            allWallets.filter { it.name.contains(filter) }
+            allWallets.filter { it.name.contains(filter, ignoreCase = true) }
         )
     }
 

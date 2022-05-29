@@ -39,6 +39,13 @@ class ProfileViewModel @Inject constructor(
 
     init {
         obtainEvent(Event.OnLoadingStarted)
+
+        savingDataManager.walletFlow.filterNotNull().onEach {
+            _mainScreenData.update { screenData ->
+                screenData.copy(wallets = screenData.wallets + it)
+            }
+            savingDataManager.walletFlow.emit(null)
+        }.launchIn(viewModelScope)
     }
 
     override fun obtainEvent(event: Event) {
