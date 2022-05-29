@@ -73,14 +73,17 @@ fun DetailWalletScreen(
                 )
             )
         }
+        if (walletsState.isNotEmpty() && viewModel.positionWallet >= 0 && isFirstScrollPage) {
+            pagerState.scrollToPage(viewModel.positionWallet)
+            isFirstScrollPage = false
+        }
+    }
+
+    LaunchedEffect(key1 = errorMessage.value) {
         if (errorMessage.value.isNotBlank()) {
             snackBarHostState.showSnackbar(
                 message = errorMessage.value
             )
-        }
-        if (walletsState.isNotEmpty() && viewModel.positionWallet >= 0 && isFirstScrollPage){
-            pagerState.scrollToPage(viewModel.positionWallet)
-            isFirstScrollPage = false
         }
     }
 

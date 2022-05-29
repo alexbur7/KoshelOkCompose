@@ -22,7 +22,7 @@ interface AppService {
     ): ResponseApi<WalletApi>
 
     @DELETE("wallets/{walletId}")
-    suspend fun deleteWallet(@Path("walletId") walletId: Long): ResponseApi<Boolean>
+    suspend fun deleteWallet(@Path("walletId") walletId: Long): ResponseApi<MainScreenDataApi>
 
     @GET("mainscreen")
     suspend fun getDataForMainScreen(): ResponseApi<MainScreenDataApi>

@@ -107,12 +107,8 @@ class ProfileViewModel @Inject constructor(
     private fun deleteWallet(walletId: Long) = viewModelScope.launch {
         _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
         deleteWalletRepository.deleteWallet(walletId = walletId)
-            .onSuccess { isDelete ->
-                _mainScreenData.update {
-                    it.copy(wallets = it.wallets.filter { wallet ->
-                        !(wallet.id == walletId && isDelete)
-                    })
-                }
+            .onSuccess {
+                _mainScreenData.emit(it)
                 _loadStateData.emit(LoadingState.LOAD_SUCCEED)
             }.onFailure {
                 _errorMessage.emit(errorHandler.handleError(it))

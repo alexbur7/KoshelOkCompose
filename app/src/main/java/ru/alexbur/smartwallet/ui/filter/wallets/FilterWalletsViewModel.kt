@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
+import ru.alexbur.smartwallet.domain.repositories.DeleteWalletRepository
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FilterWalletsViewModel @Inject constructor(
     private val detailWalletRepository: DetailWalletRepository,
+    private val deleteWalletRepository: DeleteWalletRepository,
     private val errorHandler: ErrorHandler
 ) : BaseViewModel<FilterWalletsViewModel.Event>() {
 
@@ -101,7 +103,12 @@ class FilterWalletsViewModel @Inject constructor(
     }
 
     private fun deleteWallet(id: Long) = viewModelScope.launch {
-        // TODO написать метод для удаления
+        deleteWalletRepository.deleteWallet(walletId = id)
+            .onSuccess {
+                _walletsData.emit(it.wallets)
+            }.onFailure {
+                _errorMessage.emit(errorHandler.handleError(it))
+            }
     }
 
     sealed class Event : BaseEvent() {

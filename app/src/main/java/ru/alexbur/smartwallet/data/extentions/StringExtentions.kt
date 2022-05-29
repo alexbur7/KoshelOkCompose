@@ -5,6 +5,9 @@ fun String.formattedMoney(icon: String, startSymbol: String? = null): String {
 }
 
 fun String?.defaultMoney(): String{
-    if (this == "null") return "0.0"
-    return this ?: "0.0"
+    if (this == null || this == "null") return "0.0"
+    val cent = this.substringAfter(".")
+    val money = this.substringBefore(".")
+    val finalCent = if (cent.length > 2) cent.substring(0, 2) else cent
+    return "$money.$finalCent"
 }

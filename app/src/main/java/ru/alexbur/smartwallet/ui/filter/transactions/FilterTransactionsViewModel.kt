@@ -34,10 +34,6 @@ class FilterTransactionsViewModel @Inject constructor(
     private val _errorMessage = MutableStateFlow("")
     private val allTransactions = mutableListOf<DetailWalletItem>()
 
-    init {
-        obtainEvent(Event.OnLoadingDBTransactionStarted)
-    }
-
     override fun obtainEvent(event: Event) {
         when (event) {
             is Event.OnLoadingDBTransactionStarted -> {
