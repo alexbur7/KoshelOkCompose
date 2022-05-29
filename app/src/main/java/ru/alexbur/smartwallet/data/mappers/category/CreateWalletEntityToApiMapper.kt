@@ -1,5 +1,6 @@
 package ru.alexbur.smartwallet.data.mappers.category
 
+import ru.alexbur.smartwallet.data.extentions.defaultMoney
 import ru.alexbur.smartwallet.data.service.api.CreateWalletApi
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import javax.inject.Inject
@@ -12,9 +13,9 @@ class CreateWalletEntityToApiMapper @Inject constructor() :
     ): CreateWalletApi =
         CreateWalletApi(
             name = createWalletEntity.name,
-            amountMoney = "0",
-            income = "0",
-            consumption = "0",
+            amountMoney = createWalletEntity.amountMoney.defaultMoney(),
+            income = createWalletEntity.incomeMoney.defaultMoney(),
+            consumption = createWalletEntity.consumptionMoney.defaultMoney(),
             limit = createWalletEntity.limit,
             currencyId = createWalletEntity.currency.id ?: 0,
             isHide = false

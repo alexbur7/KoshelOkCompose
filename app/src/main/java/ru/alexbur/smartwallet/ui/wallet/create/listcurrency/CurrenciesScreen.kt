@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency
+package ru.alexbur.smartwallet.ui.wallet.create.listcurrency
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,8 +33,10 @@ fun CurrenciesScreen(
     var currentCurrency by remember {
         mutableStateOf(
             when (currencyScreenType) {
-                CurrencyScreenType.WALLET_SCREEN -> viewModel.createWalletFlow.value.currency
-                CurrencyScreenType.TRANSACTION_SCREEN -> viewModel.createTransactionEntity.value?.currency
+                CurrencyScreenType.CREATE_WALLET_SCREEN -> viewModel.createWalletFlow.value.currency
+                CurrencyScreenType.CREATE_TRANSACTION_SCREEN -> viewModel.createTransactionEntity.value?.currency
+                CurrencyScreenType.EDIT_TRANSACTION_SCREEN -> viewModel.editTransactionFlow.value?.currency
+                CurrencyScreenType.EDIT_WALLET_SCREEN -> viewModel.editWalletFlow.value?.currency
             } ?: CurrencyEntity.default
         )
     }

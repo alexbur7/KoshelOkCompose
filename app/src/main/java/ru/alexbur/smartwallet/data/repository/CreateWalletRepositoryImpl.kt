@@ -3,7 +3,6 @@ package ru.alexbur.smartwallet.data.repository
 import ru.alexbur.smartwallet.data.db.source.WalletSource
 import ru.alexbur.smartwallet.data.mappers.category.CreateWalletEntityToApiMapper
 import ru.alexbur.smartwallet.data.mappers.wallets.WalletApiToWalletEntityMapper
-import ru.alexbur.smartwallet.data.mappers.wallets.WalletEntityToCreateApiMapper
 import ru.alexbur.smartwallet.data.service.AppService
 import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
@@ -15,7 +14,6 @@ class CreateWalletRepositoryImpl @Inject constructor(
     private val appService: AppService,
     private val mapperWallet: CreateWalletEntityToApiMapper,
     private val walletEntityMapper: WalletApiToWalletEntityMapper,
-    private val walletEntityToCreateApiMapper: WalletEntityToCreateApiMapper,
     private val savingDataManager: SavingDataManager,
     private val walletSource: WalletSource
 ) : CreateWalletRepository {
@@ -34,12 +32,12 @@ class CreateWalletRepositoryImpl @Inject constructor(
     }
 
     override suspend fun editWallet(
-        walletEntity: WalletEntity
+        walletEntity: CreateWalletEntity
     ): Result<WalletEntity> {
         return runCatching {
             appService.editWallet(
-                walletEntity.id,
-                walletEntityToCreateApiMapper(walletEntity)
+                walletEntity.id ?: 0,
+                mapperWallet(walletEntity)
             )
         }.onSuccess { wallet ->
             walletSource.insertWallet(wallet.result)

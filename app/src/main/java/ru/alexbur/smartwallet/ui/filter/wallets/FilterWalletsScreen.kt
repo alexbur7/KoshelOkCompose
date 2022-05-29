@@ -84,7 +84,7 @@ fun FilterWalletsScreen(
                     isShowDeleteDialog = true
                 },
                 editItem = {
-                    //TODO подставить методы
+                    viewModel.obtainEvent(FilterWalletsViewModel.Event.EditWallet(it))
                 }
             )
         }

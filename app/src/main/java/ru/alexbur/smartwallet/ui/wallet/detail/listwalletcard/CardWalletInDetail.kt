@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard
+package ru.alexbur.smartwallet.ui.wallet.detail.listwalletcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

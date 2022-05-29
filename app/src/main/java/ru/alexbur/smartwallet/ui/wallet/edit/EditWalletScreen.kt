@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.createwallet
+package ru.alexbur.smartwallet.ui.wallet.edit
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,15 +36,14 @@ import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.create.listcurrency.CurrenciesScreenFactory
 import javax.inject.Inject
 
 @Composable
-fun CreateWalletScreen(
+fun EditWalletScreen(
     navigation: NavController,
-    viewModel: CreateWalletViewModel = hiltViewModel()
+    viewModel: EditWalletViewModel = hiltViewModel()
 ) {
-
     val createWalletData = viewModel.createWalletFlow.collectAsState()
     val snackBarHostState = SnackbarHostState()
     val errorMessage = viewModel.errorMessageFlow.collectAsState("")
@@ -96,9 +95,9 @@ fun CreateWalletScreen(
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.title_wallet),
                 onValueChanged = {
-                    viewModel.obtainEvent(CreateWalletViewModel.Event.UpdateNameWallet(it))
+                    viewModel.obtainEvent(EditWalletViewModel.Event.UpdateNameWallet(it))
                 },
-                initialField = createWalletData.value.name
+                initialField = createWalletData.value?.name
             )
 
             OutlinedButton(
@@ -108,9 +107,9 @@ fun CreateWalletScreen(
                     .wrapContentHeight()
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.currency),
-                text = createWalletData.value.currency.fullName
+                text = createWalletData.value?.currency?.fullName.orEmpty()
             ) {
-                navigation.navigate("${CurrenciesScreenFactory.route}/${CurrencyScreenType.WALLET_SCREEN.code}")
+                navigation.navigate("${CurrenciesScreenFactory.route}/${CurrencyScreenType.EDIT_WALLET_SCREEN.code}")
             }
 
             OutlinedEditText(
@@ -121,9 +120,9 @@ fun CreateWalletScreen(
                     .background(color = Color.Transparent),
                 textLabel = stringResource(id = R.string.limit_wallet),
                 onValueChanged = {
-                    viewModel.obtainEvent(CreateWalletViewModel.Event.UpdateLimitWallet(it))
+                    viewModel.obtainEvent(EditWalletViewModel.Event.UpdateLimitWallet(it))
                 },
-                initialField = createWalletData.value.limit,
+                initialField = createWalletData.value?.limit,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 maxLength = 10
             )
@@ -140,7 +139,7 @@ fun CreateWalletScreen(
     }
 }
 
-class CreateWalletScreenFactory @Inject constructor() : NavigationScreenFactory {
+class EditWalletScreenFactory @Inject constructor() : NavigationScreenFactory {
 
     companion object Companion : NavigationFactory.NavigationFactoryCompanion
 
@@ -151,7 +150,7 @@ class CreateWalletScreenFactory @Inject constructor() : NavigationScreenFactory 
         builder.composable(
             route = route
         ) {
-            CreateWalletScreen(navGraph)
+            EditWalletScreen(navGraph)
         }
     }
 }

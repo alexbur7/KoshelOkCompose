@@ -24,7 +24,7 @@ class CreateTransactionRepositoryImpl @Inject constructor(
             )
         }.map(mapperTransaction).onSuccess {
             savingDataManager.transactionFlow.emit(it)
-            savingDataManager.editTransactionFLow.emit(null)
+            savingDataManager.editTransactionFlow.emit(null)
             savingDataManager.createTransactionFlow.emit(null)
         }
     }

@@ -9,5 +9,5 @@ interface CreateWalletRepository {
         createWallet: CreateWalletEntity
     ): Result<WalletEntity>
 
-    suspend fun editWallet(walletEntity: WalletEntity): Result<WalletEntity>
+    suspend fun editWallet(walletEntity: CreateWalletEntity): Result<WalletEntity>
 }

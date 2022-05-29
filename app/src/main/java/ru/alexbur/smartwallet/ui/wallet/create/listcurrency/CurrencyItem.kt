@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency
+package ru.alexbur.smartwallet.ui.wallet.create.listcurrency
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -5,8 +5,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class CurrencyScreenType(val code: Int): Parcelable {
-    WALLET_SCREEN(0),
-    TRANSACTION_SCREEN(1);
+    CREATE_WALLET_SCREEN(0),
+    CREATE_TRANSACTION_SCREEN(1),
+    EDIT_WALLET_SCREEN(2),
+    EDIT_TRANSACTION_SCREEN(3);
 
     companion object {
         fun convertCodeToType(code: Int): CurrencyScreenType {

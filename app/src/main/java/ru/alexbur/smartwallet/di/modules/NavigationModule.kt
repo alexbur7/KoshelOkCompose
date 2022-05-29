@@ -15,9 +15,11 @@ import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
-import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
-import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.edit.EditTransactionScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.create.CreateWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.create.listcurrency.CurrenciesScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.detail.DetailWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.edit.EditWalletScreenFactory
 import javax.inject.Singleton
 
 @Module
@@ -38,6 +40,11 @@ interface NavigationModule {
     @Binds
     @Singleton
     fun bindCreateWalletScreenFactory(createWalletScreenFactory: CreateWalletScreenFactory): NavigationScreenFactory
+
+    @IntoSet
+    @Binds
+    @Singleton
+    fun bindEditWalletScreenFactory(editWalletScreenFactory: EditWalletScreenFactory): NavigationScreenFactory
 
     @IntoSet
     @Binds
@@ -78,4 +85,9 @@ interface NavigationModule {
     @Binds
     @Singleton
     fun bindFilterTransactionsScreenFactory(filterTransactionsScreenFactory: FilterTransactionsScreenFactory): NavigationScreenFactory
+
+    @IntoSet
+    @Binds
+    @Singleton
+    fun bindEditTransactionScreenFactory(editTransactionScreenFactory: EditTransactionScreenFactory): NavigationScreenFactory
 }

@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency
+package ru.alexbur.smartwallet.ui.wallet.create.listcurrency
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,11 +23,17 @@ class CurrenciesViewModel @Inject constructor(
     private val savingDataManager: SavingDataManager
 ) : BaseViewModel<CurrenciesViewModel.Event>() {
 
-    val createWalletFlow: StateFlow<CreateWalletEntity>
-        get() = savingDataManager.createWalletFlow.asStateFlow()
+    val createWalletFlow: StateFlow<CreateWalletEntity> =
+        savingDataManager.createWalletFlow.asStateFlow()
 
-    val createTransactionEntity: StateFlow<TransactionEntity?>
-        get() = savingDataManager.createTransactionFlow.asStateFlow()
+    val createTransactionEntity: StateFlow<TransactionEntity?> =
+        savingDataManager.createTransactionFlow.asStateFlow()
+
+    val editTransactionFlow: StateFlow<TransactionEntity?> =
+        savingDataManager.editTransactionFlow.asStateFlow()
+
+    val editWalletFlow: StateFlow<CreateWalletEntity?> =
+        savingDataManager.editWalletFlow.asStateFlow()
 
     private val _currencies = MutableStateFlow(emptyList<CurrencyEntity>())
 
@@ -45,8 +51,12 @@ class CurrenciesViewModel @Inject constructor(
         when (event) {
             is Event.ChooseCurrency -> {
                 when (event.createTypeScreen) {
-                    CurrencyScreenType.WALLET_SCREEN -> chooseWalletCurrency(event.currency)
-                    CurrencyScreenType.TRANSACTION_SCREEN -> chooseTransactionCurrency(event.currency)
+                    CurrencyScreenType.CREATE_WALLET_SCREEN -> chooseWalletCurrency(event.currency)
+                    CurrencyScreenType.CREATE_TRANSACTION_SCREEN -> chooseTransactionCurrency(event.currency)
+                    CurrencyScreenType.EDIT_TRANSACTION_SCREEN -> chooseEditTransactionCurrency(
+                        event.currency
+                    )
+                    CurrencyScreenType.EDIT_WALLET_SCREEN -> chooseEditWalletCurrency(event.currency)
                 }
             }
         }
@@ -64,6 +74,18 @@ class CurrenciesViewModel @Inject constructor(
                 currency = currency
             )
         )
+    }
+
+    private fun chooseEditWalletCurrency(currency: CurrencyEntity) = viewModelScope.launch {
+        savingDataManager.editWalletFlow.update {
+            it?.copy(currency = currency)
+        }
+    }
+
+    private fun chooseEditTransactionCurrency(currency: CurrencyEntity) = viewModelScope.launch {
+        savingDataManager.editTransactionFlow.update {
+            it?.copy(currency = currency)
+        }
     }
 
     sealed class Event : BaseEvent() {

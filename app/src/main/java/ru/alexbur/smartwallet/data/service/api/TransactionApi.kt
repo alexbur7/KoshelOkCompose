@@ -12,5 +12,7 @@ data class TransactionApi(
     val category: CategoryApi,
     val currency: CurrencyApi,
     @SerialName("transaction_time")
-    val time: Long = System.currentTimeMillis()
+    val time: Long = System.currentTimeMillis(),
+    @SerialName("wallet_id")
+    val walletId: Long? = null
 )

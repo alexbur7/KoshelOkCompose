@@ -1,6 +1,5 @@
-package ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions
+package ru.alexbur.smartwallet.ui.wallet.detail.listtransactions
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

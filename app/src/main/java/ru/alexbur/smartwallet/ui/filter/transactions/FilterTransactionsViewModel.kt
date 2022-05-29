@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
+import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.DeleteTransactionRepository
@@ -57,6 +58,9 @@ class FilterTransactionsViewModel @Inject constructor(
             }
             is Event.DeleteTransaction -> {
                 deleteTransaction(event.transactionId)
+            }
+            is Event.EditWallet -> {
+                editTransaction(event.transaction)
             }
         }
     }
@@ -136,6 +140,20 @@ class FilterTransactionsViewModel @Inject constructor(
         }
     }
 
+    private fun editTransaction(transaction: DetailWalletItem.Transaction) = viewModelScope.launch {
+        savingDataManager.editTransactionFlow.emit(
+            TransactionEntity(
+                id = transaction.id,
+                idWallet = transaction.walletId,
+                sum = transaction.money,
+                type = transaction.category.type,
+                categoryEntity = transaction.category,
+                date = transaction.timeStamp,
+                currency = transaction.currency
+            )
+        )
+    }
+
     sealed class Event : BaseEvent() {
         object OnLoadingDBTransactionStarted : Event()
         object OnLoadingTransactionNetworkStarted : Event()
@@ -148,5 +166,7 @@ class FilterTransactionsViewModel @Inject constructor(
         class FilterTransaction(val filterText: String) : Event()
 
         class DeleteTransaction(val transactionId: Long) : Event()
+
+        class EditWallet(val transaction: DetailWalletItem.Transaction) : Event()
     }
 }

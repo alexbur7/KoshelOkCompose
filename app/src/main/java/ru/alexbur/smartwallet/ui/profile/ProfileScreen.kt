@@ -24,7 +24,7 @@ import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.utils.ConfirmAlertDialog
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.detail.DetailWalletScreenFactory
 import javax.inject.Inject
 
 @Composable
@@ -35,7 +35,6 @@ fun ProfileScreen(
     val name =
         mainViewModel.nameFlow.collectAsState(initial = stringResource(id = R.string.unknown))
     val mainData = mainViewModel.mainScreenData.collectAsState()
-    val scrollState = rememberLazyListState()
     val loadState = mainViewModel.loadStateData.collectAsState()
     val errorMessage = mainViewModel.errorMessage.collectAsState("")
     val snackBarHostState = SnackbarHostState()

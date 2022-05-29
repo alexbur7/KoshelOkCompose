@@ -19,7 +19,7 @@ import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.navbar.NavItem
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesViewModel
 import ru.alexbur.smartwallet.ui.utils.theme.SmartWalletTheme
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletViewModel
+import ru.alexbur.smartwallet.ui.wallet.detail.DetailWalletViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint

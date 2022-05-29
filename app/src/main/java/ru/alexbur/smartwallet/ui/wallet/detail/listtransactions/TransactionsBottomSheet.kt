@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions
+package ru.alexbur.smartwallet.ui.wallet.detail.listtransactions
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background

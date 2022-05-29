@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.transactions.createtransaction
+package ru.alexbur.smartwallet.ui.transactions.edit
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker
@@ -43,6 +43,7 @@ import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
 import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.createtransaction.TypeOperationChooser
 import ru.alexbur.smartwallet.ui.utils.CircleProgressBar
 import ru.alexbur.smartwallet.ui.utils.OutlinedButton
 import ru.alexbur.smartwallet.ui.utils.OutlinedEditText
@@ -53,10 +54,10 @@ import java.util.*
 import javax.inject.Inject
 
 @Composable
-fun CreateTransactionScreen(
+fun EditTransactionScreen(
     walletId: Long,
     navController: NavController,
-    viewModel: CreateTransactionViewModel = hiltViewModel()
+    viewModel: EditTransactionViewModel = hiltViewModel()
 ) {
     val categoriesState = viewModel.categoriesFlow.collectAsState()
     val createTransactionData = viewModel.createTransactionFlow.collectAsState()
@@ -86,7 +87,7 @@ fun CreateTransactionScreen(
         }
         if (categoriesState.value.isNotEmpty() && createTransactionData.value == null) {
             viewModel.obtainEvent(
-                CreateTransactionViewModel.Event.InitCreateTransaction(
+                EditTransactionViewModel.Event.InitCreateTransaction(
                     initialCreateTransaction.copy(categoryEntity = categoriesState.value.first
                     { it.type == TypeOperation.SELECT_INCOME })
                 )
@@ -149,7 +150,7 @@ fun CreateTransactionScreen(
                 textLabel = stringResource(id = R.string.sum),
                 initialField = createTransactionData.value?.sum ?: initialCreateTransaction.sum,
                 onValueChanged = {
-                    viewModel.obtainEvent(CreateTransactionViewModel.Event.UpdateSumTransaction(it))
+                    viewModel.obtainEvent(EditTransactionViewModel.Event.UpdateSumTransaction(it))
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
@@ -162,7 +163,7 @@ fun CreateTransactionScreen(
                 currentOperationType = createTransactionData.value?.type
                     ?: initialCreateTransaction.type
             ) {
-                viewModel.obtainEvent(CreateTransactionViewModel.Event.UpdateTypeOperation(it))
+                viewModel.obtainEvent(EditTransactionViewModel.Event.UpdateTypeOperation(it))
             }
 
             OutlinedButton(
@@ -205,7 +206,7 @@ fun CreateTransactionScreen(
                 text = createTransactionData.value?.currency?.fullName
                     ?: initialCreateTransaction.currency.fullName
             ) {
-                navController.navigate("${CurrenciesScreenFactory.route}/${CurrencyScreenType.CREATE_TRANSACTION_SCREEN.code}")
+                navController.navigate("${CurrenciesScreenFactory.route}/${CurrencyScreenType.EDIT_TRANSACTION_SCREEN.code}")
             }
 
             OutlinedButton(
@@ -238,7 +239,7 @@ fun CreateTransactionScreen(
 
 @Composable
 private fun createDatePickerDialog(
-    viewModel: CreateTransactionViewModel,
+    viewModel: EditTransactionViewModel,
     createTransactionData: State<TransactionEntity?>,
     initialCreateTransaction: TransactionEntity
 ) = DatePickerDialog(
@@ -246,7 +247,7 @@ private fun createDatePickerDialog(
     { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
         val cal = Calendar.getInstance()
         cal.set(year, month, dayOfMonth)
-        viewModel.obtainEvent(CreateTransactionViewModel.Event.UpdateDate(cal.time.time))
+        viewModel.obtainEvent(EditTransactionViewModel.Event.UpdateDate(cal.time.time))
     },
     createTransactionData.value?.date?.getCalendar()?.get(Calendar.YEAR)
         ?: initialCreateTransaction.date.getCalendar().get(Calendar.YEAR),
@@ -256,7 +257,7 @@ private fun createDatePickerDialog(
         ?: initialCreateTransaction.date.getCalendar().get(Calendar.DAY_OF_MONTH)
 )
 
-class CreateTransactionScreenFactory @Inject constructor() : NavigationScreenFactory {
+class EditTransactionScreenFactory @Inject constructor() : NavigationScreenFactory {
     companion object Companion : NavigationFactory.NavigationFactoryCompanion {
         private const val WALLET_ID_KEY = "walletId"
     }
@@ -272,7 +273,7 @@ class CreateTransactionScreenFactory @Inject constructor() : NavigationScreenFac
             arguments = listOf(navArgument(WALLET_ID_KEY) { type = NavType.LongType })
         ) {
             it.arguments?.getLong(WALLET_ID_KEY)?.let { walletId ->
-                CreateTransactionScreen(
+                EditTransactionScreen(
                     walletId = walletId,
                     navController = navGraph,
                 )

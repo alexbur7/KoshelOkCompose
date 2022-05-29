@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.detailwallet
+package ru.alexbur.smartwallet.ui.wallet.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,8 +36,8 @@ import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.utils.ConfirmAlertDialog
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsBottomSheet
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.listwalletcard.FullCardWalletInDetail
+import ru.alexbur.smartwallet.ui.wallet.detail.listtransactions.TransactionsBottomSheet
+import ru.alexbur.smartwallet.ui.wallet.detail.listwalletcard.FullCardWalletInDetail
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagerApi::class)
@@ -143,7 +143,7 @@ fun DetailWalletScreen(
                 transactions = transactionState.value,
                 isShimmer = transactionState.value == DetailWalletItem.shimmerData,
                 editItem = {
-                    // TODO подставить методы из vm
+                    viewModel.obtainEvent(DetailWalletViewModel.Event.EditTransaction(it))
                 },
                 deleteItem = {
                     deleteTransactionId = it

@@ -27,10 +27,12 @@ import ru.alexbur.smartwallet.ui.filter.wallets.FilterWalletsScreenFactory
 import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.edit.EditTransactionScreenFactory
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
 import ru.alexbur.smartwallet.ui.utils.theme.ShadowNavBarColor
-import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.create.CreateWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.detail.DetailWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.edit.EditWalletScreenFactory
 
 @Composable
 fun BottomNavBar(
@@ -44,8 +46,9 @@ fun BottomNavBar(
 
     val loadState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
     val walletIdState = viewModel.walletIdData.collectAsState()
+    val openEditScreen = viewModel.openEditScreen.collectAsState(null)
 
-    LaunchedEffect(key1 = loadState.value) {
+    LaunchedEffect(key1 = loadState.value, openEditScreen.value) {
         when (loadState.value) {
             LoadingState.LOAD_SUCCEED -> {
                 if (route?.contains(CreateCategoryScreenFactory.route) == true) {
@@ -60,6 +63,20 @@ fun BottomNavBar(
                 }
             }
             else -> Unit
+        }
+
+        if (openEditScreen.value != null) {
+            val newRoute =
+                if (openEditScreen.value == true) EditWalletScreenFactory.route
+                else "${EditTransactionScreenFactory.route}/${walletIdState.value}"
+            with(navController) {
+                navigate(newRoute) {
+                    popUpTo(graph.startDestinationId) {
+                        saveState = true
+                    }
+                    restoreState = true
+                }
+            }
         }
     }
 
@@ -110,18 +127,26 @@ fun BottomNavBar(
                                 restoreState = true
                             }
                         }
+                        viewModel.obtainEvent(NavBarViewModel.Event.ClearOpenEdit)
                     } else if (isNestedRoute && tab == NavItem.NavBarItems.NewItem) {
-                        when {
+                        val event = when {
                             route?.contains(CreateWalletScreenFactory.route) == true -> {
-                                viewModel.obtainEvent(NavBarViewModel.Event.CreateWalletStarted)
+                                NavBarViewModel.Event.CreateWalletStarted
                             }
                             route?.contains(CreateCategoryScreenFactory.route) == true -> {
-                                viewModel.obtainEvent(NavBarViewModel.Event.CreateCategoryStarted)
+                                NavBarViewModel.Event.CreateCategoryStarted
+                            }
+                            route?.contains(EditWalletScreenFactory.route) == true -> {
+                                NavBarViewModel.Event.EditWalletStarted
+                            }
+                            route?.contains(EditTransactionScreenFactory.route) == true -> {
+                                NavBarViewModel.Event.EditTransactionStarted
                             }
                             else -> {
-                                viewModel.obtainEvent(NavBarViewModel.Event.CreateTransactionStarted)
+                                NavBarViewModel.Event.CreateTransactionStarted
                             }
                         }
+                        viewModel.obtainEvent(event)
                     }
                 },
                 icon = {

@@ -22,6 +22,8 @@ class TransactionApiToDetailWalletTransactionMapper @Inject constructor(
             money = transaction.result.money.defaultMoney(),
             time = transaction.result.time.getTime(),
             day = transaction.result.time.getFormattedDate(),
-            currency = mapperCurrency(ResponseApi(transaction.result.currency))
+            currency = mapperCurrency(ResponseApi(transaction.result.currency)),
+            walletId = transaction.result.walletId ?: 0,
+            timeStamp = transaction.result.time
         )
 }

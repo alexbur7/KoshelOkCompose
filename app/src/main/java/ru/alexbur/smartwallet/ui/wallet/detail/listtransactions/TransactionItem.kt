@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions
+package ru.alexbur.smartwallet.ui.wallet.detail.listtransactions
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,8 +27,6 @@ import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.data.extentions.formattedMoney
-import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
-import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.ui.utils.EditAndDeleteButton
 import ru.alexbur.smartwallet.ui.utils.theme.*
@@ -159,18 +156,4 @@ fun TransactionItem(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun TransactionItemPreview() {
-    TransactionItem(
-        modifier = Modifier.fillMaxWidth(),
-        transaction = DetailWalletItem.Transaction(
-            0, CategoryEntity.defaultCategory, "1251", "17:23", "15.10.2021", CurrencyEntity.default
-        ),
-        isShimmer = false,
-        onEdit = {},
-        onDelete = {}
-    )
 }

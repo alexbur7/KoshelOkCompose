@@ -1,4 +1,4 @@
-package ru.alexbur.smartwallet.ui.wallet.detailwallet
+package ru.alexbur.smartwallet.ui.wallet.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,6 +9,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
+import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
@@ -82,6 +83,9 @@ class DetailWalletViewModel @AssistedInject constructor(
             }
             is Event.DeleteTransaction -> {
                 deleteTransaction(event.transactionId)
+            }
+            is Event.EditTransaction -> {
+                editTransaction(event.detailWalletItem)
             }
         }
     }
@@ -185,6 +189,20 @@ class DetailWalletViewModel @AssistedInject constructor(
             }
         }
 
+    private fun editTransaction(transaction: DetailWalletItem.Transaction) = viewModelScope.launch {
+        savingDataManager.editTransactionFlow.emit(
+            TransactionEntity(
+                id = transaction.id,
+                idWallet = transaction.walletId,
+                sum = transaction.money,
+                type = transaction.category.type,
+                categoryEntity = transaction.category,
+                date = transaction.timeStamp,
+                currency = transaction.currency
+            )
+        )
+    }
+
     sealed class Event : BaseEvent() {
         class OnLoadingStarted(val walletId: Long) : Event()
         class OnLoadingNetworkStarted(val walletId: Long) : Event()
@@ -211,6 +229,8 @@ class DetailWalletViewModel @AssistedInject constructor(
         ) : Event()
 
         class DeleteTransaction(val transactionId: Long) : Event()
+
+        class EditTransaction(val detailWalletItem: DetailWalletItem.Transaction) : Event()
     }
 
     @AssistedFactory

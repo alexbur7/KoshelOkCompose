@@ -12,11 +12,11 @@ import ru.alexbur.smartwallet.domain.enums.LoadingState
 interface SavingDataManager {
     val createWalletFlow: MutableStateFlow<CreateWalletEntity>
 
-    val editWalletFlow: MutableStateFlow<WalletEntity?>
+    val editWalletFlow: MutableStateFlow<CreateWalletEntity?>
 
     val createTransactionFlow: MutableStateFlow<TransactionEntity?>
 
-    val editTransactionFLow: MutableStateFlow<TransactionEntity?>
+    val editTransactionFlow: MutableStateFlow<TransactionEntity?>
 
     val transactionFlow: MutableStateFlow<DetailWalletItem.Transaction?>
 

@@ -7,6 +7,9 @@ data class CreateWalletEntity(
     val limit: String? = null,
     val name: String,
     val currency: CurrencyEntity,
+    val amountMoney: String? = null,
+    val incomeMoney: String? = null,
+    val consumptionMoney: String? = null,
 ) {
     companion object {
         val default = CreateWalletEntity(

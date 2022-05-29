@@ -2,13 +2,8 @@ package ru.alexbur.smartwallet.ui.navbar
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
-import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.CreateCategoryRepository
@@ -32,16 +27,35 @@ class NavBarViewModel @Inject constructor(
         get() = _loadingState.asStateFlow()
     val walletIdData: StateFlow<Long>
         get() = savingDataManager.walletIdFlow
+    val openEditScreen: SharedFlow<Boolean?>
+        get() = _openEditScreen.asSharedFlow()
 
     private val _loadingState = MutableStateFlow(LoadingState.LOAD_DEFAULT)
+    private val _openEditScreen = MutableSharedFlow<Boolean?>()
+
+    init {
+        savingDataManager.editWalletFlow.filterNotNull().onEach {
+            _openEditScreen.emit(true)
+        }.launchIn(viewModelScope)
+
+        savingDataManager.editTransactionFlow.filterNotNull().onEach {
+            _openEditScreen.emit(false)
+        }.launchIn(viewModelScope)
+    }
 
     override fun obtainEvent(event: Event) {
         when (event) {
             is Event.CreateWalletStarted -> {
-                operationWithWallet()
+                createWallet()
+            }
+            is Event.EditWalletStarted -> {
+                editWallet()
             }
             is Event.CreateTransactionStarted -> {
-                operationWithTransaction()
+                createTransaction()
+            }
+            is Event.EditTransactionStarted -> {
+                editTransaction()
             }
             is Event.CreateCategoryStarted -> {
                 createCategory()
@@ -52,26 +66,13 @@ class NavBarViewModel @Inject constructor(
             is Event.SucceedOperation -> {
                 succeedOperation()
             }
+            is Event.ClearOpenEdit -> {
+                clearOpenEdit()
+            }
         }
     }
 
-    private fun operationWithWallet() = viewModelScope.launch {
-        val wallet = savingDataManager.editWalletFlow.value ?: run {
-            createWallet()
-            return@launch
-        }
-        editWallet(wallet)
-    }
-
-    private fun operationWithTransaction() = viewModelScope.launch {
-        val transaction = savingDataManager.editTransactionFLow.value ?: run {
-            createTransaction()
-            return@launch
-        }
-        editTransaction(transaction)
-    }
-
-    private suspend fun createWallet() {
+    private fun createWallet() = viewModelScope.launch {
         savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_IN_PROGRESS)
         _loadingState.emit(LoadingState.LOAD_IN_PROGRESS)
         walletRepository.createWallet(savingDataManager.createWalletFlow.value)
@@ -105,7 +106,8 @@ class NavBarViewModel @Inject constructor(
             }
     }
 
-    private suspend fun editWallet(wallet: WalletEntity) {
+    private fun editWallet() = viewModelScope.launch {
+        val wallet = savingDataManager.editWalletFlow.value ?: return@launch
         savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_IN_PROGRESS)
         _loadingState.emit(LoadingState.LOAD_IN_PROGRESS)
         walletRepository.editWallet(wallet)
@@ -116,7 +118,8 @@ class NavBarViewModel @Inject constructor(
             }
     }
 
-    private suspend fun editTransaction(transaction: TransactionEntity) {
+    private fun editTransaction() = viewModelScope.launch {
+        val transaction = savingDataManager.editTransactionFlow.value ?: return@launch
         savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_IN_PROGRESS)
         _loadingState.emit(LoadingState.LOAD_IN_PROGRESS)
         transactionRepository.editTransaction(transaction)
@@ -139,11 +142,20 @@ class NavBarViewModel @Inject constructor(
         savingDataManager.snackBarMessageFlow.emit(errorHandler.succeedOperation())
     }
 
+    private fun clearOpenEdit() = viewModelScope.launch {
+        _openEditScreen.emit(null)
+        savingDataManager.editTransactionFlow.emit(null)
+        savingDataManager.editWalletFlow.emit(null)
+    }
+
     sealed class Event : BaseEvent() {
         object CreateWalletStarted : Event()
+        object EditWalletStarted : Event()
         object CreateTransactionStarted : Event()
+        object EditTransactionStarted : Event()
         object CreateCategoryStarted : Event()
         class CreateDataFailed(val error: String) : Event()
         object SucceedOperation : Event()
+        object ClearOpenEdit : Event()
     }
 }

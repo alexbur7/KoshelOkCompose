@@ -15,6 +15,8 @@ sealed class DetailWalletItem {
         val money: String,
         val time: String,
         val day: String,
+        val walletId: Long,
+        val timeStamp: Long,
         val currency: CurrencyEntity
     ) : DetailWalletItem()
 
@@ -34,6 +36,8 @@ sealed class DetailWalletItem {
                 money = "",
                 time = "",
                 day = "",
+                walletId = 0,
+                timeStamp = 1,
                 currency = CurrencyEntity.default
             ),
             Transaction(
@@ -47,6 +51,8 @@ sealed class DetailWalletItem {
                 money = "",
                 time = "",
                 day = "",
+                walletId = 0,
+                timeStamp = 1,
                 currency = CurrencyEntity.default
             ),
             Transaction(
@@ -60,6 +66,8 @@ sealed class DetailWalletItem {
                 money = "",
                 time = "",
                 day = "",
+                walletId = 0,
+                timeStamp = 1,
                 currency = CurrencyEntity.default
             ),
             Transaction(
@@ -73,6 +81,8 @@ sealed class DetailWalletItem {
                 money = "",
                 time = "",
                 day = "",
+                walletId = 0,
+                timeStamp = 1,
                 currency = CurrencyEntity.default
             )
         )

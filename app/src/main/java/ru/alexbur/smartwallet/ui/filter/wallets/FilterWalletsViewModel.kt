@@ -9,10 +9,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
+import ru.alexbur.smartwallet.domain.entities.wallet.CreateWalletEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
 import ru.alexbur.smartwallet.domain.error_handler.ErrorHandler
 import ru.alexbur.smartwallet.domain.repositories.DeleteWalletRepository
 import ru.alexbur.smartwallet.domain.repositories.DetailWalletRepository
+import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class FilterWalletsViewModel @Inject constructor(
     private val detailWalletRepository: DetailWalletRepository,
     private val deleteWalletRepository: DeleteWalletRepository,
+    private val savingDataManager: SavingDataManager,
     private val errorHandler: ErrorHandler
 ) : BaseViewModel<FilterWalletsViewModel.Event>() {
 
@@ -59,6 +62,9 @@ class FilterWalletsViewModel @Inject constructor(
             }
             is Event.DeleteWallet -> {
                 deleteWallet(event.walletId)
+            }
+            is Event.EditWallet -> {
+                editWallet(event.walletEntity)
             }
         }
     }
@@ -115,6 +121,20 @@ class FilterWalletsViewModel @Inject constructor(
             }
     }
 
+    private fun editWallet(walletEntity: WalletEntity) = viewModelScope.launch {
+        savingDataManager.editWalletFlow.emit(
+            CreateWalletEntity(
+                id = walletEntity.id,
+                limit = walletEntity.limit,
+                name = walletEntity.name,
+                currency = walletEntity.currency,
+                amountMoney = walletEntity.amountMoney,
+                incomeMoney = walletEntity.incomeMoney,
+                consumptionMoney = walletEntity.consumptionMoney
+            )
+        )
+    }
+
     sealed class Event : BaseEvent() {
         object OnLoadingStarted : Event()
         class OnLoadingDBSucceed(val data: List<WalletEntity>) : Event()
@@ -123,5 +143,6 @@ class FilterWalletsViewModel @Inject constructor(
         class OnLoadingFailed(val error: String) : Event()
         class FilterWallets(val filter: String) : Event()
         class DeleteWallet(val walletId: Long) : Event()
+        class EditWallet(val walletEntity: WalletEntity) : Event()
     }
 }

@@ -2,7 +2,6 @@ package ru.alexbur.smartwallet.ui.profile
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.listwallet.MainScreenDataEntity
@@ -118,12 +117,15 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun editWallet(walletEntity: WalletEntity) = viewModelScope.launch {
-        savingDataManager.createWalletFlow.emit(
+        savingDataManager.editWalletFlow.emit(
             CreateWalletEntity(
                 id = walletEntity.id,
                 limit = walletEntity.limit,
                 name = walletEntity.name,
-                currency = walletEntity.currency
+                currency = walletEntity.currency,
+                amountMoney = walletEntity.amountMoney,
+                incomeMoney = walletEntity.incomeMoney,
+                consumptionMoney = walletEntity.consumptionMoney
             )
         )
     }

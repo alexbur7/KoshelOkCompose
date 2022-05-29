@@ -10,9 +10,11 @@ import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.categories.createcategory.CreateCategoryScreenFactory
 import ru.alexbur.smartwallet.ui.transactions.createtransaction.CreateTransactionScreenFactory
-import ru.alexbur.smartwallet.ui.wallet.createwallet.CreateWalletScreenFactory
-import ru.alexbur.smartwallet.ui.wallet.createwallet.listcurrency.CurrenciesScreenFactory
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.DetailWalletScreenFactory
+import ru.alexbur.smartwallet.ui.transactions.edit.EditTransactionScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.create.CreateWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.create.listcurrency.CurrenciesScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.detail.DetailWalletScreenFactory
+import ru.alexbur.smartwallet.ui.wallet.edit.EditWalletScreenFactory
 
 sealed class NavItem(val route: String) {
 
@@ -44,7 +46,9 @@ sealed class NavItem(val route: String) {
                 CreateTransactionScreenFactory.route,
                 CurrenciesScreenFactory.route,
                 CategoriesScreenFactory.route,
-                CreateCategoryScreenFactory.route
+                CreateCategoryScreenFactory.route,
+                EditTransactionScreenFactory.route,
+                EditWalletScreenFactory.route
             )
         ),
 

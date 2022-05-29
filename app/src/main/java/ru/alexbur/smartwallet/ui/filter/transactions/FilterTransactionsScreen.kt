@@ -26,7 +26,7 @@ import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.utils.ConfirmAlertDialog
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar
 import ru.alexbur.smartwallet.ui.utils.theme.BackgroundColor
-import ru.alexbur.smartwallet.ui.wallet.detailwallet.listtransactions.TransactionsList
+import ru.alexbur.smartwallet.ui.wallet.detail.listtransactions.TransactionsList
 import javax.inject.Inject
 
 @Composable
@@ -85,7 +85,8 @@ fun FilterTransactionsScreen(
                 state = state,
                 transactions = transactions.value,
                 isShimmer = transactions.value == DetailWalletItem.shimmerData,
-                editItem = { // TODO подставить методы из vm
+                editItem = {
+                    viewModel.obtainEvent(FilterTransactionsViewModel.Event.EditWallet(it))
                 },
                 deleteItem = {
                     deleteTransactionId = it
