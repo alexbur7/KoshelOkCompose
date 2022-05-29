@@ -28,8 +28,8 @@ class CreateCategoryViewModel @Inject constructor(
         get() = _listIconModel.asStateFlow()
 
     val snackBarMessage: SharedFlow<String> = savingDataManager.snackBarMessageFlow.asSharedFlow()
-    val isVisibleProgressBar: Flow<Boolean> =
-        savingDataManager.loadingStateFlow.map { it == LoadingState.LOAD_IN_PROGRESS }
+    val loadingState: SharedFlow<LoadingState> =
+        savingDataManager.loadingStateFlow.asSharedFlow()
 
     private val _listIconModel = MutableStateFlow<List<IconEntity>>(emptyList())
 

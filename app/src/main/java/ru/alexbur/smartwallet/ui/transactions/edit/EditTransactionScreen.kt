@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -41,6 +40,7 @@ import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
+import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
@@ -78,13 +78,18 @@ fun EditTransactionScreen(
 
     val errorMessage = viewModel.errorMessage.collectAsState("")
     val snackBarHostState = SnackbarHostState()
-    val isVisibleProgressBar = viewModel.isVisibleProgressBarFlow.collectAsState(initial = false)
+    val loadingState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
 
-    LaunchedEffect(key1 = errorMessage.value, categoriesState.value) {
-        if (errorMessage.value.isNotBlank()) {
-            snackBarHostState.showSnackbar(
-                message = errorMessage.value
-            )
+    LaunchedEffect(key1 = loadingState.value, categoriesState.value) {
+        when (loadingState.value) {
+            LoadingState.LOAD_SUCCEED, LoadingState.LOAD_FAILED -> {
+                if (errorMessage.value.isNotEmpty()) {
+                    snackBarHostState.showSnackbar(
+                        message = errorMessage.value
+                    )
+                }
+            }
+            else -> Unit
         }
         if (categoriesState.value.isNotEmpty() && createTransactionData.value == null) {
             viewModel.obtainEvent(
@@ -233,7 +238,7 @@ fun EditTransactionScreen(
 
         CircleProgressBar(
             modifier = Modifier.align(Alignment.Center),
-            isVisible = isVisibleProgressBar.value
+            isVisible = loadingState.value == LoadingState.LOAD_IN_PROGRESS
         )
     }
 }

@@ -32,6 +32,7 @@ import androidx.navigation.compose.composable
 import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
+import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.create.TypeOperationChooser
 import ru.alexbur.smartwallet.ui.utils.CircleProgressBar
@@ -51,13 +52,18 @@ fun CreateCategoryScreen(
     val iconsState = viewModel.listIconModel.collectAsState()
     val snackBarHostState = SnackbarHostState()
     val snackBarMessage = viewModel.snackBarMessage.collectAsState("")
-    val isVisibleProgressBar = viewModel.isVisibleProgressBar.collectAsState(initial = false)
+    val loadingState = viewModel.loadingState.collectAsState(LoadingState.LOAD_DEFAULT)
 
-    LaunchedEffect(key1 = snackBarMessage.value) {
-        if (snackBarMessage.value.isNotBlank()) {
-            snackBarHostState.showSnackbar(
-                message = snackBarMessage.value
-            )
+    LaunchedEffect(key1 = loadingState.value) {
+        when (loadingState.value) {
+            LoadingState.LOAD_SUCCEED, LoadingState.LOAD_FAILED -> {
+                if (snackBarMessage.value.isNotEmpty()) {
+                    snackBarHostState.showSnackbar(
+                        message = snackBarMessage.value
+                    )
+                }
+            }
+            else -> Unit
         }
     }
 
@@ -156,7 +162,7 @@ fun CreateCategoryScreen(
 
         CircleProgressBar(
             modifier = Modifier.align(Alignment.Center),
-            isVisible = isVisibleProgressBar.value
+            isVisible = loadingState.value == LoadingState.LOAD_IN_PROGRESS
         )
     }
 }

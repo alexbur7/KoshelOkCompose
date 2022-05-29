@@ -46,17 +46,19 @@ fun ProfileScreen(
     }
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
 
-    LaunchedEffect(key1 = errorMessage.value) {
-        if (errorMessage.value.isNotBlank()) {
-            snackBarHostState.showSnackbar(
-                message = errorMessage.value
-            )
-        }
-    }
     LaunchedEffect(key1 = loadState.value) {
         when (loadState.value) {
-            LoadingState.LOAD_SUCCEED, LoadingState.LOAD_FAILED -> swipeRefreshState.isRefreshing =
+            LoadingState.LOAD_SUCCEED -> swipeRefreshState.isRefreshing =
                 false
+            LoadingState.LOAD_FAILED -> {
+                swipeRefreshState.isRefreshing =
+                    false
+                if (errorMessage.value.isNotBlank()) {
+                    snackBarHostState.showSnackbar(
+                        message = errorMessage.value
+                    )
+                }
+            }
             else -> Unit
         }
     }
@@ -76,7 +78,6 @@ fun ProfileScreen(
             },
             editItem = {
                 mainViewModel.obtainEvent(ProfileViewModel.Event.EditWallet(it))
-                // TODO надо нижней панели сказать, чтобы переключилась, можно через флоу в менеджере
             },
             deleteItem = {
                 deleteWalletId = it

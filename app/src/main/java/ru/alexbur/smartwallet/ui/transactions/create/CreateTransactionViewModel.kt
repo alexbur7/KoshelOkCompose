@@ -29,10 +29,8 @@ class CreateTransactionViewModel @Inject constructor(
         get() = savingDataManager.categoriesFlow.asStateFlow()
 
     val errorMessage: SharedFlow<String> = savingDataManager.snackBarMessageFlow.asSharedFlow()
-    val isVisibleProgressBarFlow: Flow<Boolean> =
-        savingDataManager.loadingStateFlow.map {
-            it == LoadingState.LOAD_IN_PROGRESS
-        }
+    val loadingStateFlow: SharedFlow<LoadingState> =
+        savingDataManager.loadingStateFlow.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -41,8 +39,8 @@ class CreateTransactionViewModel @Inject constructor(
                 savingDataManager.categoriesFlow.emit(it)
                 savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_SUCCEED)
             }.onFailure {
-                savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_FAILED)
                 savingDataManager.snackBarMessageFlow.emit(errorHandler.handleError(it))
+                savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_FAILED)
             }
         }
     }

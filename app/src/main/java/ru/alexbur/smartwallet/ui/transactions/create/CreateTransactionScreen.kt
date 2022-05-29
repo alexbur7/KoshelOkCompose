@@ -40,6 +40,7 @@ import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
 import ru.alexbur.smartwallet.domain.entities.utils.CurrencyEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.enums.CurrencyScreenType
+import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.transactions.categories.categoryoperation.CategoriesScreenFactory
@@ -76,13 +77,18 @@ fun CreateTransactionScreen(
 
     val errorMessage = viewModel.errorMessage.collectAsState("")
     val snackBarHostState = SnackbarHostState()
-    val isVisibleProgressBar = viewModel.isVisibleProgressBarFlow.collectAsState(initial = false)
+    val loadingState = viewModel.loadingStateFlow.collectAsState(LoadingState.LOAD_DEFAULT)
 
-    LaunchedEffect(key1 = errorMessage.value, categoriesState.value) {
-        if (errorMessage.value.isNotBlank()) {
-            snackBarHostState.showSnackbar(
-                message = errorMessage.value
-            )
+    LaunchedEffect(key1 = loadingState.value, categoriesState.value) {
+        when (loadingState.value) {
+            LoadingState.LOAD_FAILED, LoadingState.LOAD_SUCCEED -> {
+                if (errorMessage.value.isNotBlank()) {
+                    snackBarHostState.showSnackbar(
+                        message = errorMessage.value
+                    )
+                }
+            }
+            else -> Unit
         }
         if (categoriesState.value.isNotEmpty() && createTransactionData.value == null) {
             viewModel.obtainEvent(
@@ -231,7 +237,7 @@ fun CreateTransactionScreen(
 
         CircleProgressBar(
             modifier = Modifier.align(Alignment.Center),
-            isVisible = isVisibleProgressBar.value
+            isVisible = loadingState.value == LoadingState.LOAD_IN_PROGRESS
         )
     }
 }

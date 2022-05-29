@@ -21,6 +21,7 @@ import ru.alexbur.smartwallet.R
 import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.ui.filter.FilterToolbar
+import ru.alexbur.smartwallet.ui.filter.transactions.FilterTransactionsViewModel
 import ru.alexbur.smartwallet.ui.navbar.BottomNavigationHeight
 import ru.alexbur.smartwallet.ui.profile.WalletsList
 import ru.alexbur.smartwallet.ui.utils.ConfirmAlertDialog
@@ -50,6 +51,10 @@ fun FilterWalletsScreen(
                 message = errorMessage.value
             )
         }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.obtainEvent(FilterWalletsViewModel.Event.OnLoadingStarted)
     }
 
     Box(

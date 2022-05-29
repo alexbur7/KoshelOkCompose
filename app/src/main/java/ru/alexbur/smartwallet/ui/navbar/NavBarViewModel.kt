@@ -138,9 +138,9 @@ class NavBarViewModel @Inject constructor(
 
     private fun succeedOperation() = viewModelScope.launch {
         savingDataManager.editWalletFlow.emit(null)
+        savingDataManager.snackBarMessageFlow.emit(errorHandler.succeedOperation())
         savingDataManager.loadingStateFlow.emit(LoadingState.LOAD_SUCCEED)
         _loadingState.emit(LoadingState.LOAD_SUCCEED)
-        savingDataManager.snackBarMessageFlow.emit(errorHandler.succeedOperation())
     }
 
     private fun clearOpenEdit() = viewModelScope.launch {

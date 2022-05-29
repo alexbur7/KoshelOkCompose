@@ -36,10 +36,6 @@ class FilterWalletsViewModel @Inject constructor(
     private val _errorMessage = MutableStateFlow("")
     private val allWallets = mutableListOf<WalletEntity>()
 
-    init {
-        obtainEvent(Event.OnLoadingStarted)
-    }
-
     override fun obtainEvent(event: Event) {
         when (event) {
             is Event.OnLoadingStarted -> {

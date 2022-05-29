@@ -21,10 +21,7 @@ class EditWalletViewModel @Inject constructor(
 
     val errorMessageFlow: SharedFlow<String> = savingDataManager.snackBarMessageFlow.asSharedFlow()
 
-    val isVisibleProgressBarFlow: Flow<Boolean> =
-        savingDataManager.loadingStateFlow.map {
-            it == LoadingState.LOAD_IN_PROGRESS
-        }
+    val loadingState: SharedFlow<LoadingState> = savingDataManager.loadingStateFlow.asSharedFlow()
 
     override fun obtainEvent(event: Event) {
         when (event) {

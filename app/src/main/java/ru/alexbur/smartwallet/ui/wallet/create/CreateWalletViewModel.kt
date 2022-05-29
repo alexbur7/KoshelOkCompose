@@ -16,15 +16,12 @@ class CreateWalletViewModel @Inject constructor(
     private val savingDataManager: SavingDataManager
 ) : BaseViewModel<CreateWalletViewModel.Event>() {
 
-    private val isUpdate = savingDataManager.editWalletFlow.value != null
-    val createWalletFlow: StateFlow<CreateWalletEntity> = savingDataManager.createWalletFlow.asStateFlow()
+    val createWalletFlow: StateFlow<CreateWalletEntity> =
+        savingDataManager.createWalletFlow.asStateFlow()
 
     val errorMessageFlow: SharedFlow<String> = savingDataManager.snackBarMessageFlow.asSharedFlow()
 
-    val isVisibleProgressBarFlow: Flow<Boolean> =
-        savingDataManager.loadingStateFlow.map {
-            it == LoadingState.LOAD_IN_PROGRESS
-        }
+    val loadingState: SharedFlow<LoadingState> = savingDataManager.loadingStateFlow.asSharedFlow()
 
     override fun obtainEvent(event: Event) {
         when (event) {
@@ -38,20 +35,12 @@ class CreateWalletViewModel @Inject constructor(
     }
 
     private fun updateNameWallet(name: String) = viewModelScope.launch {
-        if (isUpdate) {
-            savingDataManager.editWalletFlow.update { it?.copy(name = name) }
-            return@launch
-        }
         savingDataManager.createWalletFlow.update {
             it.copy(name = name)
         }
     }
 
     private fun updateLimitWallet(limit: String) = viewModelScope.launch {
-        if (isUpdate) {
-            savingDataManager.editWalletFlow.update { it?.copy(limit = limit.ifEmpty { null }) }
-            return@launch
-        }
         savingDataManager.createWalletFlow.update {
             it.copy(limit = limit.ifEmpty { null })
         }
