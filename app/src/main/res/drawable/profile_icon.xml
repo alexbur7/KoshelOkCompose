@@ -4,7 +4,7 @@
     android:viewportWidth="30"
     android:viewportHeight="30">
   <path
-      android:pathData="M25,26.25V23.75C25,22.4239 24.4732,21.1521 23.5355,20.2145C22.5979,19.2768 21.3261,18.75 20,18.75H10C8.6739,18.75 7.4022,19.2768 6.4645,20.2145C5.5268,21.1521 5,22.4239 5,23.75V26.25"
+      android:pathData="M25,26.25V23.75C25,22.424 24.473,21.152 23.535,20.215C22.598,19.277 21.326,18.75 20,18.75H10C8.674,18.75 7.402,19.277 6.464,20.215C5.527,21.152 5,22.424 5,23.75V26.25"
       android:strokeAlpha="0.86"
       android:strokeLineJoin="round"
       android:strokeWidth="3"
@@ -12,7 +12,7 @@
       android:strokeColor="#1FD3D3"
       android:strokeLineCap="round"/>
   <path
-      android:pathData="M15,13.75C17.7614,13.75 20,11.5114 20,8.75C20,5.9886 17.7614,3.75 15,3.75C12.2386,3.75 10,5.9886 10,8.75C10,11.5114 12.2386,13.75 15,13.75Z"
+      android:pathData="M15,13.75C17.761,13.75 20,11.511 20,8.75C20,5.989 17.761,3.75 15,3.75C12.239,3.75 10,5.989 10,8.75C10,11.511 12.239,13.75 15,13.75Z"
       android:strokeAlpha="0.86"
       android:strokeLineJoin="round"
       android:strokeWidth="3"
