@@ -76,6 +76,7 @@ class FilterWalletsViewModel @Inject constructor(
     }
 
     private fun succeedDbLoading(data: List<WalletEntity>) = viewModelScope.launch {
+        allWallets.clear()
         allWallets.addAll(data)
         _walletsData.emit(allWallets)
         obtainEvent(Event.OnLoadingNetworkStarted)

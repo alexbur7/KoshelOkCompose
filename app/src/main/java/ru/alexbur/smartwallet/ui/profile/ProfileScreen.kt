@@ -45,7 +45,6 @@ fun ProfileScreen(
     }
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
 
-    // TODO после удаления закрыть свайп у итема
     LaunchedEffect(key1 = loadState.value) {
         when (loadState.value) {
             LoadingState.LOAD_SUCCEED -> {

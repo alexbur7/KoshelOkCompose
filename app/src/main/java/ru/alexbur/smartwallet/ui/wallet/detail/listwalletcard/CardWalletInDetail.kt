@@ -34,7 +34,7 @@ fun CardWalletInDetail(
 ) {
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(8.dp))
             .placeholder(
                 visible = isShimmer,
                 color = BackgroundMainCardFirstColor,
@@ -50,7 +50,7 @@ fun CardWalletInDetail(
                         PingDarkWithAlphaColor
                     )
                 ),
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(8.dp)
             )
             .background(
                 brush = Brush.linearGradient(
@@ -99,18 +99,35 @@ fun CardWalletInDetail(
         }
 
         if (wallet.partSpending != null) {
-            Text(
-                modifier = Modifier
+            Row(
+                Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp),
-                text = wallet.limit + " " + wallet.currency.icon,
-                style = TextStyle(
-                    color = TransparentWhite,
-                    fontSize = 9.sp,
-                    fontWeight = FontWeight(500),
-                    textAlign = TextAlign.End
+                    .padding(top = 10.dp)
+            ) {
+                if (wallet.partSpending >= 1) {
+                    Text(
+                        modifier = Modifier.weight(2f),
+                        text = stringResource(id = R.string.you_exceeded_limit),
+                        style = TextStyle(
+                            color = TransparentWhite,
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight(500),
+                            textAlign = TextAlign.Start
+                        )
+                    )
+                }
+                Text(
+                    modifier = Modifier
+                        .weight(1f),
+                    text = wallet.limit + " " + wallet.currency.icon,
+                    style = TextStyle(
+                        color = TransparentWhite,
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight(500),
+                        textAlign = TextAlign.End
+                    )
                 )
-            )
+            }
 
             ProgressIndicator(
                 modifier = Modifier
