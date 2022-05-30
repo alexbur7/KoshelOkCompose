@@ -6,14 +6,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.alexbur.smartwallet.domain.entities.utils.CategoryEntity
-import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
+import ru.alexbur.smartwallet.domain.enums.TypeOperation
 import ru.alexbur.smartwallet.domain.repositories.SavingDataManager
 import ru.alexbur.smartwallet.ui.base.BaseEvent
 import ru.alexbur.smartwallet.ui.base.BaseViewModel
@@ -41,6 +38,9 @@ class CategoriesViewModel @AssistedInject constructor(
         savingDataManager.createTransactionFlow.emit(
             savingDataManager.createTransactionFlow.value?.copy(categoryEntity = categoryEntity)
         )
+        savingDataManager.editTransactionFlow.update {
+            it?.copy(categoryEntity = categoryEntity)
+        }
     }
 
     sealed class Event : BaseEvent() {

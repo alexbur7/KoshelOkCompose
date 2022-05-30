@@ -78,7 +78,7 @@ class FilterWalletsViewModel @Inject constructor(
     private fun succeedDbLoading(data: List<WalletEntity>) = viewModelScope.launch {
         allWallets.clear()
         allWallets.addAll(data)
-        _walletsData.emit(allWallets)
+        _walletsData.emit(allWallets.toList())
         obtainEvent(Event.OnLoadingNetworkStarted)
     }
 
@@ -93,7 +93,7 @@ class FilterWalletsViewModel @Inject constructor(
     private fun succeedNetworkLoading(data: List<WalletEntity>) = viewModelScope.launch {
         allWallets.clear()
         allWallets.addAll(data)
-        _walletsData.emit(allWallets)
+        _walletsData.emit(allWallets.toList())
     }
 
     private fun failLoading(error: String) = viewModelScope.launch {

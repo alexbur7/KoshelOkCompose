@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.alexbur.smartwallet.domain.entities.wallet.DetailWalletItem
 import ru.alexbur.smartwallet.domain.entities.wallet.TransactionEntity
 import ru.alexbur.smartwallet.domain.entities.wallet.WalletEntity
@@ -170,22 +172,26 @@ class DetailWalletViewModel @AssistedInject constructor(
 
     private fun deleteTransaction(id: Long) =
         viewModelScope.launch {
-            // TODO поправить удаление транзакции
             _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
-            deleteTransactionRepository.deleteTransaction(id).onSuccess {
-                _transitionsData.update {
-                    it.filter { detailWalletItem ->
-                        if (detailWalletItem is DetailWalletItem.Transaction) {
-                            detailWalletItem.id != id
-                        } else {
-                            true
+            withContext(Dispatchers.IO) {
+                deleteTransactionRepository.deleteTransaction(id).onSuccess { newWallet ->
+                    _transitionsData.update {
+                        it.filter { detailWalletItem ->
+                            if (detailWalletItem is DetailWalletItem.Transaction) {
+                                detailWalletItem.id != id
+                            } else {
+                                true
+                            }
                         }
                     }
+                    _detailWalletData.update { wallets ->
+                        wallets.map { wallet -> if (wallet.id == newWallet.id) newWallet else wallet }
+                    }
+                    _loadStateData.emit(LoadingState.LOAD_SUCCEED)
+                }.onFailure {
+                    _errorMessage.emit(errorHandler.handleError(it))
+                    _loadStateData.emit(LoadingState.LOAD_FAILED)
                 }
-                _loadStateData.emit(LoadingState.LOAD_SUCCEED)
-            }.onFailure {
-                _errorMessage.emit(errorHandler.handleError(it))
-                _loadStateData.emit(LoadingState.LOAD_FAILED)
             }
         }
 

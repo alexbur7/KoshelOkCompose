@@ -105,7 +105,7 @@ fun CreateCategoryScreen(
                     viewModel.obtainEvent(CreateCategoryViewModel.Event.UpdateNameCategory(it))
                 },
                 initialField = createCategoryState.value.operation,
-                maxLength = 100 //TODO можем командой обсудить
+                maxLength = 100
             )
 
             TypeOperationChooser(
@@ -132,26 +132,29 @@ fun CreateCategoryScreen(
 
             LazyVerticalGrid(modifier = Modifier.fillMaxWidth(), columns = GridCells.Fixed(6)) {
                 items(iconsState.value.size) { position ->
-                    Image(
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .background(
-                                if (createCategoryState.value.iconId == iconsState.value[position].resIcon)
-                                    SelectedRadioButtonColor else Color.Transparent
-                            )
-                            .clickable {
-                                viewModel.obtainEvent(
-                                    CreateCategoryViewModel.Event.UpdateIconCategory(
-                                        iconsState.value[position].resIcon
-                                    )
+                    Box(modifier = Modifier.size(66.dp)) {
+                        Image(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .clip(CircleShape)
+                                .background(
+                                    if (createCategoryState.value.iconId == iconsState.value[position].resIcon)
+                                        SelectedRadioButtonColor else Color.Transparent
                                 )
-                            }
-                            .padding(16.dp)
-                            .size(24.dp),
-                        painter = painterResource(id = iconsState.value[position].resIcon),
-                        contentDescription = stringResource(id = R.string.category_image_description),
-                        contentScale = ContentScale.None
-                    )
+                                .clickable {
+                                    viewModel.obtainEvent(
+                                        CreateCategoryViewModel.Event.UpdateIconCategory(
+                                            iconsState.value[position].resIcon
+                                        )
+                                    )
+                                }
+                                .padding(16.dp)
+                                .size(24.dp),
+                            painter = painterResource(id = iconsState.value[position].resIcon),
+                            contentDescription = stringResource(id = R.string.category_image_description),
+                            contentScale = ContentScale.None
+                        )
+                    }
                 }
             }
         }

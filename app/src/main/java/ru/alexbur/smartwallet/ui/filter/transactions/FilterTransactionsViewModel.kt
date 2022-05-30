@@ -24,14 +24,11 @@ class FilterTransactionsViewModel @Inject constructor(
     private val savingDataManager: SavingDataManager,
     private val errorHandler: ErrorHandler
 ) : BaseViewModel<FilterTransactionsViewModel.Event>() {
-    val loadStateData: SharedFlow<LoadingState>
-        get() = _loadStateData.asStateFlow()
     val transitionsData: StateFlow<List<DetailWalletItem>>
         get() = _transitionsData.asStateFlow()
     val errorMessage: StateFlow<String>
         get() = _errorMessage.asStateFlow()
 
-    private val _loadStateData = MutableStateFlow(LoadingState.LOAD_DEFAULT)
     private val _transitionsData = MutableStateFlow(DetailWalletItem.shimmerData)
     private val _errorMessage = MutableStateFlow("")
     private val allTransactions = mutableListOf<DetailWalletItem>()
@@ -67,7 +64,6 @@ class FilterTransactionsViewModel @Inject constructor(
 
     private fun failLoading(error: String) = viewModelScope.launch {
         _errorMessage.emit(error)
-        _loadStateData.emit(LoadingState.LOAD_FAILED)
     }
 
     private fun startDBTransactionLoading() = viewModelScope.launch {
@@ -83,8 +79,9 @@ class FilterTransactionsViewModel @Inject constructor(
 
     private fun succeedDBTransactionLoading(data: List<DetailWalletItem>) =
         viewModelScope.launch {
+            allTransactions.clear()
             allTransactions.addAll(data)
-            _transitionsData.emit(allTransactions)
+            _transitionsData.emit(allTransactions.toList())
             obtainEvent(Event.OnLoadingTransactionNetworkStarted)
         }
 
@@ -101,7 +98,7 @@ class FilterTransactionsViewModel @Inject constructor(
         viewModelScope.launch {
             allTransactions.clear()
             allTransactions.addAll(data)
-            _transitionsData.emit(allTransactions)
+            _transitionsData.emit(allTransactions.toList())
         }
 
 
@@ -122,21 +119,20 @@ class FilterTransactionsViewModel @Inject constructor(
     }
 
     private fun deleteTransaction(id: Long) = viewModelScope.launch {
-        _loadStateData.emit(LoadingState.LOAD_IN_PROGRESS)
-        deleteTransactionRepository.deleteTransaction(id).onSuccess {
-            _transitionsData.update {
-                it.filter { detailWalletItem ->
-                    if (detailWalletItem is DetailWalletItem.Transaction) {
-                        detailWalletItem.id != id
-                    } else {
-                        true
+        withContext(Dispatchers.IO) {
+            deleteTransactionRepository.deleteTransaction(id).onSuccess {
+                _transitionsData.update {
+                    it.filter { detailWalletItem ->
+                        if (detailWalletItem is DetailWalletItem.Transaction) {
+                            detailWalletItem.id != id
+                        } else {
+                            true
+                        }
                     }
                 }
+            }.onFailure {
+                _errorMessage.emit(errorHandler.handleError(it))
             }
-            _loadStateData.emit(LoadingState.LOAD_SUCCEED)
-        }.onFailure {
-            _errorMessage.emit(errorHandler.handleError(it))
-            _loadStateData.emit(LoadingState.LOAD_FAILED)
         }
     }
 

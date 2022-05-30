@@ -38,7 +38,7 @@ interface AppService {
     ): ResponseApi<TransactionApi>
 
     @DELETE("transactions/{transactionId}")
-    suspend fun deleteTransaction(@Path("transactionId") id: Long): ResponseApi<Boolean>
+    suspend fun deleteTransaction(@Path("transactionId") id: Long): ResponseApi<WalletApi>
 
     @GET("categories")
     suspend fun getCategories(): ResponseApi<List<CategoryApi>>

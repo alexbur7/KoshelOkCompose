@@ -14,7 +14,7 @@ data class CreateWalletEntity(
     companion object {
         val default = CreateWalletEntity(
             limit = "100000",
-            name = "Кошелек 1",
+            name = "Кошелек",
             currency = CurrencyEntity.default
         )
     }

@@ -15,7 +15,7 @@ data class CategoryEntity(
     companion object{
         val defaultCategory = CategoryEntity(
             type = TypeOperation.SELECT_INCOME,
-            operation = "",
+            operation = "Категория",
             iconId = R.drawable.capitalization
         )
     }
