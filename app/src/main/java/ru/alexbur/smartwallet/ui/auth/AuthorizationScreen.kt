@@ -39,7 +39,6 @@ import ru.alexbur.smartwallet.di.navigation.NavigationFactory
 import ru.alexbur.smartwallet.di.navigation.NavigationScreenFactory
 import ru.alexbur.smartwallet.domain.enums.LoadingState
 import ru.alexbur.smartwallet.ui.navbar.NavItem
-import ru.alexbur.smartwallet.ui.profile.ProfileScreenFactory
 import ru.alexbur.smartwallet.ui.utils.ButtonState
 import ru.alexbur.smartwallet.ui.utils.GradientButton
 import ru.alexbur.smartwallet.ui.utils.SmartWalletSnackBar

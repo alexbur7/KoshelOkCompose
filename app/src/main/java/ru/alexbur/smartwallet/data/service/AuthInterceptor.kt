@@ -37,7 +37,7 @@ class AuthInterceptor @Inject constructor(
             updateToken()
             token
         }
-        val newRequest = builder.addHeader("Authorization", "Bearer $token").build()
+        val newRequest = builder.removeHeader("Authorization").addHeader("Authorization", "Bearer $token").build()
         return chain.proceed(newRequest)
     }
 
